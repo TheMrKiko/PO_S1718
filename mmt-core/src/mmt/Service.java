@@ -10,42 +10,56 @@ public class Service {
     private TreeMap<String, Station> _stations;
 	
     public Service(int id, double price, List<Station> ls ) {
-	_stations = new TreeMap<String, Stations>;
-	_id = id;
-	_price = price;
-	for(station s: ls) {
-	    _stations.put(s.getName(), s);
-	}
+        _stations = new TreeMap<String, Stations>(new COMPARE_STATION_BY_HOUR() );
+        _id = id;
+        _price = price;
+        for(station s: ls) {
+            _stations.put(s.getName(), s);
+        }
     }
-
+    
     public Map<String,Station> getStations() {
-	return _stations;
+        return _stations;
     }
+    
+    //GETTERS
+	public int getServiceID() {return _id;}
 	
+	public double getServicePrice() {return price;}
 	
     public Station getServiceDeparture() {
-	return _stations.firstKey();
+        return _stations.firstKey();
 		
     }
 
     public Station getServiceArrival(){
-	return _stations.lastKey();
+        return _stations.lastKey();
     }
 	
+	
+	//COMPARATORS
     public final  Comparator<Service> ARRIVAL_TIME_CMP = new ArrivalTimeComparator();
     
     public final Comparator<Service> DEPARTURE_TIME_CMP = new DepartureTimeComparator();
-
+    
+    public final Comparator<Station> COMPARE_STATION_BY_HOUR = new CompareStationByHour();
+    
+    public class CompareStationByHour implements Comparator<Station> {
+        public int compare(Station station1, Station station2) {
+            return station1.getLocalTime() - station2.getLocalTime ();
+        }
+    }
+    
     private class ArrivalTimeComparator implements Comparator<Service> {
-	public int compare(Service service1, Service service2) {
-	    return service1.getServiceArrival() - service2.getServiceArrivl();
-	}
+        public int compare(Service service1, Service service2) {
+            return service1.getServiceArrival() - service2.getServiceArrivl();
+        }
     }
 
     private class DepartureTimeComparator implements Comparator<Service> {
-	public int compare(Service service1, Service service2) {
-	    return service1.getServiceArrivaDeparture() - service2.getServiceDeparture();
-	}
+        public int compare(Service service1, Service service2) {
+            return service1.getServiceArrivaDeparture() - service2.getServiceDeparture();
+        }
     }
     
 }
