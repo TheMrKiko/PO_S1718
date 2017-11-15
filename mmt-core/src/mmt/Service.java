@@ -2,29 +2,50 @@ package mmt;
 
 import java.time.LocalTime;
 import java.util.Map;
-import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Service {
-	private int id;
-	private double price;
-	private SortedMap<String, Station> _stations;
+    private int _id;
+    private double _price;
+    private TreeMap<String, Station> _stations;
 	
-	/*public Service(List<String> b) {
-		
-	}*/
-	public Map<String,Station> getStations() {
-		return _stations;
+    public Service(int id, double price, List<Station> ls ) {
+	_stations = new TreeMap<String, Stations>;
+	_id = id;
+	_price = price;
+	for(station s: ls) {
+	    _stations.put(s.getName(), s);
 	}
+    }
+
+    public Map<String,Station> getStations() {
+	return _stations;
+    }
 	
-	/*
-	public Station getServiceDeparture() {
-		return _stations.firstkey();
+	
+    public Station getServiceDeparture() {
+	return _stations.firstKey();
 		
+    }
+
+    public Station getServiceArrival(){
+	return _stations.lastKey();
+    }
+	
+    public final  Comparator<Service> ARRIVAL_TIME_CMP = new ArrivalTimeComparator();
+    
+    public final Comparator<Service> DEPARTURE_TIME_CMP = new DepartureTimeComparator();
+
+    private class ArrivalTimeComparator implements Comparator<Service> {
+	public int compare(Service service1, Service service2) {
+	    return service1.getServiceArrival() - service2.getServiceArrivl();
 	}
-	
-	public final static Comparator<Service> ARRIVAL_TIME_CMP = new ArrivalTimeComparator();
-	
-	public final static Comparator<Service> DEPARTURE_TIME_CMP = new DepartureTimeComparator();*/
-	
-	
+    }
+
+    private class DepartureTimeComparator implements Comparator<Service> {
+	public int compare(Service service1, Service service2) {
+	    return service1.getServiceArrivaDeparture() - service2.getServiceDeparture();
+	}
+    }
+    
 }
