@@ -1,7 +1,7 @@
 package mmt.app.passenger;
 
-import mmt.DefaultSelector;
-import mmt.DefaultVisitor;
+/*import mmt.DefaultSelector;
+import mmt.DefaultVisitor;*/
 import mmt.TicketOffice;
 import pt.tecnico.po.ui.Command;
 

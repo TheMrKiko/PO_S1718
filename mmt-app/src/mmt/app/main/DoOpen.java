@@ -1,5 +1,9 @@
 package mmt.app.main;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.ClassNotFoundException;
+
 import mmt.TicketOffice;
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.Input;
@@ -20,14 +24,14 @@ public class DoOpen extends Command<TicketOffice> {
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
   public final void execute() {
-    try {
+    /*try {
       //FIXME implement command
     } catch (FileNotFoundException fnfe) {
       _display.popup(Message.fileNotFound());
     } catch (ClassNotFoundException | IOException e) {
       // shouldn't happen in a controlled test setup
       e.printStackTrace();
-    }
+    }*/
   }
 
 }

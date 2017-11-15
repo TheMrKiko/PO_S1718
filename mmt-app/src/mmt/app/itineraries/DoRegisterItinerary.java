@@ -35,7 +35,7 @@ public class DoRegisterItinerary extends Command<TicketOffice> {
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
   public final void execute() throws DialogException {
-    try {
+    /*try {
       //FIXME implement command
       // must call (at least) _receiver.searchItineraries(...) and _receiver.commitItinerary(...)
     } catch (NoSuchPassengerIdException e) {
@@ -48,6 +48,6 @@ public class DoRegisterItinerary extends Command<TicketOffice> {
       throw new BadDateException(e.getDate());
     } catch (BadTimeSpecificationException e) {
       throw new BadTimeException(e.getTime());
-    }
+    }*/
   }
 }

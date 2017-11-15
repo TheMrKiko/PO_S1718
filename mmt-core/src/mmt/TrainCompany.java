@@ -1,6 +1,8 @@
 package mmt;
 
-import mmt.exceptions.BadDateSpecificationException;
+import java.io.Serializable;
+
+/*import mmt.exceptions.BadDateSpecificationException;
 import mmt.exceptions.BadEntryException;
 import mmt.exceptions.BadTimeSpecificationException;
 import mmt.exceptions.InvalidPassengerNameException;
@@ -9,7 +11,7 @@ import mmt.exceptions.NoSuchPassengerIdException;
 import mmt.exceptions.NoSuchServiceIdException;
 import mmt.exceptions.NoSuchStationNameException;
 import mmt.exceptions.NoSuchItineraryChoiceException;
-import mmt.exceptions.NonUniquePassengerNameException;
+import mmt.exceptions.NonUniquePassengerNameException;*/
 
 //FIXME import other classes if necessary
 
