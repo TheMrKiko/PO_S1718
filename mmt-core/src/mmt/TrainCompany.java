@@ -30,6 +30,62 @@ public class TrainCompany implements Serializable {
     //FIXME implement function
   }
 
+
+void readImportFile(String name) { //throws IOException
+    BufferedReader reader = new BufferedReader(new FileReader(name));
+    String line;
+    while ((line = reader.readLine()) != null) {
+        String[] fields = line.split("\\|");
+        try {
+            registerFromFields(fields);
+
+        } /*catch (UnknownDataException e) {
+            System.err.printf("WARNING: unknown data %s\n", e.getMessage());
+            e.printStackTrace();
+        } catch (PublicationExistsException e) {
+            e.printStackTrace();
+        } catch (UnknownAgentException e) {
+            e.printStackTrace();
+        } catch (ClientExistsException e) {
+            e.printStackTrace();
+        } catch (InvalidIdentifierException e) {
+            e.printStackTrace();
+        }
+        */
+        reader.close();
+    }
+
+    void registerFromFields(String[] fields) { /* throws UnknownDataException,
+                            PublicationExistsException, UnknownAgentException, ClientExistsException,
+                            InvalidIdentifierException*/
+                    // Regular expression pattern to match a service.
+        Pattern patService = Pattern.compile("^(SERVICE)");
+                    // Regular expression pattern to match a passenger.
+        Pattern patPassenger = Pattern.compile("^(PASSENGER)");
+                    // Regular expression pattern to match a itinerary.
+        Pattern parPublication = Pattern.compile("^(ITINERARY)");
+
+        if (patAgent.matcher(fields[0]).matches()) {
+            registerService(fields);
+        } else if (patMessage.matcher(fields[0]).matches()) {
+            registerPassenger(fields);
+        } else if (parPublication.matcher(fields[0]).matches()) {
+            registerItinerary(fields);
+        } /*else {
+                            throw new UnknownDataException(fields[0]);
+        }*/
+    }
+
+
+    void registerService(String... fields)  { /*throws PublicationExistsException,
+                        UnknownAgentException, UnknownDataException*/
+        int i;
+        int servId = (fields[1] != null) ? Integer.parseInt(fields[1]) : getUUID();
+        int servPrice = (fields[2] != null) ? Integer.parseInt(fields[2]) : getUUID();
+        while(fields[i]!='\n') {
+
+        }
+    }
   /*FIXME
    * add methods for
    *   registerPassenger, changePassengerName
