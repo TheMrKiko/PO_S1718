@@ -57,7 +57,7 @@ public class Service {
 
     private class ArrivalTimeComparator implements Comparator<Service> {
         public int compare(Service service1, Service service2) {
-            return service1.getServiceArrival() - service2.getServiceArrival();
+            return service1.getServiceArrival().compareTo(service2.getServiceArrival());
         }
     }
 
