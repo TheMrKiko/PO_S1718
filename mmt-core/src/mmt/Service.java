@@ -9,7 +9,7 @@ public class Service {
     private double _price;
     private TreeMap<String, Station> _stations;
 	
-    public Service(int id, double price, List<Station> ls ) {
+    public Service(int id, double price, List<Station> ls) {
         _stations = new TreeMap<String, Stations>(new COMPARE_STATION_BY_HOUR() );
         _id = id;
         _price = price;
@@ -45,8 +45,8 @@ public class Service {
     public final Comparator<Station> COMPARE_STATION_BY_HOUR = new CompareStationByHour();
     
     public class CompareStationByHour implements Comparator<Station> {
-        public int compare(Station station1, Station station2) {
-            return station1.getLocalTime() - station2.getLocalTime ();
+        public int compare(Station station1, Station station2, int ServiceID) {
+            return station1.getLocalTimeInService(ServiceID).compareTo(station2.getLocalTimeInService(ServiceID));
         }
     }
     

@@ -5,11 +5,11 @@ public class Station {
     private string _name;
     //uma estacao tem um conjunto de partidas a uma dada hora
     //cada partida corresponde a parte de um servico
-    private TreeMap<int, LocalTime> _partidas;
+    private Map<int, LocalTime> _partidas;
     
     Station(String name, LocalTime time) {
         _name = name;
-        TreeMap<int, LocalTime> _partidas = new TreeMap<int, _partidas>;
+        _partidas = new TreeMap<int, _partidas>();
     }
     
     //rever este metodo na class Service
