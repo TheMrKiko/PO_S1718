@@ -1,6 +1,8 @@
 package mmt;
 
 import java.time.LocalTime;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -10,12 +12,13 @@ public class Service {
     private TreeMap<String, Station> _stations;
 	
     public Service(int id, double price, List<Station> ls) {
-        _stations = new TreeMap<String, Stations>(new COMPARE_STATION_BY_HOUR() );
+        _stations = new TreeMap<String, Station>(new COMPARE_STATION_BY_HOUR() );
         _id = id;
         _price = price;
-        for(station s: ls) {
+        for(Station s: ls) {
             _stations.put(s.getName(), s);
         }
+
     }
     
     public Map<String,Station> getStations() {
@@ -25,15 +28,15 @@ public class Service {
     //GETTERS
 	public int getServiceID() {return _id;}
 	
-	public double getServicePrice() {return price;}
+	public double getServicePrice() {return _price;}
 	
     public Station getServiceDeparture() {
-        return _stations.firstKey();
+        return _stations.get(_stations.firstKey());
 		
     }
 
     public Station getServiceArrival(){
-        return _stations.lastKey();
+        return _stations.get(_stations.lastKey());
     }
 	
 	
@@ -52,7 +55,7 @@ public class Service {
     
     private class ArrivalTimeComparator implements Comparator<Service> {
         public int compare(Service service1, Service service2) {
-            return service1.getServiceArrival() - service2.getServiceArrivl();
+            return service1.getServiceArrival() - service2.getServiceArrival();
         }
     }
 
