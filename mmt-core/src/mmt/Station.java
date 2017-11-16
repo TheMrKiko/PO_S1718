@@ -1,15 +1,15 @@
 package mmt;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class Station {
     private String _name;
-    //aray de horas em que o index de cada posicao corresponde a um servico
-    private ArrayList<LocalTime> _partidas;
+    //mapa de horas em que a chave corresponde ao id do servico
+    private TreeMap<Integer,LocalTime> _partidas;
 
     Station(String name, LocalTime time) {
         _name = name;
-        _partidas = new ArrayList<Integer, LocalTime>();
+        _partidas = new TreeMap<Integer, LocalTime>();
     }
 
     //rever este metodo na class Service

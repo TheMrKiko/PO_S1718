@@ -3,17 +3,16 @@ package mmt;
 import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Service {
     private int _id;
     private double _price;
-    private TreeMap<String, Station> _stations;
-    //fg
+    private HashMap<String, Station> _stations;
 
-    public Service(int id, double price, List<Station> ls) {
-        _stations = new TreeMap<String, Station>;
+    public Service(int id, double price, ArrayList<Station> ls) {
+        _stations = new HashMap<String, Station>;
         _id = id;
         _price = price;
         for(Station s: ls) {
@@ -22,7 +21,7 @@ public class Service {
 
     }
 
-    public Map<String,Station> getStations() {
+    public HashMap<String,Station> getStations() {
         return _stations;
     }
 
@@ -33,13 +32,11 @@ public class Service {
 
     public Station getServiceDeparture() {
         return _stations.get(_stations.firstKey());
-
     }
 
     public Station getServiceArrival(){
         return _stations.get(_stations.lastKey());
     }
-
 
 	//COMPARATORS
     public final  Comparator<Service> ARRIVAL_TIME_CMP = new ArrivalTimeComparator();
@@ -57,13 +54,13 @@ public class Service {
 
     private class ArrivalTimeComparator implements Comparator<Service> {
         public int compare(Service service1, Service service2) {
-            return service1.getServiceArrival().compareTo(service2.getServiceArrival());
+            return ((service1.getServiceArrival()).getLocalTimeInService(service1.getServiceID)).compareTo((service2.getServiceArrival()).getLocalTimeInService(service2.getServiceID));
         }
     }
 
     private class DepartureTimeComparator implements Comparator<Service> {
         public int compare(Service service1, Service service2) {
-            return service1.getServiceArrivaDeparture().compareTo(service2.getServiceDeparture());
+            return ((service1.getServiceDeparture()).getLocalTimeInService(service1.getServiceID)).compareTo((service2.getServiceDeparture()).getLocalTimeInService(service2.getServiceID));
         }
     }
 
