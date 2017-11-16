@@ -5,10 +5,9 @@ public abstract class PassengerCard {
  
     public PassengerCard(Passenger pass) { _pass = pass; }
  
-    public abstract void click();
+    //public abstract void updateCategory();
  
-    public void timeout()  { }
-    public void complete() { }
- 
-    public String status() { return getClass().getName(); }
+    public String status() {
+    	return getClass().getName();
+    }
   }

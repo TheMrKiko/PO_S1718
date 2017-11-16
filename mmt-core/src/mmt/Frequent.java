@@ -6,9 +6,4 @@ public class Frequent extends PassengerCard {
 		super(pass);
 	}
 
-	@Override
-	public void click() {
-
-	}
-
 }

@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import mmt.exceptions.BadDateSpecificationException;
@@ -30,6 +31,8 @@ public class TicketOffice {
 
   /** The object doing most of the actual work. */
   private TrainCompany _trains;
+  private ArrayList<Passenger> _passengers = new ArrayList<Passenger>();
+  private int _totalpassengers = 0;
 
   //FIXME define other fields
 
@@ -46,7 +49,7 @@ public class TicketOffice {
   }
 
   public void importFile(String datafile) throws ImportFileException {
-    _trains.importFile(datafile);
+    //_trains.importFile(datafile);
   }
 
   //FIXME complete and implement the itinerary search (and pre-commit store) method
@@ -58,6 +61,13 @@ public class TicketOffice {
   public void commitItinerary(int passengerId, int itineraryNumber) /*FIXME define thrown exceptions */ {
     //FIXME implement method
   }
+
+  public void registerPassenger(String name) throws NonUniquePassengerNameException {
+	_passengers.add(new Passenger(name, _totalpassengers++));
+	System.out.println(_passengers.get(0).getName());
+  }
+  
+  //public void 
 
   //FIXME add methods for passenger registration and passenger name update
 

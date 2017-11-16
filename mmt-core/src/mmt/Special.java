@@ -6,9 +6,4 @@ public class Special extends PassengerCard {
 		super(pass);
 	}
 
-	@Override
-	public void click() {
-
-	}
-
 }
