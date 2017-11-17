@@ -110,7 +110,8 @@ public class TrainCompany implements Serializable {
 	//Seleciona Servicos por determinada estacao
 	ArrayList<Service> getServiceByStation(ServiceSeletor ss, String station) {
 		ArrayList<Service> stationList = new ArrayList<Service>();
-		for (Service s: _services)
+		ArrayList<Service> servicesList =_services.values();
+		for (Service s: servicesList)
 			if ( ss.matches(s,station) ) {
 				stationList.add(s);
 			}
