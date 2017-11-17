@@ -29,12 +29,16 @@ public class TicketOffice {
 
   /** The object doing most of the actual work. */
   private TrainCompany _trains = new TrainCompany();
+  private String _filename = "";
 
 
   //FIXME define other fields
 
   public void reset() {
-    //FIXME implement this function
+	  _filename = "";
+	  TrainCompany newTrains = new TrainCompany();
+	  newTrains.setServices(_trains.getServices());
+	  _trains = newTrains;
   }
 
   public void save(String filename) throws IOException {
@@ -44,7 +48,9 @@ public class TicketOffice {
   }
 
   public void load(String filename) throws FileNotFoundException, IOException, ClassNotFoundException {
-    //FIXME implement this function
+	  ObjectInputStream inpos = new ObjectInputStream( new BufferedInputStream(new FileInputStream(filename)));
+	  _trains = (TrainCompany) inpos.readObject();
+	  inpos.close();
   }
 
   public void importFile(String datafile) throws ImportFileException {
@@ -77,12 +83,12 @@ public class TicketOffice {
       _trains.getServiceByStation(new ServiceToArrival(), stationArrival);
   }
 
-
-
-
-
-  //FIXME add methods for passenger registration and passenger name update
-
-  //FIXME add other functions if necessary
+  public String getFilename(){
+	  return _filename;
+  }
+  
+  public void setFilename(String filename) {
+	  _filename = filename;
+  }
 
 }

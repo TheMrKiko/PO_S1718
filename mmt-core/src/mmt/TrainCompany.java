@@ -42,7 +42,7 @@ public class TrainCompany implements Serializable {
 
 	public void importFile(String filename) throws ImportFileException {
 		String line;
-    	try {
+		try {
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 
 			while ((line = reader.readLine()) != null) {
@@ -50,8 +50,8 @@ public class TrainCompany implements Serializable {
 
 				registerFromFields(fields);
 			}
-				reader.close();
-			
+			reader.close();
+
 		} catch (FileNotFoundException | BadEntryException e) {
 			throw new ImportFileException(e);
 		} catch (IOException e) {
@@ -59,7 +59,7 @@ public class TrainCompany implements Serializable {
 		}
 	}
 
-    public void registerFromFields(String[] fields) throws BadEntryException {
+	public void registerFromFields(String[] fields) throws BadEntryException {
 		Pattern patService = Pattern.compile("^(SERVICE)");
 		Pattern patPassenger = Pattern.compile("^(PASSENGER)");
 		Pattern parItinerary = Pattern.compile("^(ITINERARY)");
@@ -70,15 +70,13 @@ public class TrainCompany implements Serializable {
 		} else if (patPassenger.matcher(fields[0]).matches()) {
 			registerPassenger(fields);
 
-
 		} else if (parItinerary.matcher(fields[0]).matches()) {
-			//registerItinerary(fields);
+			// registerItinerary(fields);
 
 		} else {
 			throw new BadEntryException(fields[0]);
 		}
 	}
-
 
 	public void registerPassenger(String[] fields) {
 		addPassenger(fields[1]);
@@ -86,43 +84,43 @@ public class TrainCompany implements Serializable {
 	}
 
 	public void registerService(String[] fields) {
-		//System.out.println(fields[1] + " "+fields[2]);
+		// System.out.println(fields[1] + " "+fields[2]);
 		Service newService = new Service(Integer.parseInt(fields[1]), Double.parseDouble(fields[2]));
-		
-		for (int i = 3; i < fields.length; i+=2) {
-			newService.addStation(LocalTime.parse(fields[i]), fields[i+1]);
+
+		for (int i = 3; i < fields.length; i += 2) {
+			newService.addStation(LocalTime.parse(fields[i]), fields[i + 1]);
 		}
-		
+
 		_services.put(newService.getServiceID(), newService);
-    }
+	}
 
 	public void addPassenger(String name) {
 		_passengers.add(new Passenger(name, _totalpassengers++));
 	}
 
-	public void updatePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {
-		for (Passenger p: _passengers) {
+	public void updatePassengerName(String newName, int id)
+			throws NonUniquePassengerNameException, NoSuchPassengerIdException {
+		for (Passenger p : _passengers) {
 			if (p.getName().equals(newName)) {
 				throw new NonUniquePassengerNameException(newName);
 			}
-			getPassengerById(id).setName(newName);
 		}
+		getPassengerById(id).setName(newName);
 	}
 
 	public Passenger getPassengerById(int id) throws NoSuchPassengerIdException {
-		if (id >= _totalpassengers) {
+		if (id >= _totalpassengers || id < 0) {
 			throw new NoSuchPassengerIdException(id);
 		}
 		return _passengers.get(id);
 	}
 
-
-	//Seleciona Servicos por determinada estacao
+	// Seleciona Servicos por determinada estacao
 	ArrayList<Service> getServiceByStation(ServiceSeletor ss, String station) {
 		ArrayList<Service> stationList = new ArrayList<Service>();
 		List<Service> servicesList = new ArrayList<Service>(_services.values());
-		for (Service s: servicesList)
-			if ( ss.matches(s,station) ) {
+		for (Service s : servicesList)
+			if (ss.matches(s, station)) {
 				stationList.add(s);
 			}
 		return stationList;
@@ -139,4 +137,11 @@ public class TrainCompany implements Serializable {
 		return _services.get(id);
 	}
 
+	public TreeMap<Integer, Service> getServices() {
+		return _services;
+	}
+
+	public void setServices(TreeMap<Integer, Service> services) {
+		_services = services;
+	}
 }

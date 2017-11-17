@@ -17,21 +17,26 @@ public class DoOpen extends Command<TicketOffice> {
   /**
    * @param receiver
    */
+	Input<String> _filename;
+	
   public DoOpen(TicketOffice receiver) {
     super(Label.OPEN, receiver);
+    _filename = _form.addStringInput(Message.openFile());
   }
 
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
   public final void execute() {
-    /*try {
-      //FIXME implement command
-    } catch (FileNotFoundException fnfe) {
+      _form.parse();
+      _receiver.setFilename(_filename.value());
+	  try {
+		  _receiver.load(_filename.value());
+    } catch (FileNotFoundException e) {
       _display.popup(Message.fileNotFound());
     } catch (ClassNotFoundException | IOException e) {
       // shouldn't happen in a controlled test setup
       e.printStackTrace();
-    }*/
+    }
   }
 
 }
