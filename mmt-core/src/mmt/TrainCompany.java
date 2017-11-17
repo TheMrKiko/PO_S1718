@@ -79,13 +79,13 @@ public class TrainCompany implements Serializable {
 
 	public void registerPassenger(String[] fields) {
 		addPassenger(fields[1]);
-		
+
 	}
-	
+
 	public void registerService(String... fields) {
 
     }
-	
+
 	public void addPassenger(String name) {
 		_passengers.add(new Passenger(name, _totalpassengers++));
 	}
@@ -107,6 +107,14 @@ public class TrainCompany implements Serializable {
 	}
 
 
+//Seleciona Servicos por determinada estacao
+	ArrayList<Service> getServiceByStation(ServiceSeletor ss, String station) {
+		ArrayList<String> stationList = new ArrayList<String>();
+		for(String s: _services)
+			if(ss.matches(s,station)) stationList.add(s);
+		return stationList;
+	}
+
 	/*
 	 * FIXME add methods for registerPassenger, changePassengerName
 	 * searchItineraries, commitItinerary
@@ -114,7 +122,7 @@ public class TrainCompany implements Serializable {
 
 	// FIXME implement other functions if necessary
 
-	public Service getService(int id) {
+	public Service getServiceById(int id) {
 		return _services.get(id);
 	}
 

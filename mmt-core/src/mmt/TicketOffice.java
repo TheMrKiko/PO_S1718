@@ -60,11 +60,19 @@ public class TicketOffice {
   }
 
   public void registerPassenger(String name) throws NonUniquePassengerNameException {
-    _trains.addPassenger(name);
+      _trains.addPassenger(name);
   }
 
   public void changePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {
       _trains.updatePassengerName(newName, id);
+  }
+
+  public void getServiceFromDeparture(String stationDeparture)  {
+      _trains.getServiceByStation(new ServiceFromDeparture, stationDeparture);
+  }
+
+  public void getServiceToArrival(String stationArrival) {
+      _trains.getServiceByStation(new ServiceToArrival, stationArrival);
   }
 
 
