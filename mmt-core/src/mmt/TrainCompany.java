@@ -83,7 +83,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	public void registerService(String... fields) {
-
+		Service newService = new Service(fields[1], fields[2]);
     }
 
 	public void addPassenger(String name) {
@@ -107,11 +107,13 @@ public class TrainCompany implements Serializable {
 	}
 
 
-//Seleciona Servicos por determinada estacao
+	//Seleciona Servicos por determinada estacao
 	ArrayList<Service> getServiceByStation(ServiceSeletor ss, String station) {
-		ArrayList<String> stationList = new ArrayList<String>();
-		for(String s: _services)
-			if(ss.matches(s,station)) stationList.add(s);
+		ArrayList<Service> stationList = new ArrayList<Service>();
+		for (Service s: _services)
+			if ( ss.matches(s,station) ) {
+				stationList.add(s);
+			}
 		return stationList;
 	}
 

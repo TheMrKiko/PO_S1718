@@ -68,11 +68,11 @@ public class TicketOffice {
   }
 
   public void getServiceFromDeparture(String stationDeparture)  {
-      _trains.getServiceByStation(new ServiceFromDeparture, stationDeparture);
+      _trains.getServiceByStation(new ServiceFromDeparture(), stationDeparture);
   }
 
   public void getServiceToArrival(String stationArrival) {
-      _trains.getServiceByStation(new ServiceToArrival, stationArrival);
+      _trains.getServiceByStation(new ServiceToArrival(), stationArrival);
   }
 
 
