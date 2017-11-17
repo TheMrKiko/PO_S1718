@@ -1,7 +1,10 @@
 package mmt;
 
-public abstract class PassengerCard {
-    protected Passenger _pass;
+import java.io.Serializable;
+
+public abstract class PassengerCard implements Serializable {
+	private static final long serialVersionUID = -7014708191813229635L;
+	protected Passenger _pass;
  
     public PassengerCard(Passenger pass) { _pass = pass; }
  

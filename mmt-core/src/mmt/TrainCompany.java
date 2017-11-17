@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +34,7 @@ public class TrainCompany implements Serializable {
 
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201708301010L;
-	private TreeMap<Integer, Service> _services;
+	private TreeMap<Integer, Service> _services = new TreeMap<Integer, Service>();
 	private ArrayList<Passenger> _passengers = new ArrayList<Passenger>();
 	private int _totalpassengers = 0;
 
@@ -84,12 +85,15 @@ public class TrainCompany implements Serializable {
 
 	}
 
-	public void registerService(String... fields) {
+	public void registerService(String[] fields) {
 		//System.out.println(fields[1] + " "+fields[2]);
 		Service newService = new Service(Integer.parseInt(fields[1]), Double.parseDouble(fields[2]));
-		//for (int i = 3; i > fields.length(), i+=2){
-			
-		//}
+		
+		for (int i = 3; i < fields.length; i+=2) {
+			newService.addStation(LocalTime.parse(fields[i]), fields[i+1]);
+		}
+		
+		_services.put(newService.getServiceID(), newService);
     }
 
 	public void addPassenger(String name) {

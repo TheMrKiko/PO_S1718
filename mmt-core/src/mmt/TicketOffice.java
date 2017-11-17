@@ -37,8 +37,10 @@ public class TicketOffice {
     //FIXME implement this function
   }
 
-  public void save(String filename) /*FIXME add thrown exceptions*/ {
-    //FIXME implement this function
+  public void save(String filename) throws IOException {
+	ObjectOutputStream outos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
+	outos.writeObject(_trains);
+	outos.close();
   }
 
   public void load(String filename) throws FileNotFoundException, IOException, ClassNotFoundException {
@@ -67,13 +69,13 @@ public class TicketOffice {
       _trains.updatePassengerName(newName, id);
   }
 
-  /*public void getServiceFromDeparture(String stationDeparture)  {
+  public void getServiceFromDeparture(String stationDeparture)  {
       _trains.getServiceByStation(new ServiceFromDeparture(), stationDeparture);
   }
 
   public void getServiceToArrival(String stationArrival) {
       _trains.getServiceByStation(new ServiceToArrival(), stationArrival);
-  }*/
+  }
 
 
 
