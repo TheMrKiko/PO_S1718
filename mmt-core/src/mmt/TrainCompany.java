@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
@@ -46,9 +48,9 @@ public class TrainCompany implements Serializable {
 				String[] fields = line.split("\\|");
 
 				registerFromFields(fields);
-
-				reader.close();
 			}
+				reader.close();
+			
 		} catch (FileNotFoundException | BadEntryException e) {
 			throw new ImportFileException(e);
 		} catch (IOException e) {
@@ -83,7 +85,8 @@ public class TrainCompany implements Serializable {
 	}
 
 	public void registerService(String... fields) {
-		Service newService = new Service(Integer.parseInt(fields[1]), Integer.parseInt(fields[2]));
+		//System.out.println(fields[1] + " "+fields[2]);
+		Service newService = new Service(Integer.parseInt(fields[1]), Double.parseDouble(fields[2]));
 		//for (int i = 3; i > fields.length(), i+=2){
 			
 		//}
@@ -111,15 +114,15 @@ public class TrainCompany implements Serializable {
 
 
 	//Seleciona Servicos por determinada estacao
-	/*ArrayList<Service> getServiceByStation(ServiceSeletor ss, String station) {
+	ArrayList<Service> getServiceByStation(ServiceSeletor ss, String station) {
 		ArrayList<Service> stationList = new ArrayList<Service>();
-		ArrayList<Service> servicesList =_services.values();
+		List<Service> servicesList = new ArrayList<Service>(_services.values());
 		for (Service s: servicesList)
 			if ( ss.matches(s,station) ) {
 				stationList.add(s);
 			}
 		return stationList;
-	}*/
+	}
 
 	/*
 	 * FIXME add methods for registerPassenger, changePassengerName
