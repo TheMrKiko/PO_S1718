@@ -8,8 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import mmt.exceptions.BadDateSpecificationException;
 import mmt.exceptions.BadTimeSpecificationException;
@@ -62,10 +60,10 @@ public class TicketOffice {
   }
 
   public void registerPassenger(String name) throws NonUniquePassengerNameException {
-    _trains.registerPassenger(name);
+    _trains.addPassenger(name);
   }
 
-  public void changePassengerName(String newName, int id) {
+  public void changePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {
       _trains.updatePassengerName(newName, id);
   }
 

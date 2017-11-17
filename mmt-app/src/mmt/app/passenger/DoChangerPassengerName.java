@@ -43,10 +43,7 @@ public class DoChangerPassengerName extends Command<TicketOffice> {
     	throw new DuplicatePassengerNameException(_newName.value());
     }
     catch (NoSuchPassengerIdException e) {
-        throw new NoSuchPassengerException(_newName.value());
-    }
-    catch (InvalidPassengerNameException e) {
-        throw new BadPassengerNameException(_newName.value());
+        throw new NoSuchPassengerException(_id.value());
     }
   }
 }

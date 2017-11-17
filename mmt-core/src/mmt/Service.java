@@ -2,6 +2,7 @@ package mmt;
 
 import java.time.LocalTime;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
@@ -9,8 +10,8 @@ import java.util.ArrayList;
 public class Service {
     private int _id;
     private double _price;
-    private String _firstStation;
-    private String _lastStation;
+    private String _firstStation = "";
+    private String _lastStation = "";
     //private HashMap<String, Station> _stations;
     private LinkedHashMap<String,LocalTime> _stations;
     public Service(int id, double price) {
@@ -28,21 +29,25 @@ public class Service {
     }
 
     //GETTERS
-	public int getServiceID() {return _id;}
+	public int getServiceID() {
+		return _id;
+	}
 
-	public double getServicePrice() {return _price;}
+	public double getServicePrice() {
+		return _price;
+	}
 
 
     //SERVICE DEPARTURE/PARTIDA
     public String getServiceDepartureStation() {
-        if(_firstStation == NULL) {
+        if (_firstStation == "") {
             _firstStation = getServiceFirstStation(); //guarda o valor para nao ter de iterar de novo depois
         }
         return _firstStation;
     }
 
     public LocalTime getServiceDepartureTime() {
-        if(_firstStation == NULL) {
+        if(_firstStation == "") {
             _firstStation = getServiceFirstStation(); //guarda o valor para nao ter de iterar de novo depois
         }
         return _stations.get(_firstStation);
@@ -54,31 +59,24 @@ public class Service {
 
     //SERVICE ARRIVAL//TERMINO
     public String getServiceArrivalStation() {
-        if(_lastStation == NULL) {
+        if(_lastStation  == "") {
             _lastStation = getServiceLastStation(); //guarda o valor para nao ter de iterar de novo depois
         }
         return _lastStation;
     }
 
     public LocalTime getServiceArrivalTime() {
-        if(_lastStation == NULL) {
+        if(_lastStation == "") {
             _lastStation = getServiceLastStation(); //guarda o valor para nao ter de iterar de novo depois
         }
         return _stations.get(_lastStation);
 
     }
 
-    public String getServiceLastStation() { //metodo para nao haver repeticao de codigo na procura da primeira estacao
-        for (String stationName : _stations.keySet()){
-            //loop
-        }
-        return stationName;
-    }
-
-    public String getServiceLastStation() {
-        final Iterator itr = _stations.keySet().iterator();
-        String stationName;
-        while(itr.hasNext()) {
+    public String getServiceLastStation() { //metodo para nao haver repeticao de codigo na procura da ultima estacao
+        final Iterator<String> itr = _stations.keySet().iterator();
+        String stationName = itr.next();
+        while (itr.hasNext()) {
             stationName = itr.next();
         }
         return stationName;

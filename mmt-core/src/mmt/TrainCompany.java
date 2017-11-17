@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import mmt.exceptions.BadDateSpecificationException;
@@ -29,7 +31,7 @@ public class TrainCompany implements Serializable {
 
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201708301010L;
-	private Service _services[];
+	private TreeMap<Integer, Service> _services;
 	private ArrayList<Passenger> _passengers = new ArrayList<Passenger>();
 	private int _totalpassengers = 0;
 
@@ -75,18 +77,23 @@ public class TrainCompany implements Serializable {
 	}
 
 
-	public void registerPassenger(String name) {
-		_passengers.add(new Passenger(name, _totalpassengers++));
+	public void registerPassenger(String[] fields) {
+		addPassenger(fields[1]);
+		
 	}
-
+	
 	public void registerService(String... fields) {
 
     }
+	
+	public void addPassenger(String name) {
+		_passengers.add(new Passenger(name, _totalpassengers++));
+	}
 
 	public void updatePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {
 		for (Passenger p: _passengers) {
 			if (p.getName().equals(newName)) {
-				throw new NonUniquePassengerNameException();
+				throw new NonUniquePassengerNameException(newName);
 			}
 			getPassengerById(id).setName(newName);
 		}
@@ -94,10 +101,11 @@ public class TrainCompany implements Serializable {
 
 	public Passenger getPassengerById(int id) throws NoSuchPassengerIdException {
 		if (id >= _totalpassengers) {
-			throw new NoSuchPassengerIdException();
+			throw new NoSuchPassengerIdException(id);
 		}
 		return _passengers.get(id);
 	}
+
 
 	/*
 	 * FIXME add methods for registerPassenger, changePassengerName
