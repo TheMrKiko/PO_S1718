@@ -3,16 +3,16 @@ package mmt;
 import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
 
 public class Service {
-    private int _id;
+    /*private int _id;
     private double _price;
     //private HashMap<String, Station> _stations;
-    private HashMap<String,LocalTime> _stations;
+    private LinkedHashMap<String,LocalTime> _stations;
     public Service(int id, double price) {
-        _stations = new HashMap<String, LocalTime>;
+        _stations = new LinkedHashMap<String,LocalTime>();
         _id = id;
         _price = price;
     }
@@ -21,7 +21,7 @@ public class Service {
         _stations.put(name,time);
     }
 
-    public HashMap<String,Station> getStations() {
+    public LinkedHashMap<String,LocalTime> getStations() {
         return _stations;
     }
 
@@ -43,7 +43,7 @@ public class Service {
 
     public final Comparator<Service> DEPARTURE_TIME_CMP = new DepartureTimeComparator();
 
-    /*** NAO HAVENDO CLASS ESTACAO*/
+    // NAO HAVENDO CLASS ESTACAO
     //Compara o tempo de chegada a estacao de termino, independepndentemente da estacao de cada servico
     private class ArrivalTimeComparator implements Comparator<Service> {
         public int compare(Service service1, Service service2) {
@@ -88,7 +88,7 @@ public class Service {
         }
     }
 
-    /*** SE HOVER CLASS ESTACAO NAO LEIAS ENTAO ISTO FRANCISCO
+    //SE HOVER CLASS ESTACAO NAO LEIAS ENTAO ISTO FRANCISCO
     Construtor
     public Service(int id, double price, ArrayList<Station> ls) {
         _stations = new HashMap<String, Station>;
@@ -99,7 +99,7 @@ public class Service {
         }
     }
 
-    Comparators
+    //Comparators
     private class ArrivalTimeComparator implements Comparator<Service> {
         public int compare(Service service1, Service service2) {
             return ((service1.getServiceArrival()).getLocalTimeInService(service1.getServiceID)).compareTo((service2.getServiceArrival()).getLocalTimeInService(service2.getServiceID));
@@ -113,5 +113,5 @@ public class Service {
         }
     }
 
-    ****/
+    */
 }
