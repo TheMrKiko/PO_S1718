@@ -20,16 +20,6 @@ public class Service {
     public void addStation(String name, LocalTime time) {
         _stations.put(name,time);
     }
-/*
-    public Service(int id, double price, ArrayList<Station> ls) {
-        _stations = new HashMap<String, Station>;
-        _id = id;
-        _price = price;
-        for(Station s: ls) {
-            _stations.put(s.getName(), s);
-        }
-
-    }*/
 
     public HashMap<String,Station> getStations() {
         return _stations;
@@ -52,32 +42,6 @@ public class Service {
     public final  Comparator<Service> ARRIVAL_TIME_CMP = new ArrivalTimeComparator();
 
     public final Comparator<Service> DEPARTURE_TIME_CMP = new DepartureTimeComparator();
-
-    /**** ADEUS
-    public final Comparator<Station> COMPARE_STATION_BY_HOUR = new CompareStationByHour();
-
-    public class CompareStationByHour implements Comparator<Station> {
-        public int compare(Station station1, Station station2, int ServiceID) {
-            return station1.getLocalTimeInService(ServiceID).compareTo(station2.getLocalTimeInService(ServiceID));
-        }
-    }*/
-
-
-
-    /*** SE HOVER CLASS ESTACAO
-    private class ArrivalTimeComparator implements Comparator<Service> {
-        public int compare(Service service1, Service service2) {
-            return ((service1.getServiceArrival()).getLocalTimeInService(service1.getServiceID)).compareTo((service2.getServiceArrival()).getLocalTimeInService(service2.getServiceID));
-        }
-    }*/
-
-    /*** SE HOUVER CLASS ESTACAO
-    private class DepartureTimeComparator implements Comparator<Service> {
-        public int compare(Service service1, Service service2) {
-            return ((service1.getServiceDeparture()).getLocalTimeInService(service1.getServiceID)).compareTo((service2.getServiceDeparture()).getLocalTimeInService(service2.getServiceID));
-        }
-    }*/
-
 
     /*** NAO HAVENDO CLASS ESTACAO*/
     //Compara o tempo de chegada a estacao de termino, independepndentemente da estacao de cada servico
@@ -123,4 +87,31 @@ public class Service {
             return departureTime1.compareTo(departureTime2);
         }
     }
+
+    /*** SE HOVER CLASS ESTACAO NAO LEIAS ENTAO ISTO FRANCISCO
+    Construtor
+    public Service(int id, double price, ArrayList<Station> ls) {
+        _stations = new HashMap<String, Station>;
+        _id = id;
+        _price = price;
+        for(Station s: ls) {
+            _stations.put(s.getName(), s);
+        }
+    }
+
+    Comparators
+    private class ArrivalTimeComparator implements Comparator<Service> {
+        public int compare(Service service1, Service service2) {
+            return ((service1.getServiceArrival()).getLocalTimeInService(service1.getServiceID)).compareTo((service2.getServiceArrival()).getLocalTimeInService(service2.getServiceID));
+        }
+    }
+
+
+    private class DepartureTimeComparator implements Comparator<Service> {
+        public int compare(Service service1, Service service2) {
+            return ((service1.getServiceDeparture()).getLocalTimeInService(service1.getServiceID)).compareTo((service2.getServiceDeparture()).getLocalTimeInService(service2.getServiceID));
+        }
+    }
+
+    ****/
 }
