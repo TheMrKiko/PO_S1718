@@ -1,11 +1,17 @@
 package mmt;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 import mmt.exceptions.BadDateSpecificationException;
-import mmt.exceptions.BadEntryException;
+import mmt.exceptions.BadEntryException;//
 import mmt.exceptions.BadTimeSpecificationException;
-import mmt.exceptions.InvalidPassengerNameException;
+import mmt.exceptions.ImportFileException;
+//import mmt.exceptions.InvalidPassengerNameException;
 import mmt.exceptions.NoSuchDepartureException;
 import mmt.exceptions.NoSuchPassengerIdException;
 import mmt.exceptions.NoSuchServiceIdException;
@@ -21,56 +27,70 @@ import mmt.exceptions.NonUniquePassengerNameException;
  */
 public class TrainCompany implements Serializable {
 
-  /** Serial number for serialization. */
-  private static final long serialVersionUID = 201708301010L;
-  private Service _services[];
+	/** Serial number for serialization. */
+	private static final long serialVersionUID = 201708301010L;
+	private Service _services[];
 
-  //FIXME define fields
+	// FIXME define fields
 
-	/*void importFile(String filename) {
+	public void importFile(String filename) throws ImportFileException {
 		String line;
-    	BufferedReader reader = new BufferedReader(new FileReader(filename));
-    	while ((line = reader.readLine()) != null) {
-        	String[] fields = line.split("\\|");
+    	try {
+			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			
+			while ((line = reader.readLine()) != null) {
+				String[] fields = line.split("\\|");
 
-			registerFromFields(fields);
+				registerFromFields(fields);
 
-        	reader.close();
-    	}
+				reader.close();
+			} 
+		} catch (FileNotFoundException | BadEntryException e) {
+			throw new ImportFileException(e);
+		} catch (IOException e) {
+			throw new ImportFileException(e);
+		}
+	}
+
+    public void registerFromFields(String[] fields) throws BadEntryException {
+		Pattern patService = Pattern.compile("^(SERVICE)");
+		Pattern patPassenger = Pattern.compile("^(PASSENGER)");
+		Pattern parItinerary = Pattern.compile("^(ITINERARY)");
+
+		if (patService.matcher(fields[0]).matches()) {
+			registerService(fields);
+			
+		} else if (patPassenger.matcher(fields[0]).matches()) {
+			registerPassenger(fields);
+			
+			
+		} else if (parItinerary.matcher(fields[0]).matches()) {
+			//registerItinerary(fields);
+			
+		} else {
+			throw new BadEntryException(fields[0]);
+		}
+	}
 
 
+	public void registerPassenger(String[] args) {
+		
+	}
 
-
-	void registerFromFields(String[] fields) {
-
-
-
-		Class<?> type = Class.forName(fields[0]);
-		Constructor ctor = type.getContructor(fields[1:]);
-		Class<?> obj = ctor.newInstance();
-			_services.put(obj);
+	public void registerService(String... fields) {
+		
     }
+	
+	
+	/*
+	 * FIXME add methods for registerPassenger, changePassengerName
+	 * searchItineraries, commitItinerary
+	 */
 
+	// FIXME implement other functions if necessary
 
-    void registerService(String... fields)  { throws PublicationExistsException,
-                        UnknownAgentException, UnknownDataException
-        int i;
-        int servId = (fields[1] != null) ? Integer.parseInt(fields[1]) : getUUID();
-        int servPrice = (fields[2] != null) ? Integer.parseInt(fields[2]) : getUUID();
-        while(fields[i]!='\n') {
-
-        }
-    }*/
-  /*FIXME
-   * add methods for
-   *   registerPassenger, changePassengerName
-   *   searchItineraries, commitItinerary
-   */
-
-  //FIXME implement other functions if necessary
-
-  public Service getService(int id) {
-	  return _services[id];
-    }
+	public Service getService(int id) {
+		return _services[id];
+	}
 
 }

@@ -16,7 +16,6 @@ public class Passenger {
 	public Passenger(String name, int id) {
 		_name = name;
 		_id = id;
-		System.out.println("Foi criado o"+_name);
 	}
 	
 	public void commitItinerary(int itineraryId) {

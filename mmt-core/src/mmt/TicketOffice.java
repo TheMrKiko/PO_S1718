@@ -49,7 +49,7 @@ public class TicketOffice {
   }
 
   public void importFile(String datafile) throws ImportFileException {
-    //_trains.importFile(datafile);
+    _trains.importFile(datafile);
   }
 
   //FIXME complete and implement the itinerary search (and pre-commit store) method
@@ -64,7 +64,6 @@ public class TicketOffice {
 
   public void registerPassenger(String name) throws NonUniquePassengerNameException {
 	_passengers.add(new Passenger(name, _totalpassengers++));
-	System.out.println(_passengers.get(0).getName());
   }
   
   //public void 
