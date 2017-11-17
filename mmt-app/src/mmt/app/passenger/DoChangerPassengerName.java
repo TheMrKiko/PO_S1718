@@ -37,8 +37,7 @@ public class DoChangerPassengerName extends Command<TicketOffice> {
     //FIXME implement command
     _form.parse();
     try {
-        Passenger p = _receiver.getPassengerById(_id.value());
-        p.changePassengerName(_newName.value());
+        _receiver.changePassengerName(_newName.value(), _id.value());
     }
     catch (NonUniquePassengerNameException e) {
     	throw new DuplicatePassengerNameException(_newName.value());

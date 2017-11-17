@@ -83,6 +83,21 @@ public class TrainCompany implements Serializable {
 
     }
 
+	public void updatePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {
+		for (Passenger p: _passengers) {
+			if (p.getName().equals(newName)) {
+				throw new NonUniquePassengerNameException();
+			}
+			getPassengerById(id).setName(newName);
+		}
+	}
+
+	public Passenger getPassengerById(int id) throws NoSuchPassengerIdException {
+		if (id >= _totalpassengers) {
+			throw new NoSuchPassengerIdException();
+		}
+		return _passengers.get(id);
+	}
 
 	/*
 	 * FIXME add methods for registerPassenger, changePassengerName
@@ -92,7 +107,7 @@ public class TrainCompany implements Serializable {
 	// FIXME implement other functions if necessary
 
 	public Service getService(int id) {
-		return _services[id];
+		return _services.get(id);
 	}
 
 }

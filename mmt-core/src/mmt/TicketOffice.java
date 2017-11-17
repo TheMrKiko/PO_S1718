@@ -65,7 +65,13 @@ public class TicketOffice {
     _trains.registerPassenger(name);
   }
 
-  //public void
+  public void changePassengerName(String newName, int id) {
+      _trains.updatePassengerName(newName, id);
+  }
+
+
+
+
 
   //FIXME add methods for passenger registration and passenger name update
 
