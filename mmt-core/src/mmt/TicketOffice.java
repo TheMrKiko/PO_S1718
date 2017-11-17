@@ -31,8 +31,7 @@ public class TicketOffice {
 
   /** The object doing most of the actual work. */
   private TrainCompany _trains;
-  private ArrayList<Passenger> _passengers = new ArrayList<Passenger>();
-  private int _totalpassengers = 0;
+
 
   //FIXME define other fields
 
@@ -63,10 +62,10 @@ public class TicketOffice {
   }
 
   public void registerPassenger(String name) throws NonUniquePassengerNameException {
-	_passengers.add(new Passenger(name, _totalpassengers++));
+    _trains.registerPassenger(name);
   }
-  
-  //public void 
+
+  //public void
 
   //FIXME add methods for passenger registration and passenger name update
 

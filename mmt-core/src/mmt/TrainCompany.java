@@ -30,6 +30,8 @@ public class TrainCompany implements Serializable {
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201708301010L;
 	private Service _services[];
+	private ArrayList<Passenger> _passengers = new ArrayList<Passenger>();
+	private int _totalpassengers = 0;
 
 	// FIXME define fields
 
@@ -37,14 +39,14 @@ public class TrainCompany implements Serializable {
 		String line;
     	try {
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
-			
+
 			while ((line = reader.readLine()) != null) {
 				String[] fields = line.split("\\|");
 
 				registerFromFields(fields);
 
 				reader.close();
-			} 
+			}
 		} catch (FileNotFoundException | BadEntryException e) {
 			throw new ImportFileException(e);
 		} catch (IOException e) {
@@ -59,29 +61,29 @@ public class TrainCompany implements Serializable {
 
 		if (patService.matcher(fields[0]).matches()) {
 			registerService(fields);
-			
+
 		} else if (patPassenger.matcher(fields[0]).matches()) {
 			registerPassenger(fields);
-			
-			
+
+
 		} else if (parItinerary.matcher(fields[0]).matches()) {
 			//registerItinerary(fields);
-			
+
 		} else {
 			throw new BadEntryException(fields[0]);
 		}
 	}
 
 
-	public void registerPassenger(String[] args) {
-		
+	public void registerPassenger(String name) {
+		_passengers.add(new Passenger(name, _totalpassengers++));
 	}
 
 	public void registerService(String... fields) {
-		
+
     }
-	
-	
+
+
 	/*
 	 * FIXME add methods for registerPassenger, changePassengerName
 	 * searchItineraries, commitItinerary
