@@ -83,7 +83,10 @@ public class TrainCompany implements Serializable {
 	}
 
 	public void registerService(String... fields) {
-		Service newService = new Service(fields[1], fields[2]);
+		Service newService = new Service(Integer.parseInt(fields[1]), Integer.parseInt(fields[2]));
+		//for (int i = 3; i > fields.length(), i+=2){
+			
+		//}
     }
 
 	public void addPassenger(String name) {
@@ -108,7 +111,7 @@ public class TrainCompany implements Serializable {
 
 
 	//Seleciona Servicos por determinada estacao
-	ArrayList<Service> getServiceByStation(ServiceSeletor ss, String station) {
+	/*ArrayList<Service> getServiceByStation(ServiceSeletor ss, String station) {
 		ArrayList<Service> stationList = new ArrayList<Service>();
 		ArrayList<Service> servicesList =_services.values();
 		for (Service s: servicesList)
@@ -116,7 +119,7 @@ public class TrainCompany implements Serializable {
 				stationList.add(s);
 			}
 		return stationList;
-	}
+	}*/
 
 	/*
 	 * FIXME add methods for registerPassenger, changePassengerName

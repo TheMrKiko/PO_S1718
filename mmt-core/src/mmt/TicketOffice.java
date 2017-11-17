@@ -28,7 +28,7 @@ import mmt.exceptions.NonUniquePassengerNameException;
 public class TicketOffice {
 
   /** The object doing most of the actual work. */
-  private TrainCompany _trains;
+  private TrainCompany _trains = new TrainCompany();
 
 
   //FIXME define other fields
@@ -67,13 +67,13 @@ public class TicketOffice {
       _trains.updatePassengerName(newName, id);
   }
 
-  public void getServiceFromDeparture(String stationDeparture)  {
+  /*public void getServiceFromDeparture(String stationDeparture)  {
       _trains.getServiceByStation(new ServiceFromDeparture(), stationDeparture);
   }
 
   public void getServiceToArrival(String stationArrival) {
       _trains.getServiceByStation(new ServiceToArrival(), stationArrival);
-  }
+  }*/
 
 
 
