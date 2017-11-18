@@ -85,9 +85,9 @@ public class TicketOffice {
 		return _trains.toStringServicesFromDeparture(stationDeparture);
 	}
 
-	/*public ArrayList<Service> getServiceToArrival(String stationArrival) throws NoSuchStationNameException {
-		return _trains.getServiceByStation(new ServiceToArrival(), stationArrival);
-	}*/
+	public String toStringServicesToArrival(String stationArrival) throws NoSuchStationNameException {
+		return _trains.toStringServicesToArrival(stationArrival);
+	}
 	
 	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
 		return _trains.toStringPassengerById(id);

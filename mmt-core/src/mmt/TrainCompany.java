@@ -277,4 +277,8 @@ public class TrainCompany implements Serializable {
 		return toStringServices(getServiceByStation(new ServiceFromDeparture(), stationDeparture));
 
 	}
+
+	public String toStringServicesToArrival(String stationArrival) throws NoSuchStationNameException {
+		return toStringServices(getServiceByStation(new ServiceToArrival(), stationArrival));
+	}
 }
