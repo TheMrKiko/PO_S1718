@@ -9,18 +9,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import mmt.exceptions.BadDateSpecificationException;
-import mmt.exceptions.BadTimeSpecificationException;
+//import mmt.exceptions.BadDateSpecificationException;
+//import mmt.exceptions.BadTimeSpecificationException;
 import mmt.exceptions.ImportFileException;
-import mmt.exceptions.InvalidPassengerNameException;
-import mmt.exceptions.MissingFileAssociationException;
+//import mmt.exceptions.InvalidPassengerNameException;
+//import mmt.exceptions.MissingFileAssociationException;
 import mmt.exceptions.NoSuchPassengerIdException;
-import mmt.exceptions.NoSuchServiceIdException;
-import mmt.exceptions.NoSuchStationNameException;
-import mmt.exceptions.NoSuchItineraryChoiceException;
+//import mmt.exceptions.NoSuchServiceIdException;
+//import mmt.exceptions.NoSuchStationNameException;
+//import mmt.exceptions.NoSuchItineraryChoiceException;
 import mmt.exceptions.NonUniquePassengerNameException;
-
-//FIXME import other classes if necessary
 
 /**
  * Façade for handling persistence and other functions.
@@ -32,12 +30,10 @@ public class TicketOffice {
 	private String _filename = "";
 	private boolean _filechanged = true;
 
-	// FIXME define other fields
-
 	public void reset() {
+		TrainCompany newTrains = new TrainCompany();
 		_filename = "";
 		_filechanged = true;
-		TrainCompany newTrains = new TrainCompany();
 		newTrains.setServices(_trains.getServices());
 		_trains = newTrains;
 	}
@@ -99,7 +95,7 @@ public class TicketOffice {
 		_filename = filename;
 	}
 
-	public boolean fileChanged() {
+	public boolean getFileChanged() {
 		return _filechanged;
 	}
 
