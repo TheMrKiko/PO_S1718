@@ -30,7 +30,7 @@ public class TicketOffice {
 	/** The object doing most of the actual work. */
 	private TrainCompany _trains = new TrainCompany();
 	private String _filename = "";
-	private boolean _filechanged = false;
+	private boolean _filechanged = true;
 
 	// FIXME define other fields
 
@@ -75,7 +75,7 @@ public class TicketOffice {
 
 	public void registerPassenger(String name) throws NonUniquePassengerNameException {
 		_filechanged = true;
-		_trains.addPassenger(name);
+		_trains.registerPassenger(name);
 	}
 
 	public void changePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {

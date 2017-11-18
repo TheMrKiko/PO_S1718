@@ -24,8 +24,6 @@ import mmt.exceptions.NoSuchStationNameException;
 import mmt.exceptions.NoSuchItineraryChoiceException;
 import mmt.exceptions.NonUniquePassengerNameException;
 
-//FIXME import other classes if necessary
-
 /**
  * A train company has schedules (services) for its trains and passengers that
  * acquire itineraries based on those schedules.
@@ -37,74 +35,22 @@ public class TrainCompany implements Serializable {
 	private TreeMap<Integer, Service> _services = new TreeMap<Integer, Service>();
 	private ArrayList<Passenger> _passengers = new ArrayList<Passenger>();
 	private int _totalpassengers = 0;
-
-	// FIXME define fields
-
-	public void importFile(String filename) throws ImportFileException {
-		String line;
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filename));
-
-			while ((line = reader.readLine()) != null) {
-				String[] fields = line.split("\\|");
-
-				registerFromFields(fields);
-			}
-			reader.close();
-
-		} catch (FileNotFoundException | BadEntryException e) {
-			throw new ImportFileException(e);
-		} catch (IOException e) {
-			throw new ImportFileException(e);
-		}
-	}
-
-	public void registerFromFields(String[] fields) throws BadEntryException {
-		Pattern patService = Pattern.compile("^(SERVICE)");
-		Pattern patPassenger = Pattern.compile("^(PASSENGER)");
-		Pattern parItinerary = Pattern.compile("^(ITINERARY)");
-
-		if (patService.matcher(fields[0]).matches()) {
-			registerService(fields);
-
-		} else if (patPassenger.matcher(fields[0]).matches()) {
-			registerPassenger(fields);
-
-		} else if (parItinerary.matcher(fields[0]).matches()) {
-			// registerItinerary(fields);
-
-		} else {
-			throw new BadEntryException(fields[0]);
-		}
-	}
-
-	public void registerPassenger(String[] fields) {
-		addPassenger(fields[1]);
-
-	}
-
-	public void registerService(String[] fields) {
-		// System.out.println(fields[1] + " "+fields[2]);
-		Service newService = new Service(Integer.parseInt(fields[1]), Double.parseDouble(fields[2]));
-
-		for (int i = 3; i < fields.length; i += 2) {
-			newService.addStation(LocalTime.parse(fields[i]), fields[i + 1]);
-		}
-
-		_services.put(newService.getServiceID(), newService);
-	}
-
-	public void addPassenger(String name) {
+	
+	public void registerPassenger(String name) throws NonUniquePassengerNameException {
+		checkDuplicatePassengerName(name);
 		_passengers.add(new Passenger(name, _totalpassengers++));
 	}
 
-	public void updatePassengerName(String newName, int id)
-			throws NonUniquePassengerNameException, NoSuchPassengerIdException {
+	public void checkDuplicatePassengerName(String name) throws NonUniquePassengerNameException {
 		for (Passenger p : _passengers) {
-			if (p.getName().equals(newName)) {
-				throw new NonUniquePassengerNameException(newName);
+			if (p.getName().equals(name)) {
+				throw new NonUniquePassengerNameException(name);
 			}
 		}
+	}
+	
+	public void updatePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {
+		checkDuplicatePassengerName(newName);
 		getPassengerById(id).setName(newName);
 	}
 
@@ -131,7 +77,62 @@ public class TrainCompany implements Serializable {
 	 * searchItineraries, commitItinerary
 	 */
 
-	// FIXME implement other functions if necessary
+	//IMPORT FILE
+		public void importFile(String filename) throws ImportFileException {
+			String line;
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(filename));
+
+				while ((line = reader.readLine()) != null) {
+					String[] fields = line.split("\\|");
+
+					registerFromFields(fields);
+				}
+				reader.close();
+
+			} catch (FileNotFoundException | BadEntryException e) {
+				throw new ImportFileException(e);
+			} catch (IOException e) {
+				throw new ImportFileException(e);
+			}
+		}
+
+		public void registerFromFields(String[] fields) throws BadEntryException {
+			Pattern patService = Pattern.compile("^(SERVICE)");
+			Pattern patPassenger = Pattern.compile("^(PASSENGER)");
+			Pattern parItinerary = Pattern.compile("^(ITINERARY)");
+
+			if (patService.matcher(fields[0]).matches()) {
+				registerServiceFromFields(fields);
+
+			} else if (patPassenger.matcher(fields[0]).matches()) {
+				registerPassengerFromFields(fields);
+
+			} else if (parItinerary.matcher(fields[0]).matches()) {
+				// registerItineraryFromFields(fields);
+
+			} else {
+				throw new BadEntryException(fields[0]);
+			}
+		}
+		
+		//FromFields
+		public void registerPassengerFromFields(String[] fields) {
+			_passengers.add(new Passenger(fields[1], _totalpassengers++));
+
+		}
+
+		public void registerServiceFromFields(String[] fields) {
+			// System.out.println(fields[1] + " "+fields[2]);
+			Service newService = new Service(Integer.parseInt(fields[1]), Double.parseDouble(fields[2]));
+
+			for (int i = 3; i < fields.length; i += 2) {
+				newService.addStation(LocalTime.parse(fields[i]), fields[i + 1]);
+			}
+
+			_services.put(newService.getServiceID(), newService);
+		}
+	
 
 	public Service getServiceById(int id) {
 		return _services.get(id);
