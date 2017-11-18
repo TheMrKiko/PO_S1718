@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 //import mmt.exceptions.BadDateSpecificationException;
 //import mmt.exceptions.BadTimeSpecificationException;
@@ -79,13 +80,18 @@ public class TicketOffice {
 		_trains.updatePassengerName(newName, id);
 	}
 
-	public void getServiceFromDeparture(String stationDeparture) {
-		_trains.getServiceByStation(new ServiceFromDeparture(), stationDeparture);
+	public ArrayList<Service> getServiceFromDeparture(String stationDeparture) {
+		return _trains.getServiceByStation(new ServiceFromDeparture(), stationDeparture);
 	}
 
-	public void getServiceToArrival(String stationArrival) {
-		_trains.getServiceByStation(new ServiceToArrival(), stationArrival);
+	public ArrayList<Service> getServiceToArrival(String stationArrival) {
+		return _trains.getServiceByStation(new ServiceToArrival(), stationArrival);
 	}
+	
+	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
+		return _trains.toStringPassengerById(id);
+	}
+	
 
 	public String getFilename() {
 		return _filename;

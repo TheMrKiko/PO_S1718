@@ -233,4 +233,8 @@ public class TrainCompany implements Serializable {
 	public void setServices(TreeMap<Integer, Service> services) {
 		_services = services;
 	}
+
+	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
+		return getPassengerById(id).toString();
+	}
 }

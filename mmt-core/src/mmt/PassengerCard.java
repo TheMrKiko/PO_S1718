@@ -2,6 +2,7 @@ package mmt;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.time.LocalTime;
 
 public abstract class PassengerCard implements Serializable {
 	
@@ -10,8 +11,11 @@ public abstract class PassengerCard implements Serializable {
 	protected Passenger _pass;
 	
 	private int _totalItineraries = 0;
-	private Duration _timeSpent;
+	private Duration _timeSpent = Duration.ZERO;
+	private double _totalPaid = 0;
 	private double _last10Paid = 0;
+	
+	private final long MINUTES_PER_HOUR = 60;
  
     public PassengerCard(Passenger pass) {
     	_pass = pass;
@@ -20,6 +24,27 @@ public abstract class PassengerCard implements Serializable {
     //public abstract void updateCategory();
  
     public String status() {
-    	return getClass().getName();
+    	return getClass().getSimpleName();
     }
+    
+    public double getTotalPaid() {
+    	return _totalPaid;
+    }
+
+	public Duration getTimeSpent() {
+		return _timeSpent;
+	}
+
+	public int getTotalItineraries() {
+		return _totalItineraries;
+	}
+
+	@Override
+	public String toString() {
+		return status();
+	}
+	
+	public String toStringTimeSpent() {
+		return _timeSpent.toHours() + ":" + String.format("%02d", _timeSpent.toMinutes() % MINUTES_PER_HOUR);
+	}
   }

@@ -38,4 +38,11 @@ public class Passenger implements Serializable {
 		_name = newName;
 	}
 
+	@Override
+	public String toString() {
+		return _id + "|" + _name + "|" + passCategory.toString() + "|" + passCategory.getTotalItineraries() + "|" + String.format( "%.2f", passCategory.getTotalPaid()) + "|" + passCategory.toStringTimeSpent();
+	}
+	
+	
+
 }
