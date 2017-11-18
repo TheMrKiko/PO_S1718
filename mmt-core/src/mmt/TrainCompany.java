@@ -7,10 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
@@ -22,7 +19,7 @@ import mmt.exceptions.ImportFileException;
 //import mmt.exceptions.NoSuchDepartureException;
 import mmt.exceptions.NoSuchPassengerIdException;
 import mmt.exceptions.NoSuchServiceIdException;
-//import mmt.exceptions.NoSuchStationNameException;
+import mmt.exceptions.NoSuchStationNameException;
 //import mmt.exceptions.NoSuchItineraryChoiceException;
 import mmt.exceptions.NonUniquePassengerNameException;
 
@@ -212,15 +209,19 @@ public class TrainCompany implements Serializable {
 	 * @param station
 	 *            in specifically
 	 * @return the filtred list
+	 * @throws NoSuchStationNameException
 	 * 
 	 */
-	ArrayList<Service> getServiceByStation(ServiceSeletor selector, String station) {
+	ArrayList<Service> getServiceByStation(ServiceSeletor selector, String station) throws NoSuchStationNameException {
 		ArrayList<Service> servicesFiltred = new ArrayList<Service>();
 		List<Service> servicesList = new ArrayList<Service>(_services.values());
 		for (Service serv : servicesList)
 			if (selector.matches(serv, station)) {
 				servicesFiltred.add(serv);
 			}
+		if (servicesFiltred.isEmpty()) {
+			throw new NoSuchStationNameException(station);
+		}
 		return servicesFiltred;
 	}
 
@@ -253,18 +254,27 @@ public class TrainCompany implements Serializable {
 
 	public String toStringAllPassengers() {
 		String text = "";
-		for(Passenger p: _passengers) {
+		for (Passenger p : _passengers) {
 			text += p.toString() + "\n";
 		}
 		return text;
 	}
 
 	public String toStringAllServices() {
+		ArrayList<Service> list = new ArrayList<Service>(_services.values());
+		return toStringServices(list);
+	}
+
+	public String toStringServices(ArrayList<Service> servsList) {
 		String text = "";
-		Set<Map.Entry<Integer, Service>> entries = _services.entrySet();
-		for(Map.Entry<Integer, Service> e: entries ) {
-			text += e.getValue().toString() + "\n";
+		for (Service s : servsList) {
+			text += s.toString() + "\n";
 		}
 		return text;
+	}
+
+	public String toStringServicesFromDeparture(String stationDeparture) throws NoSuchStationNameException {
+		return toStringServices(getServiceByStation(new ServiceFromDeparture(), stationDeparture));
+
 	}
 }

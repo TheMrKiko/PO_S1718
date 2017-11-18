@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
 //import mmt.exceptions.BadDateSpecificationException;
 //import mmt.exceptions.BadTimeSpecificationException;
@@ -17,6 +16,7 @@ import mmt.exceptions.ImportFileException;
 //import mmt.exceptions.MissingFileAssociationException;
 import mmt.exceptions.NoSuchPassengerIdException;
 import mmt.exceptions.NoSuchServiceIdException;
+import mmt.exceptions.NoSuchStationNameException;
 //import mmt.exceptions.NoSuchServiceIdException;
 //import mmt.exceptions.NoSuchStationNameException;
 //import mmt.exceptions.NoSuchItineraryChoiceException;
@@ -80,14 +80,14 @@ public class TicketOffice {
 		_filechanged = true;
 		_trains.updatePassengerName(newName, id);
 	}
-
-	public ArrayList<Service> getServiceFromDeparture(String stationDeparture) {
-		return _trains.getServiceByStation(new ServiceFromDeparture(), stationDeparture);
+	
+	public String toStringServicesFromDeparture(String stationDeparture) throws NoSuchStationNameException  {
+		return _trains.toStringServicesFromDeparture(stationDeparture);
 	}
 
-	public ArrayList<Service> getServiceToArrival(String stationArrival) {
+	/*public ArrayList<Service> getServiceToArrival(String stationArrival) throws NoSuchStationNameException {
 		return _trains.getServiceByStation(new ServiceToArrival(), stationArrival);
-	}
+	}*/
 	
 	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
 		return _trains.toStringPassengerById(id);
