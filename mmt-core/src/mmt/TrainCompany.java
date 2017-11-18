@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 //import mmt.exceptions.BadDateSpecificationException;
-import mmt.exceptions.BadEntryException;//
+import mmt.exceptions.BadEntryException;
 //import mmt.exceptions.BadTimeSpecificationException;
 import mmt.exceptions.ImportFileException;
 //import mmt.exceptions.InvalidPassengerNameException;
@@ -42,6 +42,7 @@ public class TrainCompany implements Serializable {
 	 */
 
 	/*
+	 * 
 	 * PASSENGERS
 	 */
 
@@ -85,6 +86,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	/*
+	 * 
 	 * IMPORT
 	 */
 
@@ -137,6 +139,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	/*
+	 * 
 	 * REGISTER OBJECTS FROM FIELDS
 	 */
 
@@ -169,6 +172,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	/*
+	 * 
 	 * GETTERS
 	 */
 
@@ -191,6 +195,7 @@ public class TrainCompany implements Serializable {
 	 *            of service
 	 * @return
 	 * @throws NoSuchServiceIdException
+	 *             if no service with that id
 	 */
 	public Service getServiceById(int id) throws NoSuchServiceIdException {
 		Service serv = _services.get(id);
@@ -210,6 +215,7 @@ public class TrainCompany implements Serializable {
 	 *            in specifically
 	 * @return the filtred list
 	 * @throws NoSuchStationNameException
+	 *             if no station found
 	 * 
 	 */
 	ArrayList<Service> getServiceByStation(ServiceSeletor selector, String station) throws NoSuchStationNameException {
@@ -233,6 +239,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	/*
+	 * 
 	 * SETTERS
 	 */
 
@@ -244,14 +251,25 @@ public class TrainCompany implements Serializable {
 		_services = services;
 	}
 
+	/*
+	 * 
+	 * TOSTRING
+	 */
+
+	/**
+	 * @param id
+	 *            of the passenger
+	 * @return a string with the passenger information
+	 * @throws NoSuchPassengerIdException
+	 *             if no passenger with that id
+	 */
 	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
 		return getPassengerById(id).toString();
 	}
 
-	public String toStringServiceById(int id) throws NoSuchServiceIdException {
-		return getServiceById(id).toString();
-	}
-
+	/**
+	 * @return a string with all passengers information
+	 */
 	public String toStringAllPassengers() {
 		String text = "";
 		for (Passenger p : _passengers) {
@@ -260,24 +278,59 @@ public class TrainCompany implements Serializable {
 		return text;
 	}
 
-	public String toStringAllServices() {
-		ArrayList<Service> list = new ArrayList<Service>(_services.values());
-		return toStringServices(list);
+	/**
+	 * @param id
+	 *            of the service
+	 * @return a string with the service information
+	 * @throws NoSuchServiceIdException
+	 *             if no service with that id
+	 */
+	public String toStringServiceById(int id) throws NoSuchServiceIdException {
+		return getServiceById(id).toString();
 	}
 
-	public String toStringServices(ArrayList<Service> servsList) {
+	/**
+	 * @param servicesList
+	 *            with the services to convert to string
+	 * @return of the services in string form
+	 */
+	public String toStringServices(ArrayList<Service> servicesList) {
 		String text = "";
-		for (Service s : servsList) {
+		for (Service s : servicesList) {
 			text += s.toString() + "\n";
 		}
 		return text;
 	}
 
+	/**
+	 * @return a string with all services information
+	 */
+	public String toStringAllServices() {
+		ArrayList<Service> list = new ArrayList<Service>(_services.values());
+		return toStringServices(list);
+	}
+
+	/**
+	 * @param stationDeparture
+	 *            of the service
+	 * @return string with information of all services that departure from that
+	 *         station
+	 * @throws NoSuchStationNameException
+	 *             if no station found
+	 */
 	public String toStringServicesFromDeparture(String stationDeparture) throws NoSuchStationNameException {
 		return toStringServices(getServiceByStation(new ServiceFromDeparture(), stationDeparture));
 
 	}
 
+	/**
+	 * @param stationArrival
+	 *            of the service
+	 * @return string with information of all services that arrive to that
+	 *         station
+	 * @throws NoSuchStationNameException
+	 *             if no station found
+	 */
 	public String toStringServicesToArrival(String stationArrival) throws NoSuchStationNameException {
 		return toStringServices(getServiceByStation(new ServiceToArrival(), stationArrival));
 	}

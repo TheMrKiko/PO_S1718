@@ -2,7 +2,7 @@ package mmt;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.time.LocalTime;
+//import java.time.LocalTime;
 
 public abstract class PassengerCard implements Serializable {
 	
@@ -27,6 +27,11 @@ public abstract class PassengerCard implements Serializable {
     	return getClass().getSimpleName();
     }
     
+    /**
+     * GETTERS
+     *
+     */
+    
     public double getTotalPaid() {
     	return _totalPaid;
     }
@@ -38,6 +43,15 @@ public abstract class PassengerCard implements Serializable {
 	public int getTotalItineraries() {
 		return _totalItineraries;
 	}
+	
+	public double getLast10Paid() {
+		return _last10Paid;
+	}
+	
+    /**
+     * TOSTRING
+     *
+     */
 
 	@Override
 	public String toString() {
