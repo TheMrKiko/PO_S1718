@@ -44,7 +44,7 @@ public class TrainCompany implements Serializable {
 	/*
 	 * PASSENGERS
 	 */
-	
+
 	/**
 	 * @param name
 	 *            of the new passenger
@@ -83,8 +83,7 @@ public class TrainCompany implements Serializable {
 		checkDuplicatePassengerName(newName);
 		getPassengerById(id).setName(newName);
 	}
-	
-	
+
 	/*
 	 * IMPORT
 	 */
@@ -117,7 +116,8 @@ public class TrainCompany implements Serializable {
 	 * 
 	 * Matches a set of fields with a type of object and registers that object
 	 * 
-	 * @param fields to transform in each type
+	 * @param fields
+	 *            to transform in each type
 	 * @throws BadEntryException
 	 */
 	public void registerFromFields(String[] fields) throws BadEntryException {
@@ -135,21 +135,22 @@ public class TrainCompany implements Serializable {
 			throw new BadEntryException(fields[0]);
 		}
 	}
-	
+
 	/*
 	 * REGISTER OBJECTS FROM FIELDS
 	 */
-	
-	
+
 	/**
-	 * @param fields of object Passenger
+	 * @param fields
+	 *            of object Passenger
 	 */
 	public void registerPassengerFromFields(String[] fields) {
 		_passengers.add(new Passenger(fields[1], _totalpassengers++));
 	}
 
 	/**
-	 * @param fields of object Service
+	 * @param fields
+	 *            of object Service
 	 */
 	public void registerServiceFromFields(String[] fields) {
 		Service newService = new Service(Integer.parseInt(fields[1]), Double.parseDouble(fields[2]));
@@ -158,19 +159,19 @@ public class TrainCompany implements Serializable {
 		}
 		_services.put(newService.getServiceID(), newService);
 	}
-	
+
 	/**
-	 * @param fields of object Itinerary
+	 * @param fields
+	 *            of object Itinerary
 	 */
 	public void registerItineraryFromFields(String[] fields) {
-		//TODO registerItineraryFromFields
+		// TODO registerItineraryFromFields
 	}
-	
-	
+
 	/*
 	 * GETTERS
 	 */
-	
+
 	/**
 	 * @param id
 	 *            of the passenger
@@ -184,21 +185,21 @@ public class TrainCompany implements Serializable {
 		}
 		return _passengers.get(id);
 	}
-	
 
 	/**
-	 * @param id of service
-	 * @return 
-	 * @throws NoSuchServiceIdException 
+	 * @param id
+	 *            of service
+	 * @return
+	 * @throws NoSuchServiceIdException
 	 */
 	public Service getServiceById(int id) throws NoSuchServiceIdException {
 		Service serv = _services.get(id);
-		if(serv == null) {
+		if (serv == null) {
 			throw new NoSuchServiceIdException(id);
 		}
 		return serv;
 	}
-	
+
 	/**
 	 * 
 	 * Uses a selector to filter all services by a station type
@@ -227,13 +228,13 @@ public class TrainCompany implements Serializable {
 		return _services;
 	}
 
-	
 	/*
 	 * SETTERS
 	 */
-	
+
 	/**
-	 * @param services to replace in TrainCompany
+	 * @param services
+	 *            to replace in TrainCompany
 	 */
 	public void setServices(TreeMap<Integer, Service> services) {
 		_services = services;
@@ -245,5 +246,13 @@ public class TrainCompany implements Serializable {
 
 	public String toStringServiceById(int id) throws NoSuchServiceIdException {
 		return getServiceById(id).toString();
+	}
+
+	public String toStringAllPassengers() {
+		String text = "";
+		for(Passenger p: _passengers) {
+			text += p.toString() + "\n";
+		}
+		return text;
 	}
 }

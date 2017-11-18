@@ -42,6 +42,10 @@ public class Passenger implements Serializable {
 	public String toString() {
 		return _id + "|" + _name + "|" + passCategory.toString() + "|" + passCategory.getTotalItineraries() + "|" + String.format("%.2f", passCategory.getTotalPaid()) + "|" + passCategory.toStringTimeSpent();
 	}
+
+	public int getId() {
+		return _id;
+	}
 	
 	
 

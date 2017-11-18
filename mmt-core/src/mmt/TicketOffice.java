@@ -111,4 +111,8 @@ public class TicketOffice {
 		
 	}
 
+	public String toStringAllPassengers() {
+		return _trains.toStringAllPassengers();
+	}
+
 }
