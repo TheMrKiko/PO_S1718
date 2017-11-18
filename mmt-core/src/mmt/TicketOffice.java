@@ -115,4 +115,8 @@ public class TicketOffice {
 		return _trains.toStringAllPassengers();
 	}
 
+	public String toStringAllServices() {
+		return _trains.toStringAllServices();
+	}
+
 }

@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
@@ -212,13 +215,13 @@ public class TrainCompany implements Serializable {
 	 * 
 	 */
 	ArrayList<Service> getServiceByStation(ServiceSeletor selector, String station) {
-		ArrayList<Service> stationList = new ArrayList<Service>();
+		ArrayList<Service> servicesFiltred = new ArrayList<Service>();
 		List<Service> servicesList = new ArrayList<Service>(_services.values());
 		for (Service serv : servicesList)
 			if (selector.matches(serv, station)) {
-				stationList.add(serv);
+				servicesFiltred.add(serv);
 			}
-		return stationList;
+		return servicesFiltred;
 	}
 
 	/**
@@ -252,6 +255,15 @@ public class TrainCompany implements Serializable {
 		String text = "";
 		for(Passenger p: _passengers) {
 			text += p.toString() + "\n";
+		}
+		return text;
+	}
+
+	public String toStringAllServices() {
+		String text = "";
+		Set<Map.Entry<Integer, Service>> entries = _services.entrySet();
+		for(Map.Entry<Integer, Service> e: entries ) {
+			text += e.getValue().toString() + "\n";
 		}
 		return text;
 	}
