@@ -18,7 +18,7 @@ import mmt.exceptions.ImportFileException;
 //import mmt.exceptions.InvalidPassengerNameException;
 //import mmt.exceptions.NoSuchDepartureException;
 import mmt.exceptions.NoSuchPassengerIdException;
-//import mmt.exceptions.NoSuchServiceIdException;
+import mmt.exceptions.NoSuchServiceIdException;
 //import mmt.exceptions.NoSuchStationNameException;
 //import mmt.exceptions.NoSuchItineraryChoiceException;
 import mmt.exceptions.NonUniquePassengerNameException;
@@ -189,9 +189,14 @@ public class TrainCompany implements Serializable {
 	/**
 	 * @param id of service
 	 * @return 
+	 * @throws NoSuchServiceIdException 
 	 */
-	public Service getServiceById(int id) {
-		return _services.get(id);
+	public Service getServiceById(int id) throws NoSuchServiceIdException {
+		Service serv = _services.get(id);
+		if(serv == null) {
+			throw new NoSuchServiceIdException(id);
+		}
+		return serv;
 	}
 	
 	/**
@@ -236,5 +241,9 @@ public class TrainCompany implements Serializable {
 
 	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
 		return getPassengerById(id).toString();
+	}
+
+	public String toStringServiceById(int id) throws NoSuchServiceIdException {
+		return getServiceById(id).toString();
 	}
 }

@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Service implements Serializable {
 	
@@ -111,5 +113,17 @@ public class Service implements Serializable {
             return departureTime1.compareTo(departureTime2);
         }
     }
+
+	@Override
+	public String toString() {
+		String text = "Serviço #" + _id + " @ " + String.format("%.2f", _price) + "\n";
+		Set<Map.Entry<String, LocalTime>> entries = _stations.entrySet();
+		for(Map.Entry<String, LocalTime> e: entries ) {
+			text += e.getValue().toString() + " " + e.getKey() + "\n";
+		}
+		return text;
+	}
+    
+    
 
 }

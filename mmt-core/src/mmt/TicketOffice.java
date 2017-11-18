@@ -16,6 +16,7 @@ import mmt.exceptions.ImportFileException;
 //import mmt.exceptions.InvalidPassengerNameException;
 //import mmt.exceptions.MissingFileAssociationException;
 import mmt.exceptions.NoSuchPassengerIdException;
+import mmt.exceptions.NoSuchServiceIdException;
 //import mmt.exceptions.NoSuchServiceIdException;
 //import mmt.exceptions.NoSuchStationNameException;
 //import mmt.exceptions.NoSuchItineraryChoiceException;
@@ -103,6 +104,11 @@ public class TicketOffice {
 
 	public boolean getFileChanged() {
 		return _filechanged;
+	}
+
+	public String toStringServiceById(int id) throws NoSuchServiceIdException {
+		return _trains.toStringServiceById(id);
+		
 	}
 
 }

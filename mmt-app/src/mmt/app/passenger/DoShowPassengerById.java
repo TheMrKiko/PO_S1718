@@ -7,7 +7,6 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 
-//FIXME import other classes if necessary
 
 /**
  * §3.3.2. Show specific passenger.

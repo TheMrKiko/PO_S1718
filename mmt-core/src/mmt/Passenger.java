@@ -40,7 +40,7 @@ public class Passenger implements Serializable {
 
 	@Override
 	public String toString() {
-		return _id + "|" + _name + "|" + passCategory.toString() + "|" + passCategory.getTotalItineraries() + "|" + String.format( "%.2f", passCategory.getTotalPaid()) + "|" + passCategory.toStringTimeSpent();
+		return _id + "|" + _name + "|" + passCategory.toString() + "|" + passCategory.getTotalItineraries() + "|" + String.format("%.2f", passCategory.getTotalPaid()) + "|" + passCategory.toStringTimeSpent();
 	}
 	
 	
