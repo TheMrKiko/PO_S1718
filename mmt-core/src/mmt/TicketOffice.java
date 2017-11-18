@@ -27,68 +27,80 @@ import mmt.exceptions.NonUniquePassengerNameException;
  */
 public class TicketOffice {
 
-  /** The object doing most of the actual work. */
-  private TrainCompany _trains = new TrainCompany();
-  private String _filename = "";
+	/** The object doing most of the actual work. */
+	private TrainCompany _trains = new TrainCompany();
+	private String _filename = "";
+	private boolean _filechanged = false;
 
+	// FIXME define other fields
 
-  //FIXME define other fields
+	public void reset() {
+		_filename = "";
+		_filechanged = true;
+		TrainCompany newTrains = new TrainCompany();
+		newTrains.setServices(_trains.getServices());
+		_trains = newTrains;
+	}
 
-  public void reset() {
-	  _filename = "";
-	  TrainCompany newTrains = new TrainCompany();
-	  newTrains.setServices(_trains.getServices());
-	  _trains = newTrains;
-  }
+	public void save(String filename) throws IOException {
+		_filechanged = false;
+		ObjectOutputStream outos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
+		outos.writeObject(_trains);
+		outos.close();
+	}
 
-  public void save(String filename) throws IOException {
-	ObjectOutputStream outos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
-	outos.writeObject(_trains);
-	outos.close();
-  }
+	public void load(String filename) throws FileNotFoundException, IOException, ClassNotFoundException {
+		_filechanged = true;
+		ObjectInputStream inpos = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)));
+		_trains = (TrainCompany) inpos.readObject();
+		inpos.close();
+	}
 
-  public void load(String filename) throws FileNotFoundException, IOException, ClassNotFoundException {
-	  ObjectInputStream inpos = new ObjectInputStream( new BufferedInputStream(new FileInputStream(filename)));
-	  _trains = (TrainCompany) inpos.readObject();
-	  inpos.close();
-  }
+	public void importFile(String datafile) throws ImportFileException {
+		_trains.importFile(datafile);
+	}
 
-  public void importFile(String datafile) throws ImportFileException {
-    _trains.importFile(datafile);
-  }
+	// FIXME complete and implement the itinerary search (and pre-commit store)
+	// method
+	public void search(int passengerId, String departureStation, String arrivalStation, String departureDate,
+			String departureTime) /* FIXME define thrown exceptions */ {
+		// FIXME implement method
+	}
 
-  //FIXME complete and implement the itinerary search (and pre-commit store) method
-  public void search(int passengerId, String departureStation, String arrivalStation, String departureDate, String departureTime) /*FIXME define thrown exceptions */ {
-    //FIXME implement method
-  }
+	// FIXME complete and implement the itinerary commit method
+	public void commitItinerary(int passengerId, int itineraryNumber) /* FIXME define thrown exceptions */ {
+		_filechanged = true;
+		// FIXME implement method
+	}
 
-  //FIXME complete and implement the itinerary commit method
-  public void commitItinerary(int passengerId, int itineraryNumber) /*FIXME define thrown exceptions */ {
-    //FIXME implement method
-  }
+	public void registerPassenger(String name) throws NonUniquePassengerNameException {
+		_filechanged = true;
+		_trains.addPassenger(name);
+	}
 
-  public void registerPassenger(String name) throws NonUniquePassengerNameException {
-      _trains.addPassenger(name);
-  }
+	public void changePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {
+		_filechanged = true;
+		_trains.updatePassengerName(newName, id);
+	}
 
-  public void changePassengerName(String newName, int id) throws NonUniquePassengerNameException, NoSuchPassengerIdException {
-      _trains.updatePassengerName(newName, id);
-  }
+	public void getServiceFromDeparture(String stationDeparture) {
+		_trains.getServiceByStation(new ServiceFromDeparture(), stationDeparture);
+	}
 
-  public void getServiceFromDeparture(String stationDeparture)  {
-      _trains.getServiceByStation(new ServiceFromDeparture(), stationDeparture);
-  }
+	public void getServiceToArrival(String stationArrival) {
+		_trains.getServiceByStation(new ServiceToArrival(), stationArrival);
+	}
 
-  public void getServiceToArrival(String stationArrival) {
-      _trains.getServiceByStation(new ServiceToArrival(), stationArrival);
-  }
+	public String getFilename() {
+		return _filename;
+	}
 
-  public String getFilename(){
-	  return _filename;
-  }
-  
-  public void setFilename(String filename) {
-	  _filename = filename;
-  }
+	public void setFilename(String filename) {
+		_filename = filename;
+	}
+
+	public boolean fileChanged() {
+		return _filechanged;
+	}
 
 }

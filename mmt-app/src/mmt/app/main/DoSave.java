@@ -29,18 +29,20 @@ public class DoSave extends Command<TicketOffice> {
 	/** @see pt.tecnico.po.ui.Command#execute() */
 	@Override
 	public final void execute() {
-		if (_receiver.getFilename() == "") {
-			_form.parse();
-			_filenameValue = _filename.value();
-			_receiver.setFilename(_filenameValue);
-		} else {
-			_display.popup(Message.saveAs() + _filenameValue);
-			_filenameValue = _receiver.getFilename();
-		}
-		try {
-			_receiver.save(_filenameValue);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (_receiver.fileChanged()) {
+			if (_receiver.getFilename() == "") {
+				_form.parse();
+				_filenameValue = _filename.value();
+				_receiver.setFilename(_filenameValue);
+			} else {
+				_display.popup(Message.saveAs() + _filenameValue);
+				_filenameValue = _receiver.getFilename();
+			}
+			try {
+				_receiver.save(_filenameValue);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
