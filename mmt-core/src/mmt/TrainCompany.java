@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -42,7 +43,7 @@ public class TrainCompany implements Serializable {
 	 */
 
 	/*
-	 * 
+	 *
 	 * PASSENGERS
 	 */
 
@@ -86,14 +87,14 @@ public class TrainCompany implements Serializable {
 	}
 
 	/*
-	 * 
+	 *
 	 * IMPORT
 	 */
 
 	/**
-	 * 
+	 *
 	 * Imports objects from a formatted text file
-	 * 
+	 *
 	 * @param filename
 	 *            to read from
 	 * @throws ImportFileException
@@ -115,9 +116,9 @@ public class TrainCompany implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * Matches a set of fields with a type of object and registers that object
-	 * 
+	 *
 	 * @param fields
 	 *            to transform in each type
 	 * @throws BadEntryException
@@ -132,14 +133,14 @@ public class TrainCompany implements Serializable {
 		} else if (patPassenger.matcher(fields[0]).matches()) {
 			registerPassengerFromFields(fields);
 		} else if (parItinerary.matcher(fields[0]).matches()) {
-			// registerItineraryFromFields(fields);
+			registerItineraryFromFields(fields);
 		} else {
 			throw new BadEntryException(fields[0]);
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * REGISTER OBJECTS FROM FIELDS
 	 */
 
@@ -172,7 +173,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	/*
-	 * 
+	 *
 	 * GETTERS
 	 */
 
@@ -206,9 +207,9 @@ public class TrainCompany implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * Uses a selector to filter all services by a station type
-	 * 
+	 *
 	 * @param selector
 	 *            of type of station
 	 * @param station
@@ -216,7 +217,7 @@ public class TrainCompany implements Serializable {
 	 * @return the filtred list
 	 * @throws NoSuchStationNameException
 	 *             if no station found
-	 * 
+	 *
 	 */
 	ArrayList<Service> getServiceByStation(ServiceSeletor selector, String station) throws NoSuchStationNameException {
 		ArrayList<Service> servicesFiltred = new ArrayList<Service>();
@@ -239,7 +240,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	/*
-	 * 
+	 *
 	 * SETTERS
 	 */
 
@@ -252,7 +253,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	/*
-	 * 
+	 *
 	 * TOSTRING
 	 */
 
@@ -319,8 +320,10 @@ public class TrainCompany implements Serializable {
 	 *             if no station found
 	 */
 	public String toStringServicesFromDeparture(String stationDeparture) throws NoSuchStationNameException {
-		return toStringServices(getServiceByStation(new ServiceFromDeparture(), stationDeparture));
-
+		ArrayList<Service> list = new ArrayList<Service>();
+		list = getServiceByStation(new ServiceFromDeparture(), stationDeparture);
+		Collections.sort(list, new DepartureTimeComparator());
+		return toStringServices(list);
 	}
 
 	/**
@@ -332,6 +335,9 @@ public class TrainCompany implements Serializable {
 	 *             if no station found
 	 */
 	public String toStringServicesToArrival(String stationArrival) throws NoSuchStationNameException {
-		return toStringServices(getServiceByStation(new ServiceToArrival(), stationArrival));
+		ArrayList<Service> list = new ArrayList<Service>();
+		list = getServiceByStation(new ServiceToArrival(), stationArrival);
+		Collections.sort(list, new ArrivalTimeComparator());
+		return toStringServices(list);
 	}
 }
