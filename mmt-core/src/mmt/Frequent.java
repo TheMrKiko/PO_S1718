@@ -9,5 +9,9 @@ public class Frequent extends PassengerCard {
 	public Frequent(Passenger pass) {
 		super(pass);
 	}
+	
+    public String status() {
+    	return _categoryName;
+    }
 
 }

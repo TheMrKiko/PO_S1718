@@ -108,7 +108,6 @@ public class TicketOffice {
 
 	public String toStringServiceById(int id) throws NoSuchServiceIdException {
 		return _trains.toStringServiceById(id);
-		
 	}
 
 	public String toStringAllPassengers() {

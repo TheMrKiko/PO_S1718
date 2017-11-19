@@ -19,7 +19,7 @@ public class DoSave extends Command<TicketOffice> {
 	 */
 	public DoSave(TicketOffice receiver) {
 		super(Label.SAVE, receiver);
-		
+
 		// if (_receiver.getFilename() == ""){
 		_filename = _form.addStringInput(Message.newSaveAs());
 		// }
@@ -29,16 +29,13 @@ public class DoSave extends Command<TicketOffice> {
 	@Override
 	public final void execute() {
 		if (_receiver.getFileChanged()) {
-			
 			if (_receiver.getFilename() == "") {
-				
 				_form.parse();
 				_filenameValue = _filename.value();
 				_receiver.setFilename(_filenameValue);
 			} else {
-				
-				_display.popup(Message.saveAs() + _filenameValue);
 				_filenameValue = _receiver.getFilename();
+				//_display.popup(Message.saveAs() + _filenameValue);
 			}
 			try {
 				_receiver.save(_filenameValue);

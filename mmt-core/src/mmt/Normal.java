@@ -9,5 +9,9 @@ public class Normal extends PassengerCard {
 	public Normal(Passenger pass) {
 		super(pass);
 	}
+	
+    public String status() {
+    	return _categoryName;
+    }
 
 }

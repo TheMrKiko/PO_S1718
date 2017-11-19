@@ -160,7 +160,7 @@ public class TrainCompany implements Serializable {
 		for (int i = 3; i < fields.length; i += 2) {
 			newService.addStation(LocalTime.parse(fields[i]), fields[i + 1]);
 		}
-		_services.put(newService.getServiceID(), newService);
+		_services.put(newService.getServiceId(), newService);
 	}
 
 	/**
