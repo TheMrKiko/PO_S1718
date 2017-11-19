@@ -1,11 +1,11 @@
 package mmt.app.itineraries;
 
 import mmt.TicketOffice;
-import mmt.exceptions.NoSuchPassengerIdException;
-import mmt.app.exceptions.NoSuchPassengerException;
+//import mmt.exceptions.NoSuchPassengerIdException;
+//import mmt.app.exceptions.NoSuchPassengerException;
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
-import pt.tecnico.po.ui.Input;
+//import pt.tecnico.po.ui.Input;
 
 /**
  * §3.4.2. Show all itineraries (for a specific passenger).

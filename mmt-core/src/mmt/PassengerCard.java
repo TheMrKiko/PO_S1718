@@ -3,13 +3,14 @@ package mmt;
 import java.io.Serializable;
 import java.time.Duration;
 //import java.time.LocalTime;
+import java.util.Locale;
 
 public abstract class PassengerCard implements Serializable {
 	
 	private static final long serialVersionUID = -7014708191813229635L;
 	
 	protected Passenger _pass;
-	
+	private String _categoryName;
 	private int _totalItineraries = 0;
 	private Duration _timeSpent = Duration.ZERO;
 	private double _totalPaid = 0;
@@ -24,7 +25,7 @@ public abstract class PassengerCard implements Serializable {
     //public abstract void updateCategory();
  
     public String status() {
-    	return getClass().getSimpleName();
+    	return _categoryName;
     }
     
     /**
@@ -59,6 +60,11 @@ public abstract class PassengerCard implements Serializable {
 	}
 	
 	public String toStringTimeSpent() {
-		return _timeSpent.toHours() + ":" + String.format("%02d", _timeSpent.toMinutes() % MINUTES_PER_HOUR);
+		return String.format("%02d", _timeSpent.toHours()) + ":" + String.format("%02d", _timeSpent.toMinutes() % MINUTES_PER_HOUR);
 	}
+
+	public String toStringTotalPaid() {
+		return String.format(Locale.UK, "%.2f", _totalPaid);
+	}
+	
   }

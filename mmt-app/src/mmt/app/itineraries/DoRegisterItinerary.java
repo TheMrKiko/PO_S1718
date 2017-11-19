@@ -1,19 +1,19 @@
 package mmt.app.itineraries;
 
 import mmt.TicketOffice;
-import mmt.app.exceptions.BadDateException;
-import mmt.app.exceptions.BadTimeException;
-import mmt.app.exceptions.NoSuchItineraryException;
-import mmt.app.exceptions.NoSuchPassengerException;
-import mmt.app.exceptions.NoSuchStationException;
-import mmt.exceptions.BadDateSpecificationException;
-import mmt.exceptions.BadTimeSpecificationException;
-import mmt.exceptions.NoSuchPassengerIdException;
-import mmt.exceptions.NoSuchStationNameException;
-import mmt.exceptions.NoSuchItineraryChoiceException;
+//import mmt.app.exceptions.BadDateException;
+//import mmt.app.exceptions.BadTimeException;
+//import mmt.app.exceptions.NoSuchItineraryException;
+//import mmt.app.exceptions.NoSuchPassengerException;
+//import mmt.app.exceptions.NoSuchStationException;
+//import mmt.exceptions.BadDateSpecificationException;
+//import mmt.exceptions.BadTimeSpecificationException;
+//import mmt.exceptions.NoSuchPassengerIdException;
+//import mmt.exceptions.NoSuchStationNameException;
+//import mmt.exceptions.NoSuchItineraryChoiceException;
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
-import pt.tecnico.po.ui.Input;
+//import pt.tecnico.po.ui.Input;
 
 //FIXME import other classes if necessary
 
