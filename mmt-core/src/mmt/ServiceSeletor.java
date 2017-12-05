@@ -1,5 +1,5 @@
 package mmt;
 
 public interface ServiceSeletor {
-		boolean matches(Service s, String station);
+		boolean matches(Service s, Station station);
 	}

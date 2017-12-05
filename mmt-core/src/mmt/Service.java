@@ -1,10 +1,10 @@
 package mmt;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.TreeMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -12,24 +12,24 @@ import java.util.Set;
 public class Service implements Serializable {
 	private int _id;
     private double _price;
-    private String _firstStation = "";
-    private String _lastStation = "";
+    private Duration _duration;
 
-    private LinkedHashMap<String, LocalTime> _stations;
+    private TreeMap<LocalTime, Station> _stations;
 
 	private static final long serialVersionUID = 3979509502530686206L;
 
     public Service(int id, double price) {
-        _stations = new LinkedHashMap<String, LocalTime>();
+        _stations = new TreeMap<LocalTime, Station>();
         _id = id;
         _price = price;
+        _duration = Duration.between(this.getServiceArrivalTime(), this.getServiceDepartureTime());
     }
 
-    public void addStation(LocalTime time, String name) {
-        _stations.put(name,time);
+    public void addStation(LocalTime time, Station s) {
+        _stations.put(time, s);
     }
 
-    public LinkedHashMap<String, LocalTime> getStations() {
+    public TreeMap<LocalTime, Station> getStations() {
         return _stations;
     }
 
@@ -39,23 +39,14 @@ public class Service implements Serializable {
 	 * SERVICE DEPARTURE
 	 */
 
-    public String getServiceDepartureStation() {
-        if (_firstStation == "") {
-            _firstStation = getServiceFirstStation();
-        }
-        return _firstStation;
+    public Station getServiceDepartureStation() {
+        return _stations.get(_stations.firstEntry());
     }
 
     public LocalTime getServiceDepartureTime() {
-        if(_firstStation == "") {
-            _firstStation = getServiceFirstStation();
-        }
-        return _stations.get(_firstStation);
+        return _stations.firstKey();
     }
 
-    public String getServiceFirstStation() {
-        return  _stations.keySet().iterator().next();
-    }
 
 
 	/*
@@ -63,27 +54,12 @@ public class Service implements Serializable {
 	 * SERVICE ARRIVAL
 	 */
 
-    public String getServiceArrivalStation() {
-        if(_lastStation  == "") {
-            _lastStation = getServiceLastStation();
-        }
-        return _lastStation;
+    public Station getServiceArrivalStation() {
+        return _stations.get(_stations.lastKey());
     }
 
     public LocalTime getServiceArrivalTime() {
-        if (_lastStation == "") {
-            _lastStation = getServiceLastStation();
-        }
-        return _stations.get(_lastStation);
-    }
-
-    public String getServiceLastStation() {
-        final Iterator<String> itr = _stations.keySet().iterator();
-        String stationName = itr.next();
-        while (itr.hasNext()) {
-            stationName = itr.next();
-        }
-        return stationName;
+        return _stations.lastKey();
     }
 
 
@@ -92,8 +68,13 @@ public class Service implements Serializable {
 	 * GETTERS
 	 */
 
+    
 	public int getServiceId() {
 		return _id;
+	}
+
+	public Duration getDuration() {
+		return _duration;
 	}
 
 	public double getServicePrice() {
@@ -103,9 +84,9 @@ public class Service implements Serializable {
 	@Override
 	public String toString() {
 		String text = "Serviço #" + _id + " @ " + String.format(Locale.UK, "%.2f", _price);
-		Set<Map.Entry<String, LocalTime>> entries = _stations.entrySet();
-		for(Map.Entry<String, LocalTime> e: entries ) {
-			text += "\n" + e.getValue().toString() + " " + e.getKey();
+		Set<Map.Entry<LocalTime, Station>> entries = _stations.entrySet();
+		for(Map.Entry<LocalTime, Station> e: entries ) {
+			text += "\n" + e.getKey().toString() + " " + e.getValue().getName();
 		}
 		return text;
 	}

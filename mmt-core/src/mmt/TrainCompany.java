@@ -5,12 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+
+//TODO station existente, stsation classe
 
 //import mmt.exceptions.BadDateSpecificationException;
 import mmt.exceptions.BadEntryException;
@@ -34,6 +36,7 @@ public class TrainCompany implements Serializable {
 	private static final long serialVersionUID = 201708301010L;
 
 	private TreeMap<Integer, Service> _services = new TreeMap<Integer, Service>();
+	private TreeMap<String, Station> _stations = new TreeMap<String, Station>();
 	private ArrayList<Passenger> _passengers = new ArrayList<Passenger>();
 	private int _totalpassengers = 0;
 
@@ -169,7 +172,15 @@ public class TrainCompany implements Serializable {
 	 *            of object Itinerary
 	 */
 	public void registerItineraryFromFields(String[] fields) {
-		// TODO registerItineraryFromFields
+		Itinerary newItinerary = new Itinerary(LocalDate.parse(fields[2]));
+		String[] segFields; Segment s;
+		for (int i = 3; i < fields.length; i++) {
+			segFields = fields[i].split("\\/");
+			s = new Segment(_services.get(Integer.parseInt(segFields[0])), getStation(segFields[1]), getStation(segFields[1]));
+			newItinerary.addSegment(s); 
+		}
+		Passenger p = _passengers.get(Integer.parseInt(fields[0]));
+		p.addItinerary(newItinerary);
 	}
 
 	/*
@@ -222,21 +233,26 @@ public class TrainCompany implements Serializable {
 	ArrayList<Service> getServiceByStation(ServiceSeletor selector, String station) throws NoSuchStationNameException {
 		ArrayList<Service> servicesFiltred = new ArrayList<Service>();
 		List<Service> servicesList = new ArrayList<Service>(_services.values());
+		if (getStation(station) == null) {
+			throw new NoSuchStationNameException(station);
+		}
 		for (Service serv : servicesList)
 			if (selector.matches(serv, station)) {
 				servicesFiltred.add(serv);
 			}
-		if (servicesFiltred.isEmpty()) {
-			throw new NoSuchStationNameException(station);
-		}
 		return servicesFiltred;
 	}
 
 	/**
 	 * @return all services
 	 */
+	
 	public TreeMap<Integer, Service> getServices() {
 		return _services;
+	}
+	
+	public Station getStation(String name) {
+		return _stations.get(name);
 	}
 
 	/*

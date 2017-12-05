@@ -38,6 +38,9 @@ public class Passenger implements Serializable {
 		_name = newName;
 	}
 
+	public void addItinerary(Itinerary i) {
+		_itineraries.add(i);
+	}
 	@Override
 	public String toString() {
 		return _id + "|" + _name + "|" + passCategory.toString() + "|" + passCategory.getTotalItineraries() + "|" + passCategory.toStringTotalPaid() + "|" + passCategory.toStringTimeSpent();
