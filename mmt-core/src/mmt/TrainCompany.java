@@ -320,10 +320,7 @@ public class TrainCompany implements Serializable {
 	 *             if no station found
 	 */
 	public String toStringServicesFromDeparture(String stationDeparture) throws NoSuchStationNameException {
-		ArrayList<Service> list = new ArrayList<Service>();
-		list = getServiceByStation(new ServiceFromDeparture(), stationDeparture);
-		Collections.sort(list, new DepartureTimeComparator());
-		return toStringServices(list);
+		return toStringServices(getServiceByStation(new ServiceFromDeparture(), stationDeparture));
 	}
 
 	/**
@@ -335,9 +332,6 @@ public class TrainCompany implements Serializable {
 	 *             if no station found
 	 */
 	public String toStringServicesToArrival(String stationArrival) throws NoSuchStationNameException {
-		ArrayList<Service> list = new ArrayList<Service>();
-		list = getServiceByStation(new ServiceToArrival(), stationArrival);
-		Collections.sort(list, new ArrivalTimeComparator());
-		return toStringServices(list);
+		return toStringServices(getServiceByStation(new ServiceToArrival(), stationArrival));
 	}
 }
