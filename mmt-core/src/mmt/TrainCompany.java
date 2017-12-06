@@ -179,7 +179,7 @@ public class TrainCompany implements Serializable {
 				createStation(station);
 			}
 			newService.addStationtoService(LocalTime.parse(fields[i]), station);
-			
+			station.addService(LocalTime.parse(fields[i]), Integer.parseInt(fields[1]));
 		}
 		createService(newService);
 	}
@@ -208,12 +208,12 @@ public class TrainCompany implements Serializable {
 			
 			segFields = fields[i].split("\\/");
 			s = new Segment(getServiceById(Integer.parseInt(segFields[0])),
-					getStation(segFields[1]), getStation(segFields[1]));
+					getStation(segFields[1]), getStation(segFields[2]));
 			newItinerary.addSegment(s);
 			
 		}
 		
-		Passenger p = getPassengerById(Integer.parseInt(fields[0]));
+		Passenger p = getPassengerById(Integer.parseInt(fields[1]));
 		p.addItinerary(newItinerary);
 	}
 
@@ -393,5 +393,40 @@ public class TrainCompany implements Serializable {
 			throws NoSuchStationNameException {
 		return toStringServices(
 				getServiceByStation(new ServiceToArrival(), stationArrival));
+	}
+
+	public String toStringAllItineraries() {
+		String text = "";
+		for (Passenger p: getPassengers()) {
+			text += toStringItinerariesFromPassenger(p);
+			
+		}
+		return text;
+	}
+
+	public String toStringItinerariesFromPassenger(Passenger p) {
+		String text = "";
+		
+		if (p.getPassCategory().getTotalItineraries() > 0) {
+			text += "== Passageiro " + p.getId() + ": " + p.getName() + " ==\n\n";
+			text += toStringItineraries(p.getItineraries());
+		}
+		return text;
+	}
+
+	public String toStringItineraries(ArrayList<Itinerary> itineraries) {
+		String text = "";
+		for (Itinerary i: itineraries) {
+			text += i.toString() + "\n";
+		}
+		return text;
+	}
+
+	public ArrayList<Passenger> getPassengers() {
+		return _passengers;
+	}
+
+	public String toStringItinerariesByPassengerId(int id) throws NoSuchPassengerIdException {
+		return toStringItinerariesFromPassenger(getPassengerById(id));
 	}
 }

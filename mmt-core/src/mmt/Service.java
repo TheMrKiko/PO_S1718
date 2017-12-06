@@ -24,7 +24,7 @@ public class Service implements Serializable {
     }
 
     public Duration calcDuration() {
-    	return Duration.between(getServiceArrivalTime(), getServiceDepartureTime());
+    	return Duration.between(getServiceDepartureTime(), getServiceArrivalTime());
     }
     
     public void addStationtoService(LocalTime time, Station s) {
@@ -105,6 +105,24 @@ public class Service implements Serializable {
 			text += "\n" + e.getKey().toString() + " " + e.getValue().getName();
 		}
 		return text;
+	}
+
+	public TreeMap<LocalTime, Station> getStationsBetween(Station fromStation, Station toStation) {
+		Set<Map.Entry<LocalTime, Station>> stationsSet = _stations.entrySet();
+		TreeMap<LocalTime, Station> stationsInRange = new TreeMap<LocalTime, Station>();
+		boolean inrange = false;
+		for (Map.Entry<LocalTime, Station> e: stationsSet) {
+			if (e.getValue().equals(fromStation)) {
+				inrange = true;
+			} 
+			if (inrange) {
+				stationsInRange.put(e.getKey(), e.getValue());
+			}
+			if (e.getValue().equals(toStation)) {
+				break;
+			}
+		}
+		return stationsInRange;
 	}
     
 }

@@ -13,7 +13,7 @@ public class Station implements Serializable {
 	private String _name;
 	private TreeMap<LocalTime, Integer> _departures;
 
-	Station(String name) {
+	public Station(String name) {
 		_name = name;
 		_departures = new TreeMap<LocalTime, Integer>();
 	}
@@ -30,12 +30,17 @@ public class Station implements Serializable {
 		Set<Map.Entry<LocalTime, Integer>> entries = _departures.entrySet();
 		LocalTime l = null;
 		for (Map.Entry<LocalTime, Integer> e: entries ) {
-			if (e.getValue() == s.getServiceId()) {
+			if (e.getValue().equals(s.getServiceId())) {
 				l = e.getKey();
 				break;
 			}
 			
 		}
 		return l;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 }

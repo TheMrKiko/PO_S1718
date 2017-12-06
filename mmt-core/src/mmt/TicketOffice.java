@@ -118,4 +118,12 @@ public class TicketOffice {
 		return _trains.toStringAllServices();
 	}
 
+	public String toStringAllItineraries() {
+		return _trains.toStringAllItineraries();
+	}
+
+	public String toStringItinerariesByPassengerId(int id) throws NoSuchPassengerIdException {
+		return _trains.toStringItinerariesByPassengerId(id);		
+	}
+
 }
