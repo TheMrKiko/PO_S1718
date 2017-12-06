@@ -8,7 +8,7 @@ public class Itinerary implements Serializable {
 	
 	private static final long serialVersionUID = -4604865736288785604L;
 	
-	private double _price;
+	private Double _price;
 	private LocalDate _date;
 	private ArrayList<Segment> _segm;
 	
@@ -39,6 +39,9 @@ public class Itinerary implements Serializable {
 	}
 
 	public double getPrice() {
+		if (_price == null) {
+			_price = calcPrice();
+		}
 		return _price;
 	}
 

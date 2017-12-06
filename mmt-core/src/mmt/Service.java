@@ -21,9 +21,12 @@ public class Service implements Serializable {
         _stations = new TreeMap<LocalTime, Station>();
         _id = id;
         _price = price;
-        _duration = Duration.between(this.getServiceArrivalTime(), this.getServiceDepartureTime());
     }
 
+    public Duration calcDuration() {
+    	return Duration.between(getServiceArrivalTime(), getServiceDepartureTime());
+    }
+    
     public void addStationtoService(LocalTime time, Station s) {
         _stations.put(time, s);
     }
@@ -76,7 +79,10 @@ public class Service implements Serializable {
 	}
 
 	public Duration getDuration() {
-		return _duration;
+		if (_duration == null) {
+    		_duration = calcDuration();
+    	}
+    	return _duration;
 	}
 
 	public double getServicePrice() {
