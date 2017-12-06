@@ -17,7 +17,11 @@ public class Segment implements Serializable {
 	}
 
 	public double getPrice() {
-		Duration dur = Duration.between(_service.getTimeAtStation(_depStation), _service.getTimeAtStation(_arrStation));
+		Duration dur = getDuration();
 		return _service.getServicePrice() * dur.toMinutes() / _service.getDuration().toMinutes();
+	}
+	
+	public Duration getDuration() {
+		return Duration.between(_service.getServiceTimeAtStation(_depStation), _service.getServiceTimeAtStation(_arrStation));
 	}
 }

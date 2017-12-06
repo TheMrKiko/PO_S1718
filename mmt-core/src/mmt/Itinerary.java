@@ -19,7 +19,7 @@ public class Itinerary implements Serializable {
 	public Itinerary(LocalDate date, ArrayList<Segment> segm) {
 		this(date);
 		_segm = segm;
-		_price = this.calcPrice();
+		_price = calcPrice();
 	}
 
 	public double calcPrice() {
@@ -34,6 +34,16 @@ public class Itinerary implements Serializable {
 		_segm.add(s);
 	}
 	
-	
+	public boolean isDirect() {
+		return _segm.size() == 1;
+	}
 
+	public double getPrice() {
+		return _price;
+	}
+
+	public LocalDate getDate() {
+		return _date;
+	}
+	
 }

@@ -3,7 +3,6 @@ package mmt;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.Locale;
 import java.util.Map;
@@ -25,12 +24,16 @@ public class Service implements Serializable {
         _duration = Duration.between(this.getServiceArrivalTime(), this.getServiceDepartureTime());
     }
 
-    public void addStation(LocalTime time, Station s) {
+    public void addStationtoService(LocalTime time, Station s) {
         _stations.put(time, s);
     }
 
     public TreeMap<LocalTime, Station> getStations() {
         return _stations;
+    }
+    
+    public boolean hasStation(Station s) {
+    	return _stations.containsValue(s);
     }
 
 
@@ -40,13 +43,12 @@ public class Service implements Serializable {
 	 */
 
     public Station getServiceDepartureStation() {
-        return _stations.get(_stations.firstEntry());
+        return getServiceStationAtTime(getServiceDepartureTime());
     }
 
     public LocalTime getServiceDepartureTime() {
         return _stations.firstKey();
     }
-
 
 
 	/*
@@ -55,7 +57,7 @@ public class Service implements Serializable {
 	 */
 
     public Station getServiceArrivalStation() {
-        return _stations.get(_stations.lastKey());
+    	return getServiceStationAtTime(getServiceArrivalTime());
     }
 
     public LocalTime getServiceArrivalTime() {
@@ -79,6 +81,14 @@ public class Service implements Serializable {
 
 	public double getServicePrice() {
 		return _price;
+	}
+	
+	public Station getServiceStationAtTime(LocalTime time) {
+    	return _stations.get(time);
+    }
+	
+	public LocalTime getServiceTimeAtStation(Station s) {
+		return s.getTimeOfService(this);
 	}
 
 	@Override

@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-//TODO station existente, stsation classe
-
 //import mmt.exceptions.BadDateSpecificationException;
 import mmt.exceptions.BadEntryException;
 //import mmt.exceptions.BadTimeSpecificationException;
@@ -55,7 +53,8 @@ public class TrainCompany implements Serializable {
 	 *            of the new passenger
 	 * @throws NonUniquePassengerNameException
 	 */
-	public void registerPassenger(String name) throws NonUniquePassengerNameException {
+	public void registerPassenger(String name)
+			throws NonUniquePassengerNameException {
 		checkDuplicatePassengerName(name);
 		_passengers.add(new Passenger(name, _totalpassengers++));
 	}
@@ -66,7 +65,8 @@ public class TrainCompany implements Serializable {
 	 * @throws NonUniquePassengerNameException
 	 *             if name in use
 	 */
-	public void checkDuplicatePassengerName(String name) throws NonUniquePassengerNameException {
+	public void checkDuplicatePassengerName(String name)
+			throws NonUniquePassengerNameException {
 		for (Passenger p : _passengers) {
 			if (p.getName().equals(name)) {
 				throw new NonUniquePassengerNameException(name);
@@ -105,7 +105,8 @@ public class TrainCompany implements Serializable {
 	public void importFile(String filename) throws ImportFileException {
 		String line;
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			BufferedReader reader = new BufferedReader(
+					new FileReader(filename));
 			while ((line = reader.readLine()) != null) {
 				String[] fields = line.split("\\|");
 				registerFromFields(fields);
@@ -130,16 +131,21 @@ public class TrainCompany implements Serializable {
 		Pattern patService = Pattern.compile("^(SERVICE)");
 		Pattern patPassenger = Pattern.compile("^(PASSENGER)");
 		Pattern parItinerary = Pattern.compile("^(ITINERARY)");
-
-		if (patService.matcher(fields[0]).matches()) {
-			registerServiceFromFields(fields);
-		} else if (patPassenger.matcher(fields[0]).matches()) {
-			registerPassengerFromFields(fields);
-		} else if (parItinerary.matcher(fields[0]).matches()) {
-			registerItineraryFromFields(fields);
-		} else {
+		
+		try {
+			if (patService.matcher(fields[0]).matches()) {
+				registerServiceFromFields(fields);
+			} else if (patPassenger.matcher(fields[0]).matches()) {
+				registerPassengerFromFields(fields);
+			} else if (parItinerary.matcher(fields[0]).matches()) {
+				registerItineraryFromFields(fields);
+			} else {
+				throw new BadEntryException(fields[0]);
+			}
+		} catch (NonUniquePassengerNameException | NoSuchStationNameException | NoSuchPassengerIdException | NoSuchServiceIdException e) {
 			throw new BadEntryException(fields[0]);
 		}
+		
 	}
 
 	/*
@@ -150,9 +156,10 @@ public class TrainCompany implements Serializable {
 	/**
 	 * @param fields
 	 *            of object Passenger
+	 * @throws NonUniquePassengerNameException if repeated name
 	 */
-	public void registerPassengerFromFields(String[] fields) {
-		_passengers.add(new Passenger(fields[1], _totalpassengers++));
+	public void registerPassengerFromFields(String[] fields) throws NonUniquePassengerNameException {
+		registerPassenger(fields[1]);
 	}
 
 	/**
@@ -160,26 +167,53 @@ public class TrainCompany implements Serializable {
 	 *            of object Service
 	 */
 	public void registerServiceFromFields(String[] fields) {
-		Service newService = new Service(Integer.parseInt(fields[1]), Double.parseDouble(fields[2]));
+		Service newService = new Service(Integer.parseInt(fields[1]),
+				Double.parseDouble(fields[2]));
+		Station station;
 		for (int i = 3; i < fields.length; i += 2) {
-			newService.addStation(LocalTime.parse(fields[i]), fields[i + 1]);
+			
+			try {
+				station = getStation(fields[i + 1]);
+			} catch (NoSuchStationNameException e) {
+				station = new Station(fields[i + 1]);
+				createStation(station);
+			}
+			newService.addStationtoService(LocalTime.parse(fields[i]), station);
+			
 		}
-		_services.put(newService.getServiceId(), newService);
+		createService(newService);
+	}
+
+	public void createService(Service service) {
+		_services.put(service.getServiceId(), service);
+	}
+
+	public void createStation(Station station) {
+		_stations.put(station.getName(), station);
+		
 	}
 
 	/**
 	 * @param fields
 	 *            of object Itinerary
+	 * @throws NoSuchStationNameException
+	 * @throws NoSuchPassengerIdException 
+	 * @throws NoSuchServiceIdException 
 	 */
-	public void registerItineraryFromFields(String[] fields) {
+	public void registerItineraryFromFields(String[] fields) throws NoSuchStationNameException, NoSuchPassengerIdException, NoSuchServiceIdException {
 		Itinerary newItinerary = new Itinerary(LocalDate.parse(fields[2]));
-		String[] segFields; Segment s;
+		String[] segFields;
+		Segment s;
 		for (int i = 3; i < fields.length; i++) {
+			
 			segFields = fields[i].split("\\/");
-			s = new Segment(_services.get(Integer.parseInt(segFields[0])), getStation(segFields[1]), getStation(segFields[1]));
-			newItinerary.addSegment(s); 
+			s = new Segment(getServiceById(Integer.parseInt(segFields[0])),
+					getStation(segFields[1]), getStation(segFields[1]));
+			newItinerary.addSegment(s);
+			
 		}
-		Passenger p = _passengers.get(Integer.parseInt(fields[0]));
+		
+		Passenger p = getPassengerById(Integer.parseInt(fields[0]));
 		p.addItinerary(newItinerary);
 	}
 
@@ -195,7 +229,8 @@ public class TrainCompany implements Serializable {
 	 * @throws NoSuchPassengerIdException
 	 *             if id out of range
 	 */
-	public Passenger getPassengerById(int id) throws NoSuchPassengerIdException {
+	public Passenger getPassengerById(int id)
+			throws NoSuchPassengerIdException {
 		if (id >= _totalpassengers || id < 0) {
 			throw new NoSuchPassengerIdException(id);
 		}
@@ -230,12 +265,12 @@ public class TrainCompany implements Serializable {
 	 *             if no station found
 	 *
 	 */
-	ArrayList<Service> getServiceByStation(ServiceSeletor selector, String station) throws NoSuchStationNameException {
+	ArrayList<Service> getServiceByStation(ServiceSeletor selector,
+			String stationName) throws NoSuchStationNameException {
 		ArrayList<Service> servicesFiltred = new ArrayList<Service>();
 		List<Service> servicesList = new ArrayList<Service>(_services.values());
-		if (getStation(station) == null) {
-			throw new NoSuchStationNameException(station);
-		}
+
+		Station station = getStation(stationName);
 		for (Service serv : servicesList)
 			if (selector.matches(serv, station)) {
 				servicesFiltred.add(serv);
@@ -246,13 +281,17 @@ public class TrainCompany implements Serializable {
 	/**
 	 * @return all services
 	 */
-	
+
 	public TreeMap<Integer, Service> getServices() {
 		return _services;
 	}
-	
-	public Station getStation(String name) {
-		return _stations.get(name);
+
+	public Station getStation(String name) throws NoSuchStationNameException {
+		Station station = _stations.get(name);
+		if (station == null) {
+			throw new NoSuchStationNameException(name);
+		} 
+		return station;
 	}
 
 	/*
@@ -280,7 +319,8 @@ public class TrainCompany implements Serializable {
 	 * @throws NoSuchPassengerIdException
 	 *             if no passenger with that id
 	 */
-	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
+	public String toStringPassengerById(int id)
+			throws NoSuchPassengerIdException {
 		return getPassengerById(id).toString();
 	}
 
@@ -335,8 +375,10 @@ public class TrainCompany implements Serializable {
 	 * @throws NoSuchStationNameException
 	 *             if no station found
 	 */
-	public String toStringServicesFromDeparture(String stationDeparture) throws NoSuchStationNameException {
-		return toStringServices(getServiceByStation(new ServiceFromDeparture(), stationDeparture));
+	public String toStringServicesFromDeparture(String stationDeparture)
+			throws NoSuchStationNameException {
+		return toStringServices(getServiceByStation(new ServiceFromDeparture(),
+				stationDeparture));
 	}
 
 	/**
@@ -347,7 +389,9 @@ public class TrainCompany implements Serializable {
 	 * @throws NoSuchStationNameException
 	 *             if no station found
 	 */
-	public String toStringServicesToArrival(String stationArrival) throws NoSuchStationNameException {
-		return toStringServices(getServiceByStation(new ServiceToArrival(), stationArrival));
+	public String toStringServicesToArrival(String stationArrival)
+			throws NoSuchStationNameException {
+		return toStringServices(
+				getServiceByStation(new ServiceToArrival(), stationArrival));
 	}
 }
