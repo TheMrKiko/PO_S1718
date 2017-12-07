@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+/*import java.util.Map;
+import java.util.Set;*/
 import java.util.TreeMap;
 
 public class Segment implements Serializable {
@@ -32,6 +32,24 @@ public class Segment implements Serializable {
 	
 	public Service getService() {
 		return _service;
+	}
+	
+	// SEGMENT DEPARTURE
+	public Station getDepartureStation() {
+		return _depStation;
+	}
+	
+	public LocalTime getDepartureStationTime() {
+		return _depStation.getTimeOfService(_service);
+	}
+
+	// SEGMENT ARRIVAL
+	public Station getArrivalStation() {
+		return _arrStation;
+	}
+	
+	public LocalTime getArrivalStationTime() {
+		return _arrStation.getTimeOfService(_service);
 	}
 
 	@Override

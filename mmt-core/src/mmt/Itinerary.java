@@ -1,6 +1,7 @@
 package mmt;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -13,6 +14,8 @@ public class Itinerary implements Serializable {
 	private int _order;
 	private LocalDate _date;
 	private ArrayList<Segment> _segm;
+	private Duration _totalTime;
+	
 	
 	public Itinerary(LocalDate date) {
 		_date = date;
@@ -39,6 +42,18 @@ public class Itinerary implements Serializable {
 	
 	public boolean isDirect() {
 		return _segm.size() == 1;
+	}
+	
+	public Duration getTotalTime() {
+		if (_totalTime == null) {
+			_totalTime = calcTime();
+		}
+		return _totalTime;
+	}
+
+
+	private Duration calcTime() {
+		return Duration.between(_segm.get(0).getDepartureStationTime(), _segm.get(_segm.size()-1).getArrivalStationTime());
 	}
 
 	public double getPrice() {

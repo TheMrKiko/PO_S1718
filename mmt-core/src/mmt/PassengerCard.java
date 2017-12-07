@@ -2,6 +2,7 @@ package mmt;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.ArrayList;
 //import java.time.LocalTime;
 import java.util.Locale;
 
@@ -11,18 +12,22 @@ public abstract class PassengerCard implements Serializable {
 	
 	protected Passenger _pass;
 	private String _categoryName;
-	private int _totalItineraries = 0;
-	private Duration _timeSpent = Duration.ZERO;
-	private double _totalPaid = 0;
-	private double _last10Paid = 0;
+	protected int _totalItineraries;
+	protected Duration _timeSpent;
+	protected double _totalPaid;
+	protected double _last10Paid;
 	
 	private final long MINUTES_PER_HOUR = 60;
- 
-    public PassengerCard(Passenger pass) {
-    	_pass = pass;
-    }
     
-    //public abstract void updateCategory();
+    public PassengerCard(Passenger pass, int totalItineraries, Duration timeSpent, double totalPaid, double last10Paid) {
+		_pass = pass;
+		_totalItineraries = totalItineraries;
+		_timeSpent = timeSpent;
+		_totalPaid = totalPaid;
+		_last10Paid = last10Paid;
+	}
+
+	public abstract void updateCategory();
  
     public String status() {
     	return _categoryName;
@@ -68,9 +73,23 @@ public abstract class PassengerCard implements Serializable {
 	}
 
 	public void addItinerary(Itinerary i) {
-		_totalItineraries++;
-		i.setOrder(getTotalItineraries());
+		i.setOrder(_totalItineraries++);
+		_totalPaid += i.getPrice()*getDiscount();
+		_timeSpent = _timeSpent.plus(i.getTotalTime());
+		_last10Paid = updateLast10Paid();
+		updateCategory();
+	}
+
+	public abstract double getDiscount();
+	
+	public double updateLast10Paid() {
+		ArrayList<Itinerary> _last10 = _pass.getLast10Itineraries();
 		
+		double amount = 0;
+		for (Itinerary i : _last10) {
+			amount += i.getPrice();
+		}
+		return amount;
 	}
 	
   }

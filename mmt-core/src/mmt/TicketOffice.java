@@ -92,7 +92,6 @@ public class TicketOffice {
 	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
 		return _trains.toStringPassengerById(id);
 	}
-	
 
 	public String getFilename() {
 		return _filename;
