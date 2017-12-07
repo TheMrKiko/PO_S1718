@@ -67,8 +67,9 @@ public abstract class PassengerCard implements Serializable {
 		return String.format(Locale.UK, "%.2f", _totalPaid);
 	}
 
-	public void addItinerary() {
+	public void addItinerary(Itinerary i) {
 		_totalItineraries++;
+		i.setOrder(getTotalItineraries());
 		
 	}
 	

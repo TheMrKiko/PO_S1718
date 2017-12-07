@@ -26,10 +26,14 @@ public class Station implements Serializable {
 		return _name;
 	}
 
+	public TreeMap<LocalTime, Integer> getDepartures() {
+		return _departures;
+	}
+
 	public LocalTime getTimeOfService(Service s) {
-		Set<Map.Entry<LocalTime, Integer>> entries = _departures.entrySet();
 		LocalTime l = null;
-		for (Map.Entry<LocalTime, Integer> e: entries ) {
+		for (Map.Entry<LocalTime, Integer> e: getDepartures().entrySet() ) {
+			
 			if (e.getValue().equals(s.getServiceId())) {
 				l = e.getKey();
 				break;

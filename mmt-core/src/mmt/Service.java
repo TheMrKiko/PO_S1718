@@ -34,10 +34,6 @@ public class Service implements Serializable {
     public TreeMap<LocalTime, Station> getStations() {
         return _stations;
     }
-    
-    public boolean hasStation(Station s) {
-    	return _stations.containsValue(s);
-    }
 
 
 	/*
@@ -90,7 +86,7 @@ public class Service implements Serializable {
 	}
 	
 	public Station getServiceStationAtTime(LocalTime time) {
-    	return _stations.get(time);
+    	return getStations().get(time);
     }
 	
 	public LocalTime getServiceTimeAtStation(Station s) {
@@ -100,18 +96,22 @@ public class Service implements Serializable {
 	@Override
 	public String toString() {
 		String text = "Serviço #" + _id + " @ " + String.format(Locale.UK, "%.2f", _price);
-		Set<Map.Entry<LocalTime, Station>> entries = _stations.entrySet();
+		/*Set<Map.Entry<LocalTime, Station>> entries = _stations.entrySet();
 		for(Map.Entry<LocalTime, Station> e: entries ) {
 			text += "\n" + e.getKey().toString() + " " + e.getValue().getName();
+		}*/
+		for (LocalTime t: getStations().keySet()) {
+			text += "\n" + t.toString() + " " + getStations().get(t).getName();
 		}
+		
 		return text;
 	}
 
 	public TreeMap<LocalTime, Station> getStationsBetween(Station fromStation, Station toStation) {
-		Set<Map.Entry<LocalTime, Station>> stationsSet = _stations.entrySet();
 		TreeMap<LocalTime, Station> stationsInRange = new TreeMap<LocalTime, Station>();
+		
 		boolean inrange = false;
-		for (Map.Entry<LocalTime, Station> e: stationsSet) {
+		for (Map.Entry<LocalTime, Station> e: getStations().entrySet()) {
 			if (e.getValue().equals(fromStation)) {
 				inrange = true;
 			} 

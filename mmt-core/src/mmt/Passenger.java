@@ -20,7 +20,11 @@ public class Passenger implements Serializable {
 
 	public void commitItinerary(Itinerary i) {
 		addItinerary(i);
-		
+	}
+	
+	public void addItinerary(Itinerary i) {
+		_itineraries.add(i);
+		getPassCategory().addItinerary(i);
 	}
 
 	public Itinerary getItinerary(int id) {
@@ -43,16 +47,10 @@ public class Passenger implements Serializable {
 	public void setName(String newName) {
 		_name = newName;
 	}
-
-	public void addItinerary(Itinerary i) {
-		_itineraries.add(i);
-		i.setOrder(_itineraries.size());
-		getPassCategory().addItinerary();
-		
-	}
+	
 	@Override
 	public String toString() {
-		return _id + "|" + _name + "|" + _passCategory.toString() + "|" + _passCategory.getTotalItineraries() + "|" + _passCategory.toStringTotalPaid() + "|" + _passCategory.toStringTimeSpent();
+		return getId() + "|" + getName() + "|" + getPassCategory().toString() + "|" + getPassCategory().getTotalItineraries() + "|" + getPassCategory().toStringTotalPaid() + "|" + getPassCategory().toStringTimeSpent();
 	}
 
 	public int getId() {

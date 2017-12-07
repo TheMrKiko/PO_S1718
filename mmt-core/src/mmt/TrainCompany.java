@@ -214,7 +214,7 @@ public class TrainCompany implements Serializable {
 		}
 		
 		Passenger p = getPassengerById(Integer.parseInt(fields[1]));
-		p.addItinerary(newItinerary);
+		p.commitItinerary(newItinerary);
 	}
 
 	/*
@@ -235,6 +235,10 @@ public class TrainCompany implements Serializable {
 			throw new NoSuchPassengerIdException(id);
 		}
 		return _passengers.get(id);
+	}
+	
+	public ArrayList<Passenger> getPassengers() {
+		return _passengers;
 	}
 
 	/**
@@ -329,7 +333,7 @@ public class TrainCompany implements Serializable {
 	 */
 	public String toStringAllPassengers() {
 		String text = "";
-		for (Passenger p : _passengers) {
+		for (Passenger p : getPassengers()) {
 			text += p.toString() + "\n";
 		}
 		return text;
@@ -398,8 +402,7 @@ public class TrainCompany implements Serializable {
 	public String toStringAllItineraries() {
 		String text = "";
 		for (Passenger p: getPassengers()) {
-			text += toStringItinerariesFromPassenger(p);
-			
+			text += toStringItinerariesFromPassenger(p);	
 		}
 		return text;
 	}
@@ -420,10 +423,6 @@ public class TrainCompany implements Serializable {
 			text += i.toString() + "\n";
 		}
 		return text;
-	}
-
-	public ArrayList<Passenger> getPassengers() {
-		return _passengers;
 	}
 
 	public String toStringItinerariesByPassengerId(int id) throws NoSuchPassengerIdException {

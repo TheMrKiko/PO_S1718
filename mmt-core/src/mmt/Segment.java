@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class Segment implements Serializable {
 
@@ -29,12 +30,20 @@ public class Segment implements Serializable {
 		return Duration.between(_service.getServiceTimeAtStation(_depStation), _service.getServiceTimeAtStation(_arrStation));
 	}
 	
+	public Service getService() {
+		return _service;
+	}
+
 	@Override
 	public String toString() {
-		String text = "Serviço #" + _service.getServiceId() + " @ " + String.format(Locale.UK, "%.2f", getPrice());
-		Set<Map.Entry<LocalTime, Station>> entries = _service.getStationsBetween(_depStation, _arrStation).entrySet();
-		for(Map.Entry<LocalTime, Station> e: entries ) {
-			text += "\n" + e.getKey().toString() + " " + e.getValue().getName();
+		String text = "Serviço #" + getService().getServiceId() + " @ " + String.format(Locale.UK, "%.2f", getPrice());
+		TreeMap<LocalTime, Station> stationsBetween = getService().getStationsBetween(_depStation, _arrStation);
+		
+		/*for (Map.Entry<LocalTime, Station> s: stationsBetween.entrySet() ) {
+			text += "\n" + s.getKey().toString() + " " + s.getValue().getName();
+		}*/
+		for (LocalTime t: stationsBetween.keySet() ) {
+			text += "\n" + t.toString() + " " + getService().getServiceStationAtTime(t).getName();
 		}
 		return text;
 	}
