@@ -97,7 +97,11 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 		if (other == null) {
 			throw new NullPointerException();
 		}
-		return getDepartureTime().compareTo(other.getDepartureTime()) != 0 ? getDepartureTime().compareTo(other.getDepartureTime()) : (getArrivalTime().compareTo(other.getArrivalTime()) != 0 ? getArrivalTime().compareTo(other.getArrivalTime()) : (_price.compareTo(other.getPrice())));
+		return getDepartureTime().compareTo(other.getDepartureTime()) == 0 ?
+				(getArrivalTime().compareTo(other.getArrivalTime()) == 0 ? 
+						(_price.compareTo(other.getPrice()))
+						: getArrivalTime().compareTo(other.getArrivalTime()))
+				: getDepartureTime().compareTo(other.getDepartureTime());
 	}
     
 }

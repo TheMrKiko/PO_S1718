@@ -26,7 +26,6 @@ public class DoOpen extends Command<TicketOffice> {
   @Override
   public final void execute() {
       _form.parse();
-      _receiver.setFilename(_filename.value());
 	  try {
 		  _receiver.load(_filename.value());
     } catch (FileNotFoundException e) {

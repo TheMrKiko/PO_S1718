@@ -12,36 +12,28 @@ import pt.tecnico.po.ui.Input;
 public class DoSave extends Command<TicketOffice> {
 
 	Input<String> _filename;
-	private String _filenameValue;
 
 	/**
 	 * @param receiver
 	 */
 	public DoSave(TicketOffice receiver) {
 		super(Label.SAVE, receiver);
-
-		// if (_receiver.getFilename() == ""){
 		_filename = _form.addStringInput(Message.newSaveAs());
-		// }
 	}
 
 	/** @see pt.tecnico.po.ui.Command#execute() */
 	@Override
 	public final void execute() {
-		if (_receiver.getFileChanged()) {
-			if (_receiver.getFilename() == "") {
+		if (_receiver.hasFileChanged()) {
+			if (!_receiver.hasFilename()) {
 				_form.parse();
-				_filenameValue = _filename.value();
-				_receiver.setFilename(_filenameValue);
-			} else {
-				_filenameValue = _receiver.getFilename();
-				//_display.popup(Message.saveAs() + _filenameValue);
 			}
 			try {
-				_receiver.save(_filenameValue);
+				_receiver.save(_filename.value());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 		}
 	}
 }

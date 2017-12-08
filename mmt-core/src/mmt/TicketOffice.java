@@ -42,14 +42,18 @@ public class TicketOffice {
 
 	public void save(String filename) throws IOException {
 		_filechanged = false;
-		ObjectOutputStream outos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
+		if (filename != null) {
+			_filename = filename;
+		}
+		ObjectOutputStream outos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(_filename)));
 		outos.writeObject(_trains);
 		outos.close();
 	}
 
 	public void load(String filename) throws FileNotFoundException, IOException, ClassNotFoundException {
 		_filechanged = true;
-		ObjectInputStream inpos = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)));
+		_filename = filename;
+		ObjectInputStream inpos = new ObjectInputStream(new BufferedInputStream(new FileInputStream(_filename)));
 		_trains = (TrainCompany) inpos.readObject();
 		inpos.close();
 	}
@@ -93,15 +97,7 @@ public class TicketOffice {
 		return _trains.toStringPassengerById(id);
 	}
 
-	public String getFilename() {
-		return _filename;
-	}
-
-	public void setFilename(String filename) {
-		_filename = filename;
-	}
-
-	public boolean getFileChanged() {
+	public boolean hasFileChanged() {
 		return _filechanged;
 	}
 
@@ -123,6 +119,10 @@ public class TicketOffice {
 
 	public String toStringItinerariesByPassengerId(int id) throws NoSuchPassengerIdException {
 		return _trains.toStringItinerariesByPassengerId(id);		
+	}
+
+	public boolean hasFilename() {
+		return _filename != "";
 	}
 
 }
