@@ -15,7 +15,7 @@ public class DateItineraryComparator implements Comparator<Itinerary>, Serializa
 	public int compare(Itinerary itinerary1, Itinerary itinerary2) {
 		LocalDate date1 = itinerary1.getDate();
 		LocalDate date2 = itinerary2.getDate();
-		return date1.compareTo(date2);
+		return date1.compareTo(date2) == 0 ? itinerary1.compareTo(itinerary2) : date1.compareTo(date2);
 	}
 
 }

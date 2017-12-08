@@ -21,12 +21,6 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 		_date = date;
 		_segm = new ArrayList<Segment>();
 	}
-	
-	/*public Itinerary(LocalDate date, ArrayList<Segment> segm) {
-		this(date);
-		_segm = segm;
-		_price = calcPrice();
-	}*/
 
 	public double calcPrice() {
 		double price = 0; 
@@ -52,7 +46,7 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 	}
 
 
-	private Duration calcTime() {
+	public Duration calcTime() {
 		return Duration.between(getDepartureTime(), getArrivalTime());
 	}
 

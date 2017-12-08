@@ -1,11 +1,7 @@
 package mmt.app.itineraries;
 
-/*import mmt.DefaultSelector;
-import mmt.DefaultVisitor;*/
 import mmt.TicketOffice;
 import pt.tecnico.po.ui.Command;
-
-//FIXME import other classes if necessary
 
 /**
  * §3.4.1. Show all itineraries (for all passengers).
