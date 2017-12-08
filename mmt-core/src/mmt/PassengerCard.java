@@ -3,7 +3,6 @@ package mmt;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
-//import java.time.LocalTime;
 import java.util.Locale;
 
 public abstract class PassengerCard implements Serializable {
@@ -28,7 +27,7 @@ public abstract class PassengerCard implements Serializable {
 	}
     
     public void addItinerary(Itinerary i) {
-		i.setOrder(_totalItineraries++);
+		++_totalItineraries;
 		_totalPaid += i.getPrice()*getDiscount();
 		_timeSpent = _timeSpent.plus(i.getTotalTime());
 		_last10Paid = updateLast10Paid();
@@ -52,7 +51,6 @@ public abstract class PassengerCard implements Serializable {
      *
      */
     
-	public abstract String status();
     
     public abstract double getDiscount();
 	
@@ -71,6 +69,10 @@ public abstract class PassengerCard implements Serializable {
 	public double getLast10Paid() {
 		return _last10Paid;
 	}
+	
+	public String status() {
+    	return _categoryName;
+    }
 	
     /**
      * TOSTRING

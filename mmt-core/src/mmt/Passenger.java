@@ -13,7 +13,7 @@ public class Passenger implements Serializable {
 	
 	private static final long serialVersionUID = -8327352051240741915L;
 
-	public Passenger(String name, int id) {
+	public Passenger(String name, int id) { 
 		_name = name;
 		_id = id;
 		_itineraries = new ArrayList<Itinerary>();
@@ -68,6 +68,25 @@ public class Passenger implements Serializable {
 	@Override
 	public String toString() {
 		return _id + "|" + _name + "|" + _passCategory.toString() + "|" + _passCategory.getTotalItineraries() + "|" + _passCategory.toStringTotalPaid() + "|" + _passCategory.toStringTimeSpent();
+	}
+	
+	public String toStringItineraries() {
+		String text = "";
+		if (_passCategory.getTotalItineraries() > 0) {
+			text += "== Passageiro " + _id + ": " + _name + " ==\n";
+			text += toStringItineraries(_itineraries);
+		}
+		return text;
+	}
+
+	public String toStringItineraries(ArrayList<Itinerary> itineraries) {
+		String text = "";
+		itineraries.sort(new DateItineraryComparator());
+		for (Itinerary i: itineraries) {
+			i.setOrder(itineraries.indexOf(i)+1);
+			text += "\n" + i.toString() + "\n";
+		}
+		return text;
 	}
 	
 	//ITERATOR

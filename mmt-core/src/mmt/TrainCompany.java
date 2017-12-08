@@ -416,21 +416,7 @@ public class TrainCompany implements Serializable {
 	}
 
 	public String toStringItinerariesFromPassenger(Passenger p) {
-		String text = "";
-		
-		if (p.getPassCategory().getTotalItineraries() > 0) {
-			text += "== Passageiro " + p.getId() + ": " + p.getName() + " ==\n\n";
-			text += toStringItineraries(p.getItineraries());
-		}
-		return text;
-	}
-
-	public String toStringItineraries(ArrayList<Itinerary> itineraries) {
-		String text = "";
-		for (Itinerary i: itineraries) {
-			text += i.toString() + "\n";
-		}
-		return text;
+		return p.toStringItineraries();
 	}
 
 	public String toStringItinerariesByPassengerId(int id) throws NoSuchPassengerIdException {
