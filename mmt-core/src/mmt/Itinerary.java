@@ -3,19 +3,19 @@ package mmt;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class Itinerary implements Serializable {
+public class Itinerary implements Serializable, Comparable<Itinerary> {
 	
 	private static final long serialVersionUID = -4604865736288785604L;
 	
 	private Double _price;
 	private int _order;
 	private LocalDate _date;
-	private ArrayList<Segment> _segm;
 	private Duration _totalTime;
-	
+	private ArrayList<Segment> _segm;
 	
 	public Itinerary(LocalDate date) {
 		_date = date;
@@ -53,7 +53,7 @@ public class Itinerary implements Serializable {
 
 
 	private Duration calcTime() {
-		return Duration.between(_segm.get(0).getDepartureStationTime(), _segm.get(_segm.size()-1).getArrivalStationTime());
+		return Duration.between(getDepartureTime(), getArrivalTime());
 	}
 
 	public double getPrice() {
@@ -67,6 +67,14 @@ public class Itinerary implements Serializable {
 		return _date;
 	}
 	
+	public LocalTime getDepartureTime() {
+		return _segm.get(0).getDepartureStationTime();
+	}
+	
+	public LocalTime getArrivalTime() {
+		return _segm.get(_segm.size()-1).getArrivalStationTime();
+	}
+	
 	public int getOrder() {
 		return _order;
 	}
@@ -77,11 +85,19 @@ public class Itinerary implements Serializable {
 	
 	@Override
 	public String toString() {
-		String text = "Itinerário " + getOrder() + " para " + getDate().toString() + " @ " + String.format(Locale.UK, "%.2f", getPrice());
+		String text = "Itinerário " + _order + " para " + _date.toString() + " @ " + String.format(Locale.UK, "%.2f", _price);
 		for(Segment s: _segm) {
 			text += "\n" + s.toString();
 		}
 		return text;
+	}
+
+	@Override
+	public int compareTo(Itinerary other) {
+		if (other == null) {
+			throw new NullPointerException();
+		}
+		return getDepartureTime().compareTo(other.getDepartureTime()) != 0 ? getDepartureTime().compareTo(other.getDepartureTime()) : (getArrivalTime().compareTo(other.getArrivalTime()) != 0 ? getArrivalTime().compareTo(other.getArrivalTime()) : (_price.compareTo(other.getPrice())));
 	}
     
 }
