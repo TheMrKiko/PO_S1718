@@ -54,14 +54,14 @@ public class Segment implements Serializable {
 
 	@Override
 	public String toString() {
-		String text = "Serviço #" + getService().getServiceId() + " @ " + String.format(Locale.UK, "%.2f", getPrice());
-		TreeMap<LocalTime, Station> stationsBetween = getService().getStationsBetween(_depStation, _arrStation);
+		String text = "Serviço #" + _service.getServiceId() + " @ " + String.format(Locale.UK, "%.2f", getPrice());
+		TreeMap<LocalTime, Station> stationsBetween = _service.getStationsBetween(_depStation, _arrStation);
 		
 		/*for (Map.Entry<LocalTime, Station> s: stationsBetween.entrySet() ) {
 			text += "\n" + s.getKey().toString() + " " + s.getValue().getName();
 		}*/
 		for (LocalTime t: stationsBetween.keySet() ) {
-			text += "\n" + t.toString() + " " + getService().getServiceStationAtTime(t).getName();
+			text += "\n" + t.toString() + " " + _service.getServiceStationAtTime(t).getName();
 		}
 		return text;
 	}

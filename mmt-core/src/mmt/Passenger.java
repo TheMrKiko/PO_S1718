@@ -62,7 +62,7 @@ public class Passenger implements Serializable {
 	
 	@Override
 	public String toString() {
-		return getId() + "|" + getName() + "|" + getPassCategory().toString() + "|" + getPassCategory().getTotalItineraries() + "|" + getPassCategory().toStringTotalPaid() + "|" + getPassCategory().toStringTimeSpent();
+		return getId() + "|" + _name + "|" + _passCategory.toString() + "|" + _passCategory.getTotalItineraries() + "|" + _passCategory.toStringTotalPaid() + "|" + _passCategory.toStringTimeSpent();
 	}
 
 	public int getId() {
