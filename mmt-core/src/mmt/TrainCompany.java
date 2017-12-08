@@ -29,6 +29,13 @@ import mmt.exceptions.NonUniquePassengerNameException;
  * acquire itineraries based on those schedules.
  */
 public class TrainCompany implements Serializable {
+	
+	/*	comparable itenirarios é por partida-chegada-preço
+	 * comparator é aproveitar a ordem natural mas mais data da compra
+	 * apagr LocaleUS
+	 * 
+	 * */
+	
 
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201708301010L;
