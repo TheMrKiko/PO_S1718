@@ -12,20 +12,19 @@ public class Normal extends PassengerCard {
 		super(pass, totalItineraries, timeSpent, totalPaid, last10Paid);
 	}
 	
+	@Override
     public String status() {
     	return _categoryName;
     }
 
 	@Override
 	public void updateCategory() {
-		System.out.println(_last10Paid + " pila");
-		if (_last10Paid>250) {
+		if (_last10Paid > 250) {
 			_pass.setCategory(new Frequent(_pass, _totalItineraries, _timeSpent, _totalPaid, _last10Paid)); 
 		}
 		else if (_last10Paid > 2500) {
 			_pass.setCategory(new Special(_pass, _totalItineraries, _timeSpent, _totalPaid, _last10Paid)); 			
-		}
-		
+		}	
 	}
 
 	@Override

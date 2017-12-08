@@ -28,16 +28,14 @@ import mmt.exceptions.NonUniquePassengerNameException;
 public class TicketOffice {
 
 	/** The object doing most of the actual work. */
-	private TrainCompany _trains = new TrainCompany();
+	private TrainCompany _trains = new TrainCompany(null);
 	private String _filename = "";
 	private boolean _filechanged = true;
 
 	public void reset() {
-		TrainCompany newTrains = new TrainCompany();
+		_trains = new TrainCompany(_trains.getServices());
 		_filename = "";
 		_filechanged = true;
-		newTrains.setServices(_trains.getServices());
-		_trains = newTrains;
 	}
 
 	public void save(String filename) throws IOException {
@@ -96,6 +94,10 @@ public class TicketOffice {
 	public String toStringPassengerById(int id) throws NoSuchPassengerIdException {
 		return _trains.toStringPassengerById(id);
 	}
+	
+	public boolean hasFilename() {
+		return _filename != "";
+	}
 
 	public boolean hasFileChanged() {
 		return _filechanged;
@@ -119,10 +121,6 @@ public class TicketOffice {
 
 	public String toStringItinerariesByPassengerId(int id) throws NoSuchPassengerIdException {
 		return _trains.toStringItinerariesByPassengerId(id);		
-	}
-
-	public boolean hasFilename() {
-		return _filename != "";
 	}
 
 }

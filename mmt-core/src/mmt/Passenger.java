@@ -8,9 +8,8 @@ import java.util.Iterator;
 public class Passenger implements Serializable {
 	private int _id;
 	private String _name;
-	private PassengerCard _passCategory = new Normal(this, 0, Duration.ZERO, 0, 0);
-
 	private ArrayList<Itinerary> _itineraries;
+	private PassengerCard _passCategory;
 	
 	private static final long serialVersionUID = -8327352051240741915L;
 
@@ -18,30 +17,16 @@ public class Passenger implements Serializable {
 		_name = name;
 		_id = id;
 		_itineraries = new ArrayList<Itinerary>();
+		_passCategory = new Normal(this, 0, Duration.ZERO, 0, 0);
 	}
 
 	public void commitItinerary(Itinerary i) {
 		_itineraries.add(i);
-		getPassCategory().addItinerary(i);
-	}
-
-	public Itinerary getItinerary(int id) {
-		return _itineraries.get(id);
-
-	}
-
-	public ArrayList<Itinerary> getItineraries() {
-		return _itineraries;
-
+		_passCategory.addItinerary(i);
 	}
 	
-	public ArrayList<Itinerary> getLast10Itineraries() {
-		ArrayList<Itinerary> _last10 = new ArrayList<Itinerary>();
-		ReverseIteratorTo10 it = new ReverseIteratorTo10();
-		while(it.hasNext()) {
-			_last10.add(it.next());
-		}
-		return _last10;
+	public int getId() {
+		return _id;
 	}
 	
 	public String getName() {
@@ -56,17 +41,33 @@ public class Passenger implements Serializable {
 		_name = newName;
 	}
 	
+	public Itinerary getItinerary(int id) {
+		return _itineraries.get(id);
+
+	}
+
+	public ArrayList<Itinerary> getItineraries() {
+		return _itineraries;
+
+	}
+	
+	public ArrayList<Itinerary> getLast10Itineraries() {
+		ArrayList<Itinerary> _last10 = new ArrayList<Itinerary>();
+		ReverseIteratorTo10 it = new ReverseIteratorTo10();
+		
+		while (it.hasNext()) {
+			_last10.add(it.next());
+		}
+		return _last10;
+	}
+	
 	public void setCategory(PassengerCard card) {
 		_passCategory = card;
 	}
 	
 	@Override
 	public String toString() {
-		return getId() + "|" + _name + "|" + _passCategory.toString() + "|" + _passCategory.getTotalItineraries() + "|" + _passCategory.toStringTotalPaid() + "|" + _passCategory.toStringTimeSpent();
-	}
-
-	public int getId() {
-		return _id;
+		return _id + "|" + _name + "|" + _passCategory.toString() + "|" + _passCategory.getTotalItineraries() + "|" + _passCategory.toStringTotalPaid() + "|" + _passCategory.toStringTimeSpent();
 	}
 	
 	//ITERATOR
@@ -80,7 +81,9 @@ public class Passenger implements Serializable {
         	_count --; 
         	return _itineraries.get(_index--);
         }
-        public void remove() {};
+        public void remove() {
+        	throw new UnsupportedOperationException();
+        }
     }
 	
 }

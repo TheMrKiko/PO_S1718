@@ -26,18 +26,36 @@ public abstract class PassengerCard implements Serializable {
 		_totalPaid = totalPaid;
 		_last10Paid = last10Paid;
 	}
-
+    
+    public void addItinerary(Itinerary i) {
+		i.setOrder(_totalItineraries++);
+		_totalPaid += i.getPrice()*getDiscount();
+		_timeSpent = _timeSpent.plus(i.getTotalTime());
+		_last10Paid = updateLast10Paid();
+		updateCategory();
+	}
+    
 	public abstract void updateCategory();
- 
-    public String status() {
-    	return _categoryName;
-    }
+
+	public double updateLast10Paid() {
+		ArrayList<Itinerary> _last10 = _pass.getLast10Itineraries();
+		
+		double amount = 0;
+		for (Itinerary i : _last10) {
+			amount += i.getPrice();
+		}
+		return amount;
+	}
     
     /**
      * GETTERS
      *
      */
     
+	public abstract String status();
+    
+    public abstract double getDiscount();
+	
     public double getTotalPaid() {
     	return _totalPaid;
     }
@@ -70,26 +88,6 @@ public abstract class PassengerCard implements Serializable {
 
 	public String toStringTotalPaid() {
 		return String.format(Locale.UK, "%.2f", _totalPaid);
-	}
-
-	public void addItinerary(Itinerary i) {
-		i.setOrder(_totalItineraries++);
-		_totalPaid += i.getPrice()*getDiscount();
-		_timeSpent = _timeSpent.plus(i.getTotalTime());
-		_last10Paid = updateLast10Paid();
-		updateCategory();
-	}
-
-	public abstract double getDiscount();
-	
-	public double updateLast10Paid() {
-		ArrayList<Itinerary> _last10 = _pass.getLast10Itineraries();
-		
-		double amount = 0;
-		for (Itinerary i : _last10) {
-			amount += i.getPrice();
-		}
-		return amount;
 	}
 	
   }

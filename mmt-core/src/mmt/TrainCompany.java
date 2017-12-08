@@ -40,10 +40,10 @@ public class TrainCompany implements Serializable {
 	/** Serial number for serialization. */
 	private static final long serialVersionUID = 201708301010L;
 
-	private TreeMap<Integer, Service> _services = new TreeMap<Integer, Service>();
-	private TreeMap<String, Station> _stations = new TreeMap<String, Station>();
-	private ArrayList<Passenger> _passengers = new ArrayList<Passenger>();
-	private int _totalpassengers = 0;
+	private TreeMap<Integer, Service> _services;
+	private TreeMap<String, Station> _stations;
+	private ArrayList<Passenger> _passengers;
+	private int _totalpassengers;
 
 	/*
 	 * FIXME add methods for registerPassenger, changePassengerName
@@ -54,6 +54,18 @@ public class TrainCompany implements Serializable {
 	 *
 	 * PASSENGERS
 	 */
+	
+	
+	public TrainCompany() {
+		_stations = new TreeMap<String, Station>();
+		_passengers = new ArrayList<Passenger>();
+		_totalpassengers = 0;
+	}
+	
+	public TrainCompany(TreeMap<Integer, Service> services) {
+		this();
+		_services = services == null ? new TreeMap<Integer, Service>() : services;
+	}
 
 	/**
 	 * @param name
@@ -303,19 +315,6 @@ public class TrainCompany implements Serializable {
 			throw new NoSuchStationNameException(name);
 		} 
 		return station;
-	}
-
-	/*
-	 *
-	 * SETTERS
-	 */
-
-	/**
-	 * @param services
-	 *            to replace in TrainCompany
-	 */
-	public void setServices(TreeMap<Integer, Service> services) {
-		_services = services;
 	}
 
 	/*
