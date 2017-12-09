@@ -61,7 +61,7 @@ public class Segment implements Serializable {
 			text += "\n" + s.getKey().toString() + " " + s.getValue().getName();
 		}*/
 		for (LocalTime t: stationsBetween.keySet() ) {
-			text += "\n" + t.toString() + " " + _service.getServiceStationAtTime(t).getName();
+			text += "\n" + t.toString() + " " + _service.getServiceStationAtTime(t).toString();
 		}
 		return text;
 	}

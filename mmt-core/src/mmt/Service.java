@@ -96,7 +96,7 @@ public class Service implements Serializable {
 	}
 	
 	public Station getServiceStationAtTime(LocalTime time) {
-    	return getStations().get(time);
+    	return _stations.get(time);
     }
 	
 	public LocalTime getServiceTimeAtStation(Station s) {
@@ -110,8 +110,8 @@ public class Service implements Serializable {
 		for(Map.Entry<LocalTime, Station> e: entries ) {
 			text += "\n" + e.getKey().toString() + " " + e.getValue().getName();
 		}*/
-		for (LocalTime t: getStations().keySet()) {
-			text += "\n" + t.toString() + " " + getStations().get(t).getName();
+		for (LocalTime t: _stations.keySet()) {
+			text += "\n" + t.toString() + " " + _stations.get(t).toString();
 		}
 		
 		return text;
@@ -121,7 +121,7 @@ public class Service implements Serializable {
 		TreeMap<LocalTime, Station> stationsInRange = new TreeMap<LocalTime, Station>();
 		
 		boolean inrange = false;
-		for (Map.Entry<LocalTime, Station> e: getStations().entrySet()) {
+		for (Map.Entry<LocalTime, Station> e: _stations.entrySet()) {
 			if (e.getValue().equals(fromStation)) {
 				inrange = true;
 			} 
