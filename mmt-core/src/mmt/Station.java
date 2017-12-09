@@ -30,14 +30,6 @@ public class Station implements Serializable {
 		return _departures;
 	}
 	
-	public String toStringStationDeps() {
-		String text = _name;
-		for (LocalTime t: _departures.keySet()) {
-			text += "-" + _departures.get(t).getServiceId();
-		}
-		return text;
-	}
-	
 	public ArrayList<Service> getServicesAfterTime(LocalTime tFirst) {
 		ArrayList<Service> servicesAfter = new ArrayList<Service>();
 		for (LocalTime t : _departures.keySet()) {
