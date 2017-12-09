@@ -30,6 +30,14 @@ public class Station implements Serializable {
 		return _departures;
 	}
 	
+	public String toStringStationDeps() {
+		String text = _name;
+		for (LocalTime t: _departures.keySet()) {
+			text += "-" + _departures.get(t).getServiceId();
+		}
+		return text;
+	}
+	
 	public ArrayList<Service> getServicesAfterTime(LocalTime tFirst) {
 		ArrayList<Service> servicesAfter = new ArrayList<Service>();
 		for (LocalTime t : _departures.keySet()) {
@@ -42,17 +50,12 @@ public class Station implements Serializable {
 
 	public LocalTime getTimeOfService(Service s) {
 		LocalTime l = null;
-		System.out.println(this.toString() + " " + s.toString());
 		for (Map.Entry<LocalTime, Service> e: _departures.entrySet() ) {
-			System.out.println(e.getValue().getServiceId() + "o " + "o " + s.getServiceId());
-			
-			if (e.getValue().equals(s)) {
-				System.out.println("bre");
+			if (e.getValue().getServiceId() == s.getServiceId()) {
 				l = e.getKey();
-				//break;
+				break;
 			}
 		}
-		if (l==null) System.out.println("oi");
 		return l;
 	}
 	

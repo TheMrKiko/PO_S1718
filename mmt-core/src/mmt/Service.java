@@ -46,7 +46,6 @@ public class Service implements Serializable {
     	return stationsAfter;
     }
 
-    //public boolean isDirectTo(Station)
 	/*
 	 *
 	 * SERVICE DEPARTURE
@@ -134,12 +133,6 @@ public class Service implements Serializable {
 			}
 		}
 		return stationsInRange;
-	}
-	
-	public boolean sameId(Service s) {
-		
-		return _id == s.getServiceId();
-		
 	}
 
 	public boolean goesDirectToAfter(Station station, LocalTime serviceTimeAtStation) {

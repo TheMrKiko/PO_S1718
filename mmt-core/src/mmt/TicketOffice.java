@@ -67,8 +67,8 @@ public class TicketOffice {
 
 	// FIXME complete and implement the itinerary commit method
 	public void commitItinerary(int passengerId, int itineraryNumber) throws NoSuchPassengerIdException, NoSuchItineraryChoiceException {
-		_filechanged = true;
 		_trains.commitItinerary(passengerId, itineraryNumber);
+		_filechanged = true;
 	}
 
 	public void registerPassenger(String name) throws NonUniquePassengerNameException {

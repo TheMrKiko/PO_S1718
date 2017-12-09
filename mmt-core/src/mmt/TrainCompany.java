@@ -171,6 +171,7 @@ public class TrainCompany implements Serializable {
 	public void commitItinerary(int passengerId, int itineraryNumber) throws NoSuchPassengerIdException, NoSuchItineraryChoiceException {
 		Passenger pass = getPassengerById(passengerId);
 		if (itineraryNumber < 0 || itineraryNumber > pass.getSizeOfPreCommITs()) {
+			pass.resetPreCommITs();
 			throw new NoSuchItineraryChoiceException(passengerId, itineraryNumber);
 		} else if (itineraryNumber == 0 ) {
 			pass.resetPreCommITs();
@@ -262,18 +263,14 @@ public class TrainCompany implements Serializable {
 		Service newService = new Service(Integer.parseInt(fields[1]), Double.parseDouble(fields[2]));
 		Station station;
 		for (int i = 3; i < fields.length; i += 2) {
-
 			try {
 				station = getStation(fields[i + 1]);
 			} catch (NoSuchStationNameException e) {
 				station = new Station(fields[i + 1]);
 				createStation(station);
 			}
-			//System.out.println(station);
 			newService.addStationtoService(LocalTime.parse(fields[i]), station);
-			
 			station.addService(LocalTime.parse(fields[i]), newService);
-			System.out.println(newService);
 		}
 		createService(newService);
 	}
