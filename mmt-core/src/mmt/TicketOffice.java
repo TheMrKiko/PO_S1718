@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import mmt.exceptions.BadDateSpecificationException;
+import mmt.exceptions.BadTimeSpecificationException;
 //import mmt.exceptions.BadDateSpecificationException;
 //import mmt.exceptions.BadTimeSpecificationException;
 import mmt.exceptions.ImportFileException;
@@ -62,9 +64,9 @@ public class TicketOffice {
 
 	// FIXME complete and implement the itinerary search (and pre-commit store)
 	// method
-	public void search(int passengerId, String departureStation, String arrivalStation, String departureDate,
-			String departureTime) /* FIXME define thrown exceptions */ {
-		// FIXME implement method
+	public String search(int passengerId, String departureStation, String arrivalStation, String departureDate,
+			String departureTime) throws BadTimeSpecificationException, BadDateSpecificationException, NoSuchPassengerIdException, NoSuchStationNameException {
+		return _trains.search(passengerId, departureStation, arrivalStation, departureDate, departureTime);
 	}
 
 	// FIXME complete and implement the itinerary commit method

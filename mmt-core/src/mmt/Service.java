@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.TreeMap;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 //import java.util.Set;
@@ -35,7 +36,17 @@ public class Service implements Serializable {
         return _stations;
     }
 
+    public ArrayList<Station> getStationsAfterTime(LocalTime tFirst) {
+    	ArrayList<Station> stationsAfter = new ArrayList<Station>();
+    	for (LocalTime t: _stations.keySet()) {
+    		if (tFirst.compareTo(t) <= 0) {
+    			stationsAfter.add(_stations.get(t));
+    		}
+    	}
+    	return stationsAfter;
+    }
 
+    //public boolean isDirectTo(Station)
 	/*
 	 *
 	 * SERVICE DEPARTURE

@@ -37,6 +37,7 @@ public class DoRegisterItinerary extends Command<TicketOffice> {
   public final void execute() throws DialogException {
     /*try {
       //FIXME implement command
+    	_receiver.searchItineraries(passengerId, departureStation, arrivalStation, departureDate, departureTime);
       // must call (at least) _receiver.searchItineraries(...) and _receiver.commitItinerary(...)
     } catch (NoSuchPassengerIdException e) {
       throw new NoSuchPassengerException(e.getId());

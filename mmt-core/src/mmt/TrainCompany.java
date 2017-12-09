@@ -7,14 +7,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-//import mmt.exceptions.BadDateSpecificationException;
+import mmt.exceptions.BadDateSpecificationException;
 import mmt.exceptions.BadEntryException;
-//import mmt.exceptions.BadTimeSpecificationException;
+import mmt.exceptions.BadTimeSpecificationException;
 import mmt.exceptions.ImportFileException;
 //import mmt.exceptions.InvalidPassengerNameException;
 //import mmt.exceptions.NoSuchDepartureException;
@@ -64,7 +65,7 @@ public class TrainCompany implements Serializable {
 	
 	public TrainCompany(TreeMap<Integer, Service> services) {
 		this();
-		_services = services == null ? new TreeMap<Integer, Service>() : services;
+		_services = (services == null) ? new TreeMap<Integer, Service>() : services;
 	}
 
 	/**
@@ -106,6 +107,35 @@ public class TrainCompany implements Serializable {
 			throws NonUniquePassengerNameException, NoSuchPassengerIdException {
 		checkDuplicatePassengerName(newName);
 		getPassengerById(id).setName(newName);
+	}
+	
+	public String search(int passengerId, String departureStationString, String arrivalStationString, String departureDateString, String departureTimeString) throws BadTimeSpecificationException, BadDateSpecificationException, NoSuchPassengerIdException, NoSuchStationNameException {
+		Passenger pass;
+		Station departureStation, arrivalStation;
+		LocalDate departureDate;
+		LocalTime departureTime;
+		pass = getPassengerById(passengerId);
+		departureStation = getStation(departureStationString);
+		arrivalStation = getStation(arrivalStationString);
+			try {
+				departureDate = LocalDate.parse(departureDateString);
+			} catch (DateTimeParseException e) {
+				throw new BadTimeSpecificationException(departureDateString);				
+			}
+			
+			try {
+				departureTime = LocalTime.parse(departureTimeString);
+			} catch (DateTimeParseException e) {
+				throw new BadDateSpecificationException(departureTimeString);				
+			}
+		
+			return searchItineraries(pass, departureStation, arrivalStation, departureDate, departureTime).toString();
+		
+		
+	}
+
+	public ArrayList<Itinerary> searchItineraries(Passenger passenger, Station departureStation, Station arrivalStation, LocalDate departureDate, LocalTime departureTime) {
+		return new ArrayList<Itinerary>();
 	}
 
 	/*
@@ -184,8 +214,9 @@ public class TrainCompany implements Serializable {
 	/**
 	 * @param fields
 	 *            of object Service
+	 * @throws NoSuchServiceIdException 
 	 */
-	public void registerServiceFromFields(String[] fields) {
+	public void registerServiceFromFields(String[] fields) throws NoSuchServiceIdException {
 		Service newService = new Service(Integer.parseInt(fields[1]),
 				Double.parseDouble(fields[2]));
 		Station station;
@@ -198,7 +229,7 @@ public class TrainCompany implements Serializable {
 				createStation(station);
 			}
 			newService.addStationtoService(LocalTime.parse(fields[i]), station);
-			station.addService(LocalTime.parse(fields[i]), Integer.parseInt(fields[1]));
+			station.addService(LocalTime.parse(fields[i]), getServiceById(Integer.parseInt(fields[1])));
 		}
 		createService(newService);
 	}
@@ -288,7 +319,7 @@ public class TrainCompany implements Serializable {
 	 *             if no station found
 	 *
 	 */
-	ArrayList<Service> getServiceByStation(ServiceSeletor selector,
+	public ArrayList<Service> getServiceByStation(ServiceSeletor selector,
 			String stationName) throws NoSuchStationNameException {
 		ArrayList<Service> servicesFiltred = new ArrayList<Service>();
 		List<Service> servicesList = new ArrayList<Service>(_services.values());
@@ -422,4 +453,5 @@ public class TrainCompany implements Serializable {
 	public String toStringItinerariesByPassengerId(int id) throws NoSuchPassengerIdException {
 		return toStringItinerariesFromPassenger(getPassengerById(id));
 	}
+
 }
