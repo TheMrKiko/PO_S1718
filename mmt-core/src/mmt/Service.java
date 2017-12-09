@@ -135,5 +135,9 @@ public class Service implements Serializable {
 		}
 		return stationsInRange;
 	}
+
+	public boolean goesDirectToAfter(Station station, LocalTime serviceTimeAtStation) {
+		return getStationsAfterTime(serviceTimeAtStation).contains(station);
+	}
     
 }
