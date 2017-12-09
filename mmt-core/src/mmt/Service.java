@@ -135,6 +135,12 @@ public class Service implements Serializable {
 		}
 		return stationsInRange;
 	}
+	
+	public boolean sameId(Service s) {
+		
+		return _id == s.getServiceId();
+		
+	}
 
 	public boolean goesDirectToAfter(Station station, LocalTime serviceTimeAtStation) {
 		return getStationsAfterTime(serviceTimeAtStation).contains(station);

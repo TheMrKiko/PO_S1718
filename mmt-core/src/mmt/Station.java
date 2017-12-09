@@ -42,14 +42,17 @@ public class Station implements Serializable {
 
 	public LocalTime getTimeOfService(Service s) {
 		LocalTime l = null;
-		for (Map.Entry<LocalTime, Service> e: getDepartures().entrySet() ) {
+		System.out.println(this.toString() + " " + s.toString());
+		for (Map.Entry<LocalTime, Service> e: _departures.entrySet() ) {
+			System.out.println(e.getValue().getServiceId() + "o " + "o " + s.getServiceId());
 			
 			if (e.getValue().equals(s)) {
+				System.out.println("bre");
 				l = e.getKey();
-				break;
+				//break;
 			}
-			
 		}
+		if (l==null) System.out.println("oi");
 		return l;
 	}
 	

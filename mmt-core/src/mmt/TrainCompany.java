@@ -132,6 +132,8 @@ public class TrainCompany implements Serializable {
 
 	public String searchItineraries(Passenger passenger, Station departureStation, Station arrivalStation,
 			LocalDate departureDate, LocalTime departureTime) {
+		//searchItinerariesAux();
+		
 		for (Service serv: departureStation.getServicesAfterTime(departureTime)) {
 			if (serv.goesDirectToAfter(arrivalStation, serv.getServiceTimeAtStation(departureStation))) {
 				Itinerary it = new Itinerary(departureDate);
@@ -141,6 +143,30 @@ public class TrainCompany implements Serializable {
 		}
 		return passenger.toStringPreCommIT();
 	}
+
+	/*public ArrayList<Segment> searchItinerariesAux(Station inisegm, Station statactual, LocalTime time, Service actServ) {
+		ArrayList<Segment> finalsegm = new ArrayList<Segment>();
+		for (Service serv: statactual.getServicesAfterTime(time)) {
+			if (serv.equals(actServ)) {
+				if (actServ.hasnext(statactual)) {
+					comparator searchItinerariesAux(inisegm, actServ.next(statactual), timeofserviceinstation, actServ);
+				}
+			} else {
+				ArrayList<Segment> segmArray = new ArrayList<Segment>();
+				Segment s = new Segment(actServ, inisegm, statactual);
+				segmArray.add(s);
+				
+				if (serv.goesDirectToAfter(arrivalStation, serv.getServiceTimeAtStation(departureStation))) {
+					new Segment(serv, departureStation, arrivalStation);
+					segmArray.add(s);
+					return segmArray;
+				} else {
+					comparator segmArray.addAll(searchItinerariesAux(inisegm, actServ.next(statactual), timeofserviceinstation, actServ));
+				}
+			}
+		}
+		return finalsegm;
+	}*/
 
 	public void commitItinerary(int passengerId, int itineraryNumber) throws NoSuchPassengerIdException, NoSuchItineraryChoiceException {
 		Passenger pass = getPassengerById(passengerId);
@@ -243,8 +269,11 @@ public class TrainCompany implements Serializable {
 				station = new Station(fields[i + 1]);
 				createStation(station);
 			}
+			//System.out.println(station);
 			newService.addStationtoService(LocalTime.parse(fields[i]), station);
+			
 			station.addService(LocalTime.parse(fields[i]), newService);
+			System.out.println(newService);
 		}
 		createService(newService);
 	}
