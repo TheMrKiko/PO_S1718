@@ -17,12 +17,12 @@ import mmt.exceptions.BadDateSpecificationException;
 import mmt.exceptions.BadEntryException;
 import mmt.exceptions.BadTimeSpecificationException;
 import mmt.exceptions.ImportFileException;
+import mmt.exceptions.NoSuchItineraryChoiceException;
 //import mmt.exceptions.InvalidPassengerNameException;
 //import mmt.exceptions.NoSuchDepartureException;
 import mmt.exceptions.NoSuchPassengerIdException;
 import mmt.exceptions.NoSuchServiceIdException;
 import mmt.exceptions.NoSuchStationNameException;
-//import mmt.exceptions.NoSuchItineraryChoiceException;
 import mmt.exceptions.NonUniquePassengerNameException;
 
 /**
@@ -126,24 +126,33 @@ public class TrainCompany implements Serializable {
 			throw new BadDateSpecificationException(departureTimeString);
 		}
 
-		return searchItineraries(pass, departureStation, arrivalStation, departureDate, departureTime).toString();
+		return searchItineraries(pass, departureStation, arrivalStation, departureDate, departureTime);
 
 	}
 
-	public ArrayList<Itinerary> searchItineraries(Passenger passenger, Station departureStation, Station arrivalStation,
+	public String searchItineraries(Passenger passenger, Station departureStation, Station arrivalStation,
 			LocalDate departureDate, LocalTime departureTime) {
-		ArrayList<Itinerary> itChoices = new ArrayList<Itinerary>();
-		
 		for (Service serv: departureStation.getServicesAfterTime(departureTime)) {
 			if (serv.goesDirectToAfter(arrivalStation, serv.getServiceTimeAtStation(departureStation))) {
 				Itinerary it = new Itinerary(departureDate);
 				it.addSegment(new Segment(serv, departureStation, arrivalStation));
-				itChoices.add(it);
+				passenger.addPreCommIT(it);
 			}
 		}
-		return itChoices;
+		return passenger.toStringPreCommIT();
 	}
 
+	public void commitItinerary(int passengerId, int itineraryNumber) throws NoSuchPassengerIdException, NoSuchItineraryChoiceException {
+		Passenger pass = getPassengerById(passengerId);
+		if (itineraryNumber < 0 || itineraryNumber > pass.getSizeOfPreCommITs()) {
+			throw new NoSuchItineraryChoiceException(passengerId, itineraryNumber);
+		} else if (itineraryNumber == 0 ) {
+			pass.resetPreCommITs();
+		} else {
+			pass.chooseItinerary(itineraryNumber);
+		}
+		
+	}
 	/*
 	 *
 	 * IMPORT
@@ -186,11 +195,11 @@ public class TrainCompany implements Serializable {
 		Pattern patPassenger = Pattern.compile("^(PASSENGER)");
 		Pattern parItinerary = Pattern.compile("^(ITINERARY)");
 
-		try {
+		try { 
 			if (patService.matcher(fields[0]).matches()) {
-				registerServiceFromFields(fields);
-			} else if (patPassenger.matcher(fields[0]).matches()) {
-				registerPassengerFromFields(fields);
+				registerServiceFromFields(fields); 
+			} else if (patPassenger.matcher(fields[0]).matches()) { 
+				registerPassengerFromFields(fields); 
 			} else if (parItinerary.matcher(fields[0]).matches()) {
 				registerItineraryFromFields(fields);
 			} else {
@@ -235,7 +244,7 @@ public class TrainCompany implements Serializable {
 				createStation(station);
 			}
 			newService.addStationtoService(LocalTime.parse(fields[i]), station);
-			station.addService(LocalTime.parse(fields[i]), getServiceById(Integer.parseInt(fields[1])));
+			station.addService(LocalTime.parse(fields[i]), newService);
 		}
 		createService(newService);
 	}

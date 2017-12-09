@@ -11,17 +11,13 @@ import java.io.ObjectOutputStream;
 
 import mmt.exceptions.BadDateSpecificationException;
 import mmt.exceptions.BadTimeSpecificationException;
-//import mmt.exceptions.BadDateSpecificationException;
-//import mmt.exceptions.BadTimeSpecificationException;
 import mmt.exceptions.ImportFileException;
 //import mmt.exceptions.InvalidPassengerNameException;
 //import mmt.exceptions.MissingFileAssociationException;
 import mmt.exceptions.NoSuchPassengerIdException;
 import mmt.exceptions.NoSuchServiceIdException;
 import mmt.exceptions.NoSuchStationNameException;
-//import mmt.exceptions.NoSuchServiceIdException;
-//import mmt.exceptions.NoSuchStationNameException;
-//import mmt.exceptions.NoSuchItineraryChoiceException;
+import mmt.exceptions.NoSuchItineraryChoiceException;
 import mmt.exceptions.NonUniquePassengerNameException;
 
 /**
@@ -70,9 +66,9 @@ public class TicketOffice {
 	}
 
 	// FIXME complete and implement the itinerary commit method
-	public void commitItinerary(int passengerId, int itineraryNumber) /* FIXME define thrown exceptions */ {
+	public void commitItinerary(int passengerId, int itineraryNumber) throws NoSuchPassengerIdException, NoSuchItineraryChoiceException {
 		_filechanged = true;
-		// FIXME implement method
+		_trains.commitItinerary(passengerId, itineraryNumber);
 	}
 
 	public void registerPassenger(String name) throws NonUniquePassengerNameException {

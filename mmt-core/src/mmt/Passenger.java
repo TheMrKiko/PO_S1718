@@ -9,6 +9,7 @@ public class Passenger implements Serializable {
 	private int _id;
 	private String _name;
 	private ArrayList<Itinerary> _itineraries;
+	private ArrayList<Itinerary> _preCommITs;
 	private PassengerCard _passCategory;
 	
 	private static final long serialVersionUID = -8327352051240741915L;
@@ -17,6 +18,7 @@ public class Passenger implements Serializable {
 		_name = name;
 		_id = id;
 		_itineraries = new ArrayList<Itinerary>();
+		_preCommITs = new ArrayList<Itinerary>();
 		_passCategory = new Normal(this, 0, Duration.ZERO, 0, 0);
 	}
 
@@ -59,6 +61,10 @@ public class Passenger implements Serializable {
 			_last10.add(it.next());
 		}
 		return _last10;
+	}
+	
+	public int getSizeOfPreCommITs() {
+		return _preCommITs.size();
 	}
 	
 	public void setCategory(PassengerCard card) {
@@ -104,5 +110,22 @@ public class Passenger implements Serializable {
         	throw new UnsupportedOperationException();
         }
     }
+
+	public void chooseItinerary(int itineraryNumber) {
+		commitItinerary(_preCommITs.get(itineraryNumber - 1));
+		resetPreCommITs();
+	}
+
+	public void addPreCommIT(Itinerary it) {
+		_preCommITs.add(it);
+	}
+
+	public String toStringPreCommIT() {
+		return toStringItineraries(_preCommITs);
+	}
+
+	public void resetPreCommITs() {
+		_preCommITs = new ArrayList<Itinerary>();		
+	}
 	
 }

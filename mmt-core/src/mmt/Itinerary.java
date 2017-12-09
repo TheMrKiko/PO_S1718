@@ -79,7 +79,7 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 	
 	@Override
 	public String toString() {
-		String text = "Itinerário " + _order + " para " + _date.toString() + " @ " + String.format(Locale.UK, "%.2f", _price);
+		String text = "Itinerário " + _order + " para " + _date.toString() + " @ " + String.format(Locale.UK, "%.2f", getPrice());
 		for(Segment s: _segm) {
 			text += "\n" + s.toString();
 		}
