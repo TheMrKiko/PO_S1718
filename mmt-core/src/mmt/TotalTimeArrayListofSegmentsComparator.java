@@ -19,7 +19,7 @@ public class TotalTimeArrayListofSegmentsComparator implements Serializable, Com
 		for (Segment s : al1) {
 			duration1 = duration1.plus(s.getDuration());
 		}
-		for (Segment s : al1) {
+		for (Segment s : al2) {
 			duration2 = duration2.plus(s.getDuration());
 		}
 		return duration1.compareTo(duration2);

@@ -144,28 +144,37 @@ public class TrainCompany implements Serializable {
 		return passenger.toStringPreCommIT();
 	}
 
-	/*public ArrayList<Segment> searchItinerariesAux(Station inisegm, Station statactual, LocalTime time, Service actServ) {
-		ArrayList<Segment> finalsegm = new ArrayList<Segment>();
-		for (Service serv: statactual.getServicesAfterTime(time)) {
-			if (serv.equals(actServ)) {
-				if (actServ.hasnext(statactual)) {
-					comparator searchItinerariesAux(inisegm, actServ.next(statactual), timeofserviceinstation, actServ);
-				}
-			} else {
-				ArrayList<Segment> segmArray = new ArrayList<Segment>();
-				Segment s = new Segment(actServ, inisegm, statactual);
-				segmArray.add(s);
+	/*public ArrayList<Segment> searchItinerariesRecursive(Station firstStationOfSegm, Station currentStation, Station arrivalStation, LocalTime minimumTime, Service currentService) {
+		ArrayList<Segment> resultSegms = new ArrayList<Segment>();
+		
+		for (Service service: currentStation.getServicesAfterTime(minimumTime)) {
+			
+			//Avançar no mesmo serviço
+			if (service.getServiceId() == currentService.getServiceId() && currentStation.hasnext(currentStation)) {
+					//comparator
+				Station nextStation = currentService.next(currentStation);
+				searchItinerariesRecursive(firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), currentService);
 				
-				if (serv.goesDirectToAfter(arrivalStation, serv.getServiceTimeAtStation(departureStation))) {
-					new Segment(serv, departureStation, arrivalStation);
-					segmArray.add(s);
-					return segmArray;
+			//Mudar de serviço
+			} else {
+				//Lista de segmentos a retornar
+				ArrayList<Segment> existentSegms = new ArrayList<Segment>();
+				
+				//Guardar o segmento anterior
+				existentSegms.add(new Segment(currentService, firstStationOfSegm, currentStation));
+				
+				if (service.goesDirectToAfter(arrivalStation, service.getServiceTimeAtStation(currentStation))) {
+					//Encontrado um serviço directo. Retorna este sem mais procura
+					existentSegms.add(new Segment(service, currentStation, arrivalStation));
+					return existentSegms;
 				} else {
-					comparator segmArray.addAll(searchItinerariesAux(inisegm, actServ.next(statactual), timeofserviceinstation, actServ));
+					//comparator
+					Station nextStation = currentService.next(currentStation);
+					existentSegms.addAll(searchItinerariesRecursive(firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), currentService));
 				}
 			}
 		}
-		return finalsegm;
+		return resultSegms;
 	}*/
 
 	public void commitItinerary(int passengerId, int itineraryNumber) throws NoSuchPassengerIdException, NoSuchItineraryChoiceException {
