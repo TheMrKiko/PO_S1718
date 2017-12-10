@@ -87,10 +87,12 @@ public class Passenger implements Serializable {
 
 	public String toStringItineraries(ArrayList<Itinerary> itineraries) {
 		String text = "";
-		itineraries.sort(new DateItineraryComparator());
-		for (Itinerary i: itineraries) {
-			i.setOrder(itineraries.indexOf(i)+1);
-			text += "\n" + i.toString() + "\n";
+		if (!itineraries.isEmpty()) {
+			itineraries.sort(new DateItineraryComparator());
+			for (Itinerary i: itineraries) {
+				i.setOrder(itineraries.indexOf(i)+1);
+				text += "\n" + i.toString() + "\n";
+			}
 		}
 		return text;
 	}
