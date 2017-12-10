@@ -38,6 +38,14 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 		_segm.add(s);
 	}
 	
+	public void setOrder(int order) {
+		_order = order;
+	}
+	
+	public Duration calcTime() {
+		return Duration.between(getDepartureTime(), getArrivalTime());
+	}
+	
 	public boolean isDirect() {
 		return _segm.size() == 1;
 	}
@@ -47,11 +55,6 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 			_totalTime = calcTime();
 		}
 		return _totalTime;
-	}
-
-
-	public Duration calcTime() {
-		return Duration.between(getDepartureTime(), getArrivalTime());
 	}
 
 	public double getPrice() {
@@ -75,10 +78,6 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 	
 	public int getOrder() {
 		return _order;
-	}
-
-	public void setOrder(int order) {
-		_order = order;
 	}
 	
 	@Override

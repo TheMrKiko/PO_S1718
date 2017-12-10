@@ -45,6 +45,15 @@ public class Service implements Serializable {
     	}
     	return stationsAfter;
     }
+    
+    public boolean hasStationAfter(Station currentStation) {
+		return !currentStation.getTimeOfService(this).equals(_stations.lastKey()); 
+	}
+
+	public Station getStationAfter(Station currentStation) {
+		LocalTime timeInStation = currentStation.getTimeOfService(this); 
+		return _stations.get(_stations.higherKey(timeInStation));
+	}
 
 	/*
 	 *
@@ -103,20 +112,6 @@ public class Service implements Serializable {
 		return s.getTimeOfService(this);
 	}
 
-	@Override
-	public String toString() {
-		String text = "Serviço #" + _id + " @ " + String.format(Locale.UK, "%.2f", _price);
-		/*Set<Map.Entry<LocalTime, Station>> entries = _stations.entrySet();
-		for(Map.Entry<LocalTime, Station> e: entries ) {
-			text += "\n" + e.getKey().toString() + " " + e.getValue().getName();
-		}*/
-		for (LocalTime t: _stations.keySet()) {
-			text += "\n" + t.toString() + " " + _stations.get(t).toString();
-		}
-		
-		return text;
-	}
-
 	public TreeMap<LocalTime, Station> getStationsBetween(Station fromStation, Station toStation) {
 		TreeMap<LocalTime, Station> stationsInRange = new TreeMap<LocalTime, Station>();
 		
@@ -139,13 +134,19 @@ public class Service implements Serializable {
 		return getStationsAfterTime(serviceTimeAtStation).contains(station);
 	}
 
-	public boolean hasStationAfter(Station currentStation) {
-		return !currentStation.getTimeOfService(this).equals(_stations.lastKey()); 
+	@Override
+	public String toString() {
+		String text = "Serviço #" + _id + " @ " + String.format(Locale.UK, "%.2f", _price);
+		/*Set<Map.Entry<LocalTime, Station>> entries = _stations.entrySet();
+		for(Map.Entry<LocalTime, Station> e: entries ) {
+			text += "\n" + e.getKey().toString() + " " + e.getValue().getName();
+		}*/
+		for (LocalTime t: _stations.keySet()) {
+			text += "\n" + t.toString() + " " + _stations.get(t).toString();
+		}
+		
+		return text;
 	}
 
-	public Station stationAfter(Station currentStation) {
-		LocalTime timeInStation = currentStation.getTimeOfService(this); 
-		return _stations.get(_stations.higherKey(timeInStation));
-	}
     
 }

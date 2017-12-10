@@ -27,6 +27,23 @@ public class Passenger implements Serializable {
 		_passCategory.addItinerary(i);
 	}
 	
+	public void chooseItinerary(int itineraryNumber) {
+		commitItinerary(_preCommITs.get(itineraryNumber - 1));
+		resetPreCommITs();
+	}
+
+	public void addPreCommIT(Itinerary it) {
+		_preCommITs.add(it);
+	}
+
+	public void resetPreCommITs() {
+		_preCommITs = new ArrayList<Itinerary>();		
+	}
+	
+	public void setName(String newName) {
+		_name = newName;
+	}
+	
 	public int getId() {
 		return _id;
 	}
@@ -39,10 +56,6 @@ public class Passenger implements Serializable {
 		return _passCategory;
 	}
 
-	public void setName(String newName) {
-		_name = newName;
-	}
-	
 	public Itinerary getItinerary(int id) {
 		return _itineraries.get(id);
 
@@ -97,7 +110,10 @@ public class Passenger implements Serializable {
 		return text;
 	}
 	
-	//ITERATOR
+	public String toStringPreCommIT() {
+		return toStringItineraries(_preCommITs);
+	}
+	
 	public class ReverseIteratorTo10 implements Iterator<Itinerary> {
         private int _index = _itineraries.size() - 1;
         private int _count = 10;
@@ -112,22 +128,4 @@ public class Passenger implements Serializable {
         	throw new UnsupportedOperationException();
         }
     }
-
-	public void chooseItinerary(int itineraryNumber) {
-		commitItinerary(_preCommITs.get(itineraryNumber - 1));
-		resetPreCommITs();
-	}
-
-	public void addPreCommIT(Itinerary it) {
-		_preCommITs.add(it);
-	}
-
-	public String toStringPreCommIT() {
-		return toStringItineraries(_preCommITs);
-	}
-
-	public void resetPreCommITs() {
-		_preCommITs = new ArrayList<Itinerary>();		
-	}
-	
 }
