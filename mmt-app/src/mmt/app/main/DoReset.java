@@ -7,7 +7,6 @@ import pt.tecnico.po.ui.Command;
  * §3.1.1. Reset the ticket office.
  */
 public class DoReset extends Command<TicketOffice> {
-  
 
   /**
    * @param receiver

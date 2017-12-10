@@ -20,8 +20,6 @@ import pt.tecnico.po.ui.Input;
  */
 public class DoRegisterItinerary extends Command<TicketOffice> {
 
-	
-
 	/**
 	 * @param receiver
 	 */
