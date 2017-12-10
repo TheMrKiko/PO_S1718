@@ -5,9 +5,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.TreeMap;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
-//import java.util.Set;
 
 public class Service implements Serializable {
 	private int _id;
@@ -136,11 +134,7 @@ public class Service implements Serializable {
 
 	@Override
 	public String toString() {
-		String text = "Serviço #" + _id + " @ " + String.format(Locale.UK, "%.2f", _price);
-		/*Set<Map.Entry<LocalTime, Station>> entries = _stations.entrySet();
-		for(Map.Entry<LocalTime, Station> e: entries ) {
-			text += "\n" + e.getKey().toString() + " " + e.getValue().getName();
-		}*/
+		String text = "Serviço #" + _id + " @ " + String.format("%.2f", _price);
 		for (LocalTime t: _stations.keySet()) {
 			text += "\n" + t.toString() + " " + _stations.get(t).toString();
 		}

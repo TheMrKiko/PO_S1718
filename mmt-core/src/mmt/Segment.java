@@ -3,9 +3,6 @@ package mmt;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Locale;
-/*import java.util.Map;
-import java.util.Set;*/
 import java.util.TreeMap;
 
 public class Segment implements Serializable {
@@ -34,7 +31,6 @@ public class Segment implements Serializable {
 		return _service;
 	}
 	
-	// SEGMENT DEPARTURE
 	public Station getDepartureStation() {
 		return _depStation;
 	}
@@ -43,7 +39,6 @@ public class Segment implements Serializable {
 		return _depStation.getTimeOfService(_service);
 	}
 
-	// SEGMENT ARRIVAL
 	public Station getArrivalStation() {
 		return _arrStation;
 	}
@@ -54,12 +49,9 @@ public class Segment implements Serializable {
 
 	@Override
 	public String toString() {
-		String text = "Serviço #" + _service.getServiceId() + " @ " + String.format(Locale.UK, "%.2f", getPrice());
+		String text = "Serviço #" + _service.getServiceId() + " @ " + String.format("%.2f", getPrice());
 		TreeMap<LocalTime, Station> stationsBetween = _service.getStationsBetween(_depStation, _arrStation);
 		
-		/*for (Map.Entry<LocalTime, Station> s: stationsBetween.entrySet() ) {
-			text += "\n" + s.getKey().toString() + " " + s.getValue().getName();
-		}*/
 		for (LocalTime t: stationsBetween.keySet() ) {
 			text += "\n" + t.toString() + " " + _service.getServiceStationAtTime(t).toString();
 		}

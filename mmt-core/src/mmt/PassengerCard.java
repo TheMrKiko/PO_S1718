@@ -3,7 +3,6 @@ package mmt;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public abstract class PassengerCard implements Serializable {
 	
@@ -89,7 +88,7 @@ public abstract class PassengerCard implements Serializable {
 	}
 
 	public String toStringTotalPaid() {
-		return String.format(Locale.UK, "%.2f", _totalPaid);
+		return String.format("%.2f", _totalPaid);
 	}
 	
   }

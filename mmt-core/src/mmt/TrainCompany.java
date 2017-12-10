@@ -220,34 +220,24 @@ public class TrainCompany implements Serializable {
 	 *            already used
 	 * @return list of segments to use
 	 */
-	public ArrayList<Segment> searchItinerariesRecursive(
-			Station firstStationOfSegm, Station currentStation,
-			Station arrivalStation, LocalTime minimumTime,
-			ArrayList<Service> existentServices) {
+	public ArrayList<Segment> searchItinerariesRecursive(Station firstStationOfSegm, Station currentStation, Station arrivalStation, LocalTime minimumTime, ArrayList<Service> existentServices) {
 		ArrayList<Segment> resultSegms = new ArrayList<Segment>();
-		Service currentService = existentServices
-				.get(existentServices.size() - 1);
+		Service currentService = existentServices.get(existentServices.size() - 1);
 		boolean alreadyHaveADirect = false;
 
-		for (Service service : currentStation
-				.getServicesAfterTime(minimumTime)) {
+		for (Service service : currentStation.getServicesAfterTime(minimumTime)) {
 
 			// Lista de segmentos a retornar
 			ArrayList<Segment> resultsOfRecursive;
 
 			// Avançar no mesmo serviço
-			if (service.getServiceId() == currentService.getServiceId()
-					&& currentService.hasStationAfter(currentStation)) {
-				Station nextStation = currentService
-						.getStationAfter(currentStation);
+			if (service.getServiceId() == currentService.getServiceId() && currentService.hasStationAfter(currentStation)) {
+				Station nextStation = currentService.getStationAfter(currentStation);
 
 				resultsOfRecursive = searchItinerariesRecursive(
-						firstStationOfSegm, nextStation, arrivalStation,
-						service.getServiceTimeAtStation(nextStation),
-						existentServices);
+						firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), existentServices);
 				if (!resultsOfRecursive.isEmpty() && !alreadyHaveADirect) {
-					resultSegms = compareAndChooseALS(resultSegms,
-							resultsOfRecursive);
+					resultSegms = compareAndChooseALS(resultSegms, resultsOfRecursive);
 				}
 
 				// Mudar de serviço
@@ -256,40 +246,30 @@ public class TrainCompany implements Serializable {
 				ArrayList<Segment> existentSegms = new ArrayList<Segment>();
 
 				// Guardar o segmento anterior
-				existentSegms.add(new Segment(currentService,
-						firstStationOfSegm, currentStation));
+				existentSegms.add(new Segment(currentService, firstStationOfSegm, currentStation));
 
-				if (service.goesDirectToAfter(arrivalStation,
-						service.getServiceTimeAtStation(currentStation))) {
+				if (service.goesDirectToAfter(arrivalStation, service.getServiceTimeAtStation(currentStation))) {
 
 					// Encontrado um serviço directo. Retorna este sem mais
 					// procura
-					existentSegms.add(new Segment(service, currentStation,
-							arrivalStation));
+					existentSegms.add(new Segment(service, currentStation, arrivalStation));
 
 					if (!alreadyHaveADirect) {
 						alreadyHaveADirect = true;
 						resultSegms = existentSegms;
 					} else {
-						resultSegms = compareAndChooseALS(resultSegms,
-								existentSegms);
+						resultSegms = compareAndChooseALS(resultSegms, existentSegms);
 					}
 				} else {
-					Station nextStation = service
-							.getStationAfter(currentStation);
-					ArrayList<Service> newExistentServices = new ArrayList<Service>(
-							existentServices);
+					Station nextStation = service.getStationAfter(currentStation);
+					ArrayList<Service> newExistentServices = new ArrayList<Service>(existentServices);
 
 					newExistentServices.add(service);
-					resultsOfRecursive = searchItinerariesRecursive(
-							firstStationOfSegm, nextStation, arrivalStation,
-							service.getServiceTimeAtStation(nextStation),
-							newExistentServices);
+					resultsOfRecursive = searchItinerariesRecursive(firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), newExistentServices);
 
 					if (!resultsOfRecursive.isEmpty() && !alreadyHaveADirect) {
 						existentSegms.addAll(resultsOfRecursive);
-						resultSegms = compareAndChooseALS(resultSegms,
-								existentSegms);
+						resultSegms = compareAndChooseALS(resultSegms, existentSegms);
 					}
 				}
 			}

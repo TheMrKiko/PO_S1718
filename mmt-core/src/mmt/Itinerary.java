@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class Itinerary implements Serializable, Comparable<Itinerary> {
 	
@@ -82,7 +81,7 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 	
 	@Override
 	public String toString() {
-		String text = "Itinerário " + _order + " para " + _date.toString() + " @ " + String.format(Locale.UK, "%.2f", getPrice());
+		String text = "Itinerário " + _order + " para " + _date.toString() + " @ " + String.format("%.2f", getPrice());
 		for(Segment s: _segm) {
 			text += "\n" + s.toString();
 		}
