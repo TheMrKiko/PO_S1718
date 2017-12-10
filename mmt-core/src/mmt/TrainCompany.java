@@ -132,14 +132,18 @@ public class TrainCompany implements Serializable {
 
 	public String searchItineraries(Passenger passenger, Station departureStation, Station arrivalStation,
 			LocalDate departureDate, LocalTime departureTime) {
-		//searchItinerariesAux();
 		
 		for (Service serv: departureStation.getServicesAfterTime(departureTime)) {
 			if (serv.goesDirectToAfter(arrivalStation, serv.getServiceTimeAtStation(departureStation))) {
 				Itinerary it = new Itinerary(departureDate);
 				it.addSegment(new Segment(serv, departureStation, arrivalStation));
 				passenger.addPreCommIT(it);
-			}
+				
+			} /*else if (serv.hasnext(departureStation)) {
+				Station nextStation = serv.next(departureStation);				
+				searchItinerariesRecursive(departureStation, nextStation, arrivalStation, minimumTime, serv);
+				
+			}*/
 		}
 		return passenger.toStringPreCommIT();
 	}
@@ -150,7 +154,7 @@ public class TrainCompany implements Serializable {
 		for (Service service: currentStation.getServicesAfterTime(minimumTime)) {
 			
 			//Avançar no mesmo serviço
-			if (service.getServiceId() == currentService.getServiceId() && currentStation.hasnext(currentStation)) {
+			if (service.getServiceId() == currentService.getServiceId() && currentService.hasnext(currentStation)) {
 					//comparator
 				Station nextStation = currentService.next(currentStation);
 				searchItinerariesRecursive(firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), currentService);
