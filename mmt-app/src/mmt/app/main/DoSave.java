@@ -3,6 +3,7 @@ package mmt.app.main;
 import java.io.IOException;
 
 import mmt.TicketOffice;
+import mmt.exceptions.MissingFileAssociationException;
 import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.Input;
 
@@ -24,16 +25,20 @@ public class DoSave extends Command<TicketOffice> {
 	/** @see pt.tecnico.po.ui.Command#execute() */
 	@Override
 	public final void execute() {
-		if (_receiver.hasFileChanged()) {
-			if (!_receiver.hasFilename()) {
-				_form.parse();
-			}
+		try {
+			_receiver.save(null);
+		} catch (MissingFileAssociationException e) {
+			_form.parse();
+
 			try {
 				_receiver.save(_filename.value());
-			} catch (IOException e) {
+			} catch (IOException | MissingFileAssociationException e_in) {
 				e.printStackTrace();
 			}
 
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
 	}
 }

@@ -12,6 +12,7 @@ public class ArrivalTimeServiceComparator implements Comparator<Service>, Serial
 
 	private static final long serialVersionUID = -3748406259119112704L;
 
+	@Override
 	public int compare(Service service1, Service service2) {
 		LocalTime arrivalTime1 = service1.getServiceArrivalTime();
 		LocalTime arrivalTime2 = service2.getServiceArrivalTime();
