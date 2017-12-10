@@ -138,5 +138,14 @@ public class Service implements Serializable {
 	public boolean goesDirectToAfter(Station station, LocalTime serviceTimeAtStation) {
 		return getStationsAfterTime(serviceTimeAtStation).contains(station);
 	}
+
+	public boolean hasStationAfter(Station currentStation) {
+		return !currentStation.getTimeOfService(this).equals(_stations.lastKey()); 
+	}
+
+	public Station stationAfter(Station currentStation) {
+		LocalTime timeInStation = currentStation.getTimeOfService(this); 
+		return _stations.get(_stations.higherKey(timeInStation));
+	}
     
 }

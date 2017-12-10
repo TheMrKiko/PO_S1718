@@ -18,8 +18,12 @@ public class Itinerary implements Serializable, Comparable<Itinerary> {
 	private ArrayList<Segment> _segm;
 	
 	public Itinerary(LocalDate date) {
+		this(date, new ArrayList<Segment>());
+	}
+
+	public Itinerary(LocalDate date, ArrayList<Segment> segm) {
+		_segm = segm;
 		_date = date;
-		_segm = new ArrayList<Segment>();
 	}
 
 	public double calcPrice() {

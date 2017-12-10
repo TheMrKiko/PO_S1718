@@ -19,12 +19,13 @@ public class Normal extends PassengerCard {
 
 	@Override
 	public void updateCategory() {
-		if (_last10Paid > 250) {
+		if (_last10Paid > 2500) {
+			_pass.setCategory(new Special(_pass, _totalItineraries, _timeSpent, _totalPaid, _last10Paid)); 			
+		}
+		else if (_last10Paid > 250) {
 			_pass.setCategory(new Frequent(_pass, _totalItineraries, _timeSpent, _totalPaid, _last10Paid)); 
 		}
-		else if (_last10Paid > 2500) {
-			_pass.setCategory(new Special(_pass, _totalItineraries, _timeSpent, _totalPaid, _last10Paid)); 			
-		}	
+			
 	}
 
 	@Override

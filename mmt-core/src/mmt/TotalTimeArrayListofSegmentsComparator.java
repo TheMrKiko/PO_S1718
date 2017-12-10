@@ -14,6 +14,10 @@ public class TotalTimeArrayListofSegmentsComparator implements Serializable, Com
 
 	@Override
 	public int compare(ArrayList<Segment> al1, ArrayList<Segment> al2) {
+		
+		if (al1 == null) return 1;
+		if (al2 == null) return -1;
+		
 		Duration duration1 = Duration.ZERO;
 		Duration duration2 = Duration.ZERO;
 		for (Segment s : al1) {

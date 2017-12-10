@@ -132,37 +132,48 @@ public class TrainCompany implements Serializable {
 
 	public String searchItineraries(Passenger passenger, Station departureStation, Station arrivalStation,
 			LocalDate departureDate, LocalTime departureTime) {
-		
+		ArrayList<Service> existentServices = new ArrayList<Service>();
 		for (Service serv: departureStation.getServicesAfterTime(departureTime)) {
+			Itinerary it;
+			
 			if (serv.goesDirectToAfter(arrivalStation, serv.getServiceTimeAtStation(departureStation))) {
-				Itinerary it = new Itinerary(departureDate);
+				it = new Itinerary(departureDate);
 				it.addSegment(new Segment(serv, departureStation, arrivalStation));
 				passenger.addPreCommIT(it);
 				
-			} /*else if (serv.hasnext(departureStation)) {
-				Station nextStation = serv.next(departureStation);				
-				searchItinerariesRecursive(departureStation, nextStation, arrivalStation, minimumTime, serv);
+			} else if (serv.hasStationAfter(departureStation)) {
+				Station nextStation = serv.stationAfter(departureStation);
+				existentServices.add(serv);
+				ArrayList<Segment> results = searchItinerariesRecursive(departureStation, nextStation, arrivalStation, serv.getServiceTimeAtStation(departureStation), existentServices);
 				
-			}*/
+				if (results != null) {
+					it = new Itinerary(departureDate, results);
+					passenger.addPreCommIT(it);
+				}
+			}
 		}
 		return passenger.toStringPreCommIT();
 	}
 
-	/*public ArrayList<Segment> searchItinerariesRecursive(Station firstStationOfSegm, Station currentStation, Station arrivalStation, LocalTime minimumTime, Service currentService) {
+	public ArrayList<Segment> searchItinerariesRecursive(Station firstStationOfSegm, Station currentStation, Station arrivalStation, LocalTime minimumTime, ArrayList<Service> existentServices) {
+		boolean alreadyHaveADirect = false;
 		ArrayList<Segment> resultSegms = new ArrayList<Segment>();
 		
+		Service currentService = existentServices.get(existentServices.size()-1);
+		
 		for (Service service: currentStation.getServicesAfterTime(minimumTime)) {
-			
+			//Lista de segmentos a retornar
+			ArrayList<Segment> existentSegms = new ArrayList<Segment>();
+						
 			//Avançar no mesmo serviço
-			if (service.getServiceId() == currentService.getServiceId() && currentService.hasnext(currentStation)) {
+			if (service.getServiceId() == currentService.getServiceId() && currentService.hasStationAfter(currentStation)) {
 					//comparator
-				Station nextStation = currentService.next(currentStation);
-				searchItinerariesRecursive(firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), currentService);
-				
+				Station nextStation = currentService.stationAfter(currentStation);
+				searchItinerariesRecursive(firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), existentServices);
+				if (!alreadyHaveADirect) resultSegms = compareAndChooseALS(resultSegms, existentSegms);
+				 
 			//Mudar de serviço
-			} else {
-				//Lista de segmentos a retornar
-				ArrayList<Segment> existentSegms = new ArrayList<Segment>();
+			} else if (service.hasStationAfter(currentStation) && !existentServices.contains(service)){
 				
 				//Guardar o segmento anterior
 				existentSegms.add(new Segment(currentService, firstStationOfSegm, currentStation));
@@ -170,16 +181,33 @@ public class TrainCompany implements Serializable {
 				if (service.goesDirectToAfter(arrivalStation, service.getServiceTimeAtStation(currentStation))) {
 					//Encontrado um serviço directo. Retorna este sem mais procura
 					existentSegms.add(new Segment(service, currentStation, arrivalStation));
-					return existentSegms;
+					if (!alreadyHaveADirect) {
+						alreadyHaveADirect = true;
+						resultSegms = existentSegms;
+					}
+					else {
+						resultSegms = compareAndChooseALS(resultSegms, existentSegms);
+					}
 				} else {
 					//comparator
-					Station nextStation = currentService.next(currentStation);
-					existentSegms.addAll(searchItinerariesRecursive(firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), currentService));
+					Station nextStation = currentService.stationAfter(currentStation);
+					ArrayList<Service> newExistentServices = new ArrayList<Service>(existentServices);
+					newExistentServices.add(service);
+					existentSegms.addAll(searchItinerariesRecursive(firstStationOfSegm, nextStation, arrivalStation, service.getServiceTimeAtStation(nextStation), newExistentServices));
+					if (!alreadyHaveADirect) resultSegms = compareAndChooseALS(resultSegms, existentSegms);
 				}
 			}
 		}
 		return resultSegms;
-	}*/
+	}
+	
+	public ArrayList<Segment> compareAndChooseALS(ArrayList<Segment> al1, ArrayList<Segment> al2) {
+		TotalTimeArrayListofSegmentsComparator comparator = new TotalTimeArrayListofSegmentsComparator();
+		if (comparator.compare(al1, al2) > 0) {
+			return al2;
+		}
+		return al1;
+	}
 
 	public void commitItinerary(int passengerId, int itineraryNumber) throws NoSuchPassengerIdException, NoSuchItineraryChoiceException {
 		Passenger pass = getPassengerById(passengerId);
