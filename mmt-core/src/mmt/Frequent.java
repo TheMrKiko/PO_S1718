@@ -6,7 +6,7 @@ public class Frequent extends PassengerCard {
 
 	private static final long serialVersionUID = 7982706316042532172L;
 	
-	public String _categoryName = "FREQUENT";
+	public String _categoryName = "FREQUENTE";
 
 	public Frequent(Passenger pass, int totalItineraries, Duration timeSpent, double totalPaid, double last10Paid) {
 		super(pass, totalItineraries, timeSpent, totalPaid, last10Paid);

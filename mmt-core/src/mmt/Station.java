@@ -3,7 +3,6 @@ package mmt;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -20,16 +19,14 @@ public class Station implements Serializable {
 	}
 	
 	public void addService(LocalTime time, Service service) {
-		if(_departures.get(time) != null) {
-			ArrayList<Service> listToPut = _departures.get(time);
-			listToPut.add(service);
-			_departures.put(time, listToPut);	
+		ArrayList<Service> listToPut;
+		if (_departures.get(time) != null) {
+			listToPut = _departures.get(time);
+		} else {
+			listToPut = new ArrayList<Service>();
 		}
-		else {
-			ArrayList<Service> listToPut = new ArrayList<Service>();
-			listToPut.add(service);
-			_departures.put(time, listToPut);
-		}
+		listToPut.add(service);
+		_departures.put(time, listToPut);
 	}
 
 	public String getName() {
