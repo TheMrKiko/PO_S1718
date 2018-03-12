@@ -1,0 +1,12 @@
+SERVICE|180|51.5|05:47|Porto - Campanhã|08:10|Casa Branca|11:23|Faro
+SERVICE|694|12.2|16:57|Évora|17:08|Casa Branca|18:36|Lisboa - Oriente
+SERVICE|420|11.45|08:36|Valenca|09:09|Viana do Castelo|09:50|Nine|10:18|Porto - Campanhã
+SERVICE|5500|2650.0|15:48|Elvas|18:25|Entroncamento
+PASSENGER|Obi-Wan
+PASSENGER|Yoda
+ITINERARY|0|2017-10-17|180/Porto - Campanhã/Faro
+ITINERARY|0|2017-11-17|180/Porto - Campanhã/Faro
+ITINERARY|0|2017-12-17|180/Porto - Campanhã/Faro
+ITINERARY|0|2017-10-18|180/Porto - Campanhã/Faro
+ITINERARY|0|2017-10-14|180/Porto - Campanhã/Casa Branca|694/Casa Branca/Lisboa - Oriente
+ITINERARY|0|2017-10-18|180/Porto - Campanhã/Casa Branca|694/Casa Branca/Lisboa - Oriente
